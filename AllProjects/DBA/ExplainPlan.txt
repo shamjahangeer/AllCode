@@ -1,0 +1,9 @@
+SQL> explain plan for select 'x' from dual;
+
+Explained.
+
+SQL> select * from table(dbms_xplan.display)
+
+----------------------------------------------
+
+http://www.akadia.com/services/ora_interpreting_explain_plan.html--explains abt explain plan

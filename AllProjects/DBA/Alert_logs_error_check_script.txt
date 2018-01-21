@@ -1,0 +1,39 @@
+Check Alert Logs (ORA-XXXXX)
+Some of the environment variables used by each script can be put into one  profile:
+#######################################################################
+## oracle.profile ##
+#######################################################################
+EDITOR=vi;export EDITOR ORACLE_BASE=/u01/app/oracle; export
+ORACLE_BASE ORACLE_HOME=$ORACLE_BASE/product/8.1.7; export
+ORACLE_HOME LD_LIBRARY_PATH=$ORACLE_HOME/lib; export
+LD_LIBRARY_PATH TNS_ADMIN=/var/opt/oracle;export
+TNS_ADMIN NLS_LANG=american; export
+NLS_LANG NLS_DATE_FORMAT='Mon DD YYYY HH24:MI:SS'; export
+NLS_DATE_FORMAT ORATAB=/var/opt/oracle/oratab;export
+ORATAB PATH=$PATH:$ORACLE_HOME:$ORACLE_HOME/bin:/usr/ccs/bin:/bin:/usr/bin:/usr/sbin:/
+sbin:/usr/openwin/bin:/opt/bin:.; export
+PATH DBALIST="primary.dba@company.com,another.dba@company.com";export
+DBALIST
+The following script first calls oracle.profile to set up all the environment  variables. The script also sends the DBA a warning e-mail if it finds any Oracle  errors:
+####################################################################
+## ckalertlog.sh                                                  ##
+####################################################################
+#!/bin/ksh
+. /etc/oracle.profile
+for SID in `cat $ORACLE_HOME/sidlist`
+do
+    cd $ORACLE_BASE/admin/$SID/bdump
+    if [ -f alert_${SID}.log ]
+    then
+        mv alert_${SID}.log alert_work.log
+        touch alert_${SID}.log
+        cat alert_work.log >> alert_${SID}.hist
+        grep ORA- alert_work.log > alert.err
+    fi
+    if [ `cat alert.err|wc -l` -gt 0 ]
+    then
+        mailx -s "${SID} ORACLE ALERT ERRORS" $DBALIST < alert.err
+    fi
+    rm -f alert.err
+    rm -f alert_work.log
+done

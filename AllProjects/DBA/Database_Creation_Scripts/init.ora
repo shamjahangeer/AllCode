@@ -1,0 +1,110 @@
+##############################################################################
+# Copyright (c) 1991, 2001 by Oracle Corporation
+##############################################################################
+ 
+###########################################
+# Archive
+###########################################
+log_archive_dest_1='LOCATION=/u20/oradata/arch/SID'
+log_archive_dest_state_1=ENABLE
+log_archive_format=SID%t_%s.arc
+log_archive_start=TRUE
+##log_archive_start=FALSE
+ 
+###########################################
+# Cache and I/O
+###########################################
+db_block_size=8192
+db_cache_size=2000M
+ 
+###########################################
+# Cursors and Library Cache
+###########################################
+open_cursors=300
+session_cached_cursors=20
+remote_dependencies_mode=SIGNATURE
+ 
+###########################################
+# Diagnostics and Statistics
+###########################################
+background_dump_dest=/oracle/oradata/admin/SID/bdump
+core_dump_dest=/oracle/oradata/admin/SID/cdump
+user_dump_dest=/oracle/oradata/admin/SID/udump
+timed_statistics=TRUE
+ 
+###########################################
+# Distributed, Replication and Snapshot
+###########################################
+db_domain="leapstone.com"
+global_names=TRUE
+open_links=5
+open_links_per_instance=5
+remote_login_passwordfile=exclusive
+
+###########################################
+# File Configuration
+###########################################
+control_files=("/u11/oradata/SID/control01.ctl", "/u12/oradata/SID/control02.ctl")
+##control_files=("/opt/db02/oradata/SID/control01.ctl", "/opt/db02/oradata/SID/control02.ctl")
+ 
+###########################################
+# Job Queues
+###########################################
+job_queue_processes=4
+ 
+###########################################
+# MTS
+###########################################
+# Uncomment the following line when your listener is configured for SSL
+# (listener.ora and sqlnet.ora)
+# dispatchers = "(PROTOCOL=TCPS)(SER=MODOSE)", "(PROTOCOL=TCPS)(PRE=oracle.aurora.server.GiopServer)", "(PROTOCOL=TCPS)(PRE=oracle.aurora.server.SGiopServer)"
+dispatchers="(PROTOCOL=TCP)(SER=MODOSE)", "(PROTOCOL=TCP)(PRE=oracle.aurora.server.GiopServer)", "(PROTOCOL=TCP)(PRE=oracle.aurora.server.SGiopServer)"
+ 
+###########################################
+# Miscellaneous
+###########################################
+compatible=9.2.0
+db_name=SID
+ 
+###########################################
+# Network Registration
+###########################################
+instance_name=SID
+service_names='SID.leapstone.com'
+##local_listener="(ADDRESS_LIST = (ADDRESS = (PROTOCOL = TCP)(HOST = LISTENER_IP)(PORT = 1521)))"
+ 
+###########################################
+# Pools
+###########################################
+java_pool_size=30M
+large_pool_size=5M
+shared_pool_size=80M
+ 
+###########################################
+# Processes and Sessions
+###########################################
+processes=1200
+ 
+###########################################
+# Redo Log and Recovery
+###########################################
+fast_start_mttr_target=300
+log_buffer=524288
+ 
+###########################################
+# Resource Manager
+###########################################
+resource_manager_plan=SYSTEM_PLAN
+ 
+###########################################
+# Sort, Hash Joins, Bitmap Indexes
+###########################################
+sort_area_size=524288
+ 
+###########################################
+# System Managed Undo and Rollback Segments
+###########################################
+undo_management=AUTO
+undo_tablespace=UNDOTBS
+
+audit_trail=DB

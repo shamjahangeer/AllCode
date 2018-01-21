@@ -1,0 +1,11 @@
+select * from dba_profiles
+
+Before changing the profile we need to set the resource  limit to true.
+alter system set resource_limit=true
+
+alter profile default
+limit password_life_time 360;
+
+ALTER PROFILE developer LIMIT idle_time 20;
+
+http://database.itags.org/oracle/18682/

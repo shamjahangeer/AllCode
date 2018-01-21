@@ -1,0 +1,72 @@
+When the data in the data warehouse changes frequently we need to analyze the tables.
+
+Analyze tables will compute/update the table statistics that
+will help to boost the performance of your SQL.
+
+
+
+command to anlyze the table
+
+Analyze your_table_name compute statistics;
+
+
+ANALYZE table scott compute statistics;
+ANALYZE table scott estimate statistics sample 25 percent;
+ANALYZE table scott estimate statistics sample 1000 rows;
+analyze index sc_idx compute statistics;
+analyze index sc_idx validate structure;
+
+exec DBMS_UTILITY.ANALYZE_SCHEMA('SCOTT','COMPUTE');
+exec DBMS_UTILITY.ANALYZE_SCHEMA('SCOTT','ESTIMATE', estimate_rows => 
+1000);
+exec DBMS_UTILITY.ANALYZE_SCHEMA('SCOTT','ESTIMATE', estimate_percent 
+=> 25);
+exec DBMS_UTILITY.ANALYZE_SCHEMA('SCOTT','DELETE');
+---------------------------------------------------------------------------------------
+
+From Oracle 8i the DBMS_STATS package is the preferred method Oracle list a number of benefits to using it including parallel execution, long term storage of statistics and transfer of statistics between servers. Once again, it follows a similar format to the other methods: 
+Syntax:
+exec DBMS_STATS.GATHER_SCHEMA_STATS(ownname,estimate_percent, block_sample , method_opt,degree,granularity,cascade,stattab, statid,options,statown ,no_invalidate, gather_temp,gather_fixed); 
+Code examples:
+
+exec 
+DBMS_STATS.GATHER_SCHEMA_STATS('SCOTT',DBMS_STATS.AUTO_SAMPLE_SIZE);
+exec 
+DBMS_STATS.GATHER_SCHEMA_STATS(ownname=>'SCOTT'
+                              ,estimate_percent=>DBMS_STATS.AUTO_SAMPLE_SIZE);
+EXEC DBMS_STATS.gather_schema_stats(ownname => 'SCOTT', 
+estimate_percent => 25);
+EXEC DBMS_STATS.gather_table_stats('SCOTT', 'EMPLOYEES');
+EXEC DBMS_STATS.gather_index_stats('SCOTT', 'EMPLOYEES_PK');
+
+exec DBMS_STATS.DELETE_SCHEMA_STATS('SCOTT');
+
+-------------------------------------------------------------------------------------------
+Transfering statistics between database.
+
+It can be very handy to use production statistics on your development database, so that you can forecast the optimizer behavior.
+
+You can do this the following way:
+
+1. Create the statistics table.
+exec DBMS_STATS.CREATE_STAT_TABLE(ownname =>'SCHEMA_NAME' ,stat_tab => 'STATS_TABLE' , tblspace => 'STATS_TABLESPACE');
+Example:
+exec DBMS_STATS.CREATE_STAT_TABLE(ownname =>'SYSTEM',stat_tab => 'STATS_TABLE');
+
+2. Export statistics to statistics table
+EXEC DBMS_STATS.EXPORT_SCHEMA_STATS('ORIGINAL_SCHEMA' ,'STATS_TABLE',NULL,'SYSTEM');
+
+3. Import statistics into the data dictionary.
+exec DBMS_STATS.IMPORT_SCHEMA_STATS('NEW_SCHEMA','STATS_TABLE',NULL,'SYSTEM');
+
+4. Drop the statistics table.
+exec DBMS_STATS.DROP_STAT_TABLE('SYSTEM','STATS_TABLE');
+
+
+--------------------------------------------------------------------------------------------
+links
+
+
+http://www.oradev.com/create_statistics.jsp
+
+

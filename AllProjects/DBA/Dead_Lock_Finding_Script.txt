@@ -1,0 +1,34 @@
+Monitor Users and Transactions (Dead Locks, et al)
+This script sends out an alert e-mail if dead lock occurs:
+###################################################################
+## deadlock_alert.sh ##
+###################################################################
+#!/bin/ksh
+. /etc/oracle.profile
+sqlplus -s <<!
+oracle/$1@$2
+set feed off
+set heading off
+spool deadlock.alert
+SELECT   SID, DECODE(BLOCK, 0, 'NO', 'YES' ) BLOCKER,
+              DECODE(REQUEST, 0, 'NO','YES' ) WAITER
+FROM     V$LOCK 
+WHERE    REQUEST > 0 OR BLOCK > 0 
+ORDER BY block DESC; 
+spool off
+exit
+!
+if [ `cat deadlock.alert|wc -l` -gt 0 ]
+then
+    mailx -s "DEADLOCK ALERT for ${2}" $DBALIST < deadlock.alert
+fi
+Conclusion
+0,20,40 7-17 * * 1-5 /dba/scripts/ckinstance.sh > /dev/null 2>&1
+0,20,40 7-17 * * 1-5 /dba/scripts/cklsnr.sh > /dev/null 2>&1
+0,20,40 7-17 * * 1-5 /dba/scripts/ckalertlog.sh > /dev/null 2>&1
+30         * * * 0-6 /dba/scripts/clean_arch.sh > /dev/null 2>&1
+*          5 * * 1,3 /dba/scripts/analyze_table.sh > /dev/null 2>&1
+*          5 * * 0-6 /dba/scripts/ck_tbsp.sh > /dev/null 2>&1
+*          5 * * 0-6 /dba/scripts/invalid_object_alert.sh > /dev/null 2>&1
+0,20,40 7-17 * * 1-5 /dba/scripts/deadlock_alert.sh > /dev/null 2>&1
+Now my DBA friends, you can have more uninterrupted sleep at night. You may  also have time for more important things such as performance tuning

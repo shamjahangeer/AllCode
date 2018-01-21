@@ -1,0 +1,64 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Past Due Schedule Detail Window Rules</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <IMG SRC="DSCDWRLD.gif" WIDTH="38" HEIGHT="32" VSPACE="0" HSPACE="0" ALT="DSCDWRLD.gif" BORDER="0"><A NAME="edc04f08"></A><B>Past
+    Due Schedule Detail Window Rules</B></P>
+  <P>
+   In addition to the rules applied to all Delivery Scorecard windows 
+   and schedule detail windows, Past Due Schedule Detail windows have 
+   the following additional rules:</P>
+  <P>
+   <B>Sort Order</B></P>
+  <OL>
+   <LI CLASS="mvd-P">
+   <P>
+    The data sort order for Past Due is as follows:</P>
+   </OL>
+  <P>
+   <B>Primary Sort</B>: Part Number (ascending order)</P>
+  <P>
+   <B>Secondary Sort</B>: Days Late (descending order)</P>
+  <P>
+   <B>Field Displays</B></P>
+  <OL START="2">
+   <LI CLASS="mvd-P">
+   <P>
+    The Days Late column will show the actual days the schedule detail is 
+    late compared to the <A HREF="Dsc00288.htm">Schedule Date</A> or the <A HREF="Dsc00295.htm">Requested
+     Date</A>, depending which one was selected. Expedite Dates, 
+    Temporary Holds and Credit Holds do not apply.</P>
+   <LI CLASS="mvd-P">
+   <P>
+    The Days Early and (Days) Late fields do not apply to past due 
+    schedules and will not be included as window parameters.</P>
+   <LI CLASS="mvd-P">
+   <P>
+    The Doc Ind column will contain the number <B>1</B> if an <A HREF="Dsc00305.htm">On-Dock
+     Schedule Date</A> exists. If this condition does not exist, spaces 
+    will be prefilled in the column.</P>
+   <LI CLASS="mvd-P">
+   <P>
+    Compare to <A HREF="Dsc00288.htm">Schedule Date</A> will be the 
+    defaulted comparison date.</P>
+   </OL>
+  <P>
+   <B>Date Range Defaults</B></P>
+  <OL START="6">
+   <LI CLASS="mvd-P">
+   <P>
+    The date range will default to the current month date.
+ </BODY>
+</HTML>

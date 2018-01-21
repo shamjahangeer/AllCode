@@ -1,0 +1,79 @@
+Here we are taking example of NESTLE_DEV Schema.
+************************************************
+
+Step1:- Create Directory for Store DB Dump:-
+=========================================
+create or replace directory Nestle_imp as '/home/oracle/Nestle_imp';
+
+Step2:-Created Directory to Import Nestle Dev Schema:-
+=========================================
+create or replace directory Nestle_Dev as '/home/oracle';
+
+Step3:-Creating Nestle Dev DATA Table space:-
+=========================================
+CREATE TABLESPACE NESTLE_DATA_DEV DATAFILE 
+  '/home/oracle/Nestle_STG/NESTLE_DATA_DEV.dbf' SIZE 11584M AUTOEXTEND OFF LOGGING ONLINE
+PERMANENT
+EXTENT MANAGEMENT LOCAL AUTOALLOCATE
+BLOCKSIZE 8K
+SEGMENT SPACE MANAGEMENT AUTO
+FLASHBACK ON;
+
+note : in case of windows machine path should be like 'E:\home\oracle'
+
+Step4:-Creating Nestle Dev IDX Table space:-
+=========================================
+CREATE TABLESPACE NESTLE_IDX_DEV DATAFILE 
+   '/home/oracle/Nestle_Dev/NESTLE_IDX_DEV.dbf' SIZE 1048M AUTOEXTEND ON NEXT 64M MAXSIZE UNLIMITED LOGGING
+ONLINE
+PERMANENT
+EXTENT MANAGEMENT LOCAL AUTOALLOCATE
+BLOCKSIZE 8K
+SEGMENT SPACE MANAGEMENT AUTO
+FLASHBACK ON;
+
+note : in case of windows machine path should be like 'E:\home\oracle'
+
+Step5:- Create User NESTLE_DEV
+=========================================
+CREATE USER NESTLE_DEV
+IDENTIFIED BY NESTLE_DEV
+DEFAULT TABLESPACE NESTLE_DATA_DEV
+TEMPORARY TABLESPACE temp
+PROFILE DEFAULT
+ACCOUNT UNLOCK;
+
+Step5:- Grant priviladges.
+==========================================
+
+GRANT DBA TO NESTLE_DEV;
+
+ALTER USER NESTLE_DEV DEFAULT ROLE ALL;
+
+
+GRANT CREATE ANY TYPE TO NESTLE_DEV;
+GRANT CREATE TYPE TO NESTLE_DEV;
+GRANT CREATE TRIGGER TO NESTLE_DEV;
+GRANT CREATE PROCEDURE TO NESTLE_DEV;
+GRANT ALTER SESSION TO NESTLE_DEV;
+GRANT CREATE TABLE TO NESTLE_DEV;
+GRANT UNLIMITED TABLESPACE TO NESTLE_DEV;
+GRANT CREATE SESSION TO NESTLE_DEV;
+GRANT CREATE SEQUENCE TO NESTLE_DEV;
+GRANT SELECT ANY DICTIONARY TO NESTLE_DEV;
+GRANT CREATE ANY TRIGGER TO NESTLE_DEV;
+GRANT CREATE VIEW TO NESTLE_DEV;
+GRANT CREATE ANY INDEX TO NESTLE_DEV;
+
+ALTER USER NESTLE_DEV QUOTA UNLIMITED ON NESTLE_DATA_DEV;
+ALTER USER NESTLE_DEV QUOTA UNLIMITED ON NESTLE_IDX_DEV;
+
+Step6:- Import DB Dump:
+==============================================
+impdp NESTLE_DEV/NESTLE_DEV@db11203 DIRECTORY=Nestle_imp DUMPFILE=Nestle_Dev_1_Nov.dmp LOGFILE=Nestle.log FULL=N EXCLUDE=STATISTICS REMAP_TABLESPACE=NESTLE_DATA_DEV:NESTLE_DATA_DEV REMAP_TABLESPACE=NESTLE_IDX_DEV:NESTLE_IDX_DEV REMAP_SCHEMA=NESTLE_DEV:NESTLE_DEV SCHEMAS=NESTLE_DEV transform=oid:n:type
+
+
+e.g. impdp New_schema/New_schema@db11203 DIRECTORY=Nestle_imp DUMPFILE=Nestle_Dev_5_Dec.dmp LOGFILE=Nestle.log FULL=N EXCLUDE=STATISTICS REMAP_TABLESPACE=Old:New REMAP_TABLESPACE=Old:New REMAP_SCHEMA=Old:New SCHEMAS=Old transform=oid:n:type
+
+
+

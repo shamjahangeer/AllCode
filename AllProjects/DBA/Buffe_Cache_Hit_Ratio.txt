@@ -1,0 +1,13 @@
+In the Instance Efficiency Percentage
+section, look at “Buffer Hit %” 
+for the Database Buffer Cache hit-ratio. 
+
+ For non-hit ratio, look at 
+Instance Activity Stats for DB: <instance>: Free Buffer Inspected for Free Buffer Statistics
+ and Buffer Pool Statistics for DB: <instance>: Buffer Busy Wait provides statistics 
+for Number of times user Server Processes waited for 
+a free buffer to become available.
+
+
+
+Link to determine the buffer_cache length change

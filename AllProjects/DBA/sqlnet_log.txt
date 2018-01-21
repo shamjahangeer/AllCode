@@ -1,0 +1,40 @@
+Server side SQL*Net trace:
+
+All these parameters should be configured in the listener.ora file. 
+
+
+By default, server logs and traces are stored in listener.log and listener.trc files under the $ORACLE_HOME/network/trace directory.
+
+Note that, by default, logging is turned on and this behavior can be changed with the 
+logging_ parameter of the listener.ora file. One can switch between different trace standards 
+on the client side using the trace_level_client parameter of sqlnet.ora. 
+At the server side, the trace level parameter is called trace_level_ and it should be included in the listener.ora
+
+
+On the client side, it is possible to define the directory where to put log and trace files in the sqlnet.ora file using the log_directory_client and trace_directory_client parameters, respectively.  The SQL*Net tracing log and trace file names are defined with the log_directory_client and trace_directory_client parameters of the sqlnet.ora file.
+
+By default, trace on UNIX systems is written to $ORACLE_HOME/network/trace/sqlnet.trc,
+ and log is written to sqlnet.log file under the same directory.
+ On the server side,log and trace destinations can be defined with the following parameters: log_directory_, log_file_,
+ trace_directory_ and trace_file_.
+
+
+
+STEP 1:  Make a SQL*net trace file directory on the client machine called c:\trace
+
+STEP 2:  Add the following lines to your sqlnet.ora file on your client PC:
+
+trace_level_client = 16
+trace_file_client = cli
+trace_directory_client = c:\trace 
+trace_unique_client = on 
+trace_timestamp_client = on 
+trace_filelen_client = 100 
+trace_fileno_client = 2 
+log_file_client = cli 
+log_directory_client = c:\trace\log 
+tnsping.trace_directory = c:\trace\trace 
+tnsping.trace_level = admin
+
+STEP 3:  When you are finished with the SQL*trace, be sure to remove the lines from the sqlnet.ora file.
+

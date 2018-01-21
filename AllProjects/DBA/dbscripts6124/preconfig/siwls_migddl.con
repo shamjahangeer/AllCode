@@ -1,0 +1,4477 @@
+--
+-- Primary keys
+--
+
+PROMPT Create constraints CCE_REPORT_GROUP_PK
+
+PROMPT Create constraint
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_REPORT_GROUP_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_REPORT_GROUP  '||CHR(10)||
+                          ' ADD CONSTRAINT CCE_REPORT_GROUP_PK PRIMARY KEY   '||CHR(10)||
+                          '  (RPT_GRP_ID)  '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX';
+
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Create constraints CCE_REPORT_DEF_PK
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_REPORT_DEF_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_REPORT_DEF  '||CHR(10)||
+                          ' ADD CONSTRAINT CCE_REPORT_DEF_PK PRIMARY KEY   '||CHR(10)||
+                          '  (REPORT_ID)  '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Create constraints CCE_RPT_GRP_ASSOC_PK
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_RPT_GRP_ASSOC_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_RPT_GRP_ASSOC  '||CHR(10)||
+                          ' ADD CONSTRAINT CCE_RPT_GRP_ASSOC_PK PRIMARY KEY   '||CHR(10)||
+                          '  (REPORT_GRP_ID, REPORT_ID)  '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Create constraints CCE_RPT_EXPORT_OPTIONS_PK
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_RPT_EXPORT_OPTIONS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_RPT_EXPORT_OPTIONS  '||CHR(10)||
+                          ' ADD CONSTRAINT CCE_RPT_EXPORT_OPTIONS_PK PRIMARY KEY   '||CHR(10)||
+                          '  (EXPORT_OPT_ID)  '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_ENCR_AGENT_CONFIG'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_ENCR_AGENT_CONFIG_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_ENCR_AGENT_CONFIG '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_ENCR_AGENT_CONFIG_PK PRIMARY KEY  '||CHR(10)||
+                          '  (FIELDNAME) USING INDEX TABLESPACE EAMS_MOT_128K_IDX)';
+
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_ENCR_AGENT_TRANS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_ENCR_AGENT_TRANS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_ENCR_AGENT_TRANS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_ENCR_AGENT_TRANS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (TRANSACTIONID,CONTENTID) USING INDEX TABLESPACE EAMS_MOT_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_ENC_AGENT_CONFIG'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_ENC_AGENT_CONFIG_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_ENCODE_AGENT_CONFIG '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_ENC_AGENT_CONFIG_PK PRIMARY KEY  '||CHR(10)||
+                          '  (FIELDNAME) USING INDEX TABLESPACE EAMS_MOT_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_ENC_AGENT_PROFILE_MAP'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_ENC_AGENT_PROFILE_MAP_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_ENCODE_AGENT_PROFILE_MAP '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_ENC_AGENT_PROFILE_MAP_PK PRIMARY KEY  '||CHR(10)||
+                          '  (ENCODER_SYSTEM_ID,ENCODER_PROFILE_ID) USING INDEX TABLESPACE EAMS_MOT_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_ENC_AGENT_AV_PROFILE'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_ENC_AGENT_AV_PROFILE_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_ENCODE_AGENT_AV_PROFILE '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_ENC_AGENT_AV_PROFILE_PK PRIMARY KEY  '||CHR(10)||
+                          '  (AV_PROFILE_ID,NAME) USING INDEX TABLESPACE EAMS_MOT_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_ENC_AGENT_PROF_AV_MAP'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_ENC_AGENT_PROF_AV_MAP_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_ENCODE_AGENT_PROF_AV_MAP '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_ENC_AGENT_PROF_AV_MAP_PK PRIMARY KEY  '||CHR(10)||
+                          '  (ENCODER_PROFILE_ID,AV_PROFILE_ID) USING INDEX TABLESPACE EAMS_MOT_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_ENC_AGENT_TRANS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_ENC_AGENT_TRANS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_ENCODE_AGENT_TRANS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_ENC_AGENT_TRANS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (TRANSACTIONID,CONTENTID) USING INDEX TABLESPACE EAMS_MOT_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'CCE_USER_VENDOR_ASSOC'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_USER_VENDOR_ASSOC_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_USER_VENDOR_ASSOC '||CHR(10)||
+                          ' ADD (CONSTRAINT CCE_USER_VENDOR_ASSOC_PK PRIMARY KEY  '||CHR(10)||
+                          '  (USER_VENDOR_ID) USING INDEX TABLESPACE EAMS_MOT_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'QRTZ_JOB_DETAILS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_JOB_DETAILS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_JOB_DETAILS '||CHR(10)||
+                          ' ADD (CONSTRAINT QRTZ_JOB_DETAILS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (JOB_NAME '||CHR(10)||
+                          '  ,JOB_GROUP) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'QRTZ_JOB_LISTENERS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_JOB_LISTENERS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_JOB_LISTENERS '||CHR(10)||
+                          ' ADD (CONSTRAINT QRTZ_JOB_LISTENERS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (JOB_NAME '||CHR(10)||
+                          '  ,JOB_GROUP '||CHR(10)||
+                          '  ,JOB_LISTENER) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'QRTZ_TRIGGERS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_TRIGGERS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_TRIGGERS '||CHR(10)||
+                          ' ADD (CONSTRAINT QRTZ_TRIGGERS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (TRIGGER_NAME '||CHR(10)||
+                          '  ,TRIGGER_GROUP) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'QRTZ_SIMPLE_TRIGGERS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_SIMPLE_TRIGGERS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_SIMPLE_TRIGGERS '||CHR(10)||
+                          ' ADD (CONSTRAINT QRTZ_SIMPLE_TRIGGERS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (TRIGGER_NAME '||CHR(10)||
+                          '  ,TRIGGER_GROUP) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'QRTZ_CRON_TRIGGERS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_CRON_TRIGGERS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_CRON_TRIGGERS '||CHR(10)||
+                          ' ADD (CONSTRAINT QRTZ_CRON_TRIGGERS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (TRIGGER_NAME '||CHR(10)||
+                          '  ,TRIGGER_GROUP) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'QRTZ_BLOB_TRIGGERS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_BLOB_TRIGGERS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_BLOB_TRIGGERS '||CHR(10)||
+                          ' ADD (CONSTRAINT QRTZ_BLOB_TRIGGERS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (TRIGGER_NAME '||CHR(10)||
+                          '  ,TRIGGER_GROUP) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'QRTZ_TRIGGER_LISTENERS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_TRIGGER_LISTENERS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_TRIGGER_LISTENERS '||CHR(10)||
+                          ' ADD (CONSTRAINT QRTZ_TRIGGER_LISTENERS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (TRIGGER_NAME '||CHR(10)||
+                          '  ,TRIGGER_GROUP '||CHR(10)||
+                          '  ,TRIGGER_LISTENER) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'QRTZ_CALENDARS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_CALENDARS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_CALENDARS '||CHR(10)||
+                          ' ADD (CONSTRAINT QRTZ_CALENDARS_PK PRIMARY KEY '||CHR(10)||
+                          '  (CALENDAR_NAME) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'QRTZ_PAUSED_TRIGGER_GRPS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_PAUSED_TRIGGER_GRPS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_PAUSED_TRIGGER_GRPS '||CHR(10)||
+                          ' ADD (CONSTRAINT QRTZ_PAUSED_TRIGGER_GRPS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (TRIGGER_GROUP) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'QRTZ_FIRED_TRIGGERS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_FIRED_TRIGGERS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_FIRED_TRIGGERS '||CHR(10)||
+                          ' ADD (CONSTRAINT QRTZ_FIRED_TRIGGERS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (ENTRY_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'QRTZ_SCHEDULER_STATE'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_SCHEDULER_STATE_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_SCHEDULER_STATE '||CHR(10)||
+                          ' ADD (CONSTRAINT QRTZ_SCHEDULER_STATE_PK PRIMARY KEY  '||CHR(10)||
+                          '  (INSTANCE_NAME) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'QRTZ_LOCKS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_LOCKS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_LOCKS '||CHR(10)||
+                          ' ADD (CONSTRAINT QRTZ_LOCKS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (LOCK_NAME) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_ASPERA_SUB_INFO'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_ASPERA_SUB_INFO_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_ASPERA_SUB_INFO '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_ASPERA_SUB_INFO_PK PRIMARY KEY '||CHR(10)||
+                          '  (SUBSCRIPTION_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_RM_NE_LOAD_INFO'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RM_NE_LOAD_INFO_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RM_NE_LOAD_INFO '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_RM_NE_LOAD_INFO_PK PRIMARY KEY  '||CHR(10)||
+                          '  (NE_ID, AVAILABLE_CAPACITY, STATUS) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_QRTZ_JOB_DETAILS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_JOB_DETAILS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_JOB_DETAILS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_QRTZ_JOB_DETAILS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (JOB_NAME '||CHR(10)||
+                          '  ,JOB_GROUP) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_QRTZ_JOB_LISTENERS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_JOB_LISTENERS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_JOB_LISTENERS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_QRTZ_JOB_LISTENERS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (JOB_NAME '||CHR(10)||
+                          '  ,JOB_GROUP '||CHR(10)||
+                          '  ,JOB_LISTENER) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_QRTZ_TRIGGERS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_TRIGGERS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_TRIGGERS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_QRTZ_TRIGGERS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (TRIGGER_NAME '||CHR(10)||
+                          '  ,TRIGGER_GROUP) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_QRTZ_SIMPLE_TRIGGERS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_SIMPLE_TRIGGERS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_SIMPLE_TRIGGERS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_QRTZ_SIMPLE_TRIGGERS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (TRIGGER_NAME '||CHR(10)||
+                          '  ,TRIGGER_GROUP) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_QRTZ_CRON_TRIGGERS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_CRON_TRIGGERS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_CRON_TRIGGERS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_QRTZ_CRON_TRIGGERS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (TRIGGER_NAME '||CHR(10)||
+                          '  ,TRIGGER_GROUP) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_QRTZ_BLOB_TRIGGERS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_BLOB_TRIGGERS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_BLOB_TRIGGERS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_QRTZ_BLOB_TRIGGERS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (TRIGGER_NAME '||CHR(10)||
+                          '  ,TRIGGER_GROUP) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_QRTZ_TRIGGER_LISTENERS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_TRIGGER_LISTENERS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_TRIGGER_LISTENERS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_QRTZ_TRIGGER_LISTENERS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (TRIGGER_NAME '||CHR(10)||
+                          '  ,TRIGGER_GROUP '||CHR(10)||
+                          '  ,TRIGGER_LISTENER) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_QRTZ_CALENDARS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_CALENDARS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_CALENDARS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_QRTZ_CALENDARS_PK PRIMARY KEY '||CHR(10)||
+                          '  (CALENDAR_NAME) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_QRTZ_PAUSED_TRIGGER_GRPS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_PAUSED_TRG_GRPS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_PAUSED_TRIGGER_GRPS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_QRTZ_PAUSED_TRG_GRPS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (TRIGGER_GROUP) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_QRTZ_FIRED_TRIGGERS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_FIRED_TRIGGERS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_FIRED_TRIGGERS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_QRTZ_FIRED_TRIGGERS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (ENTRY_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_QRTZ_SCHEDULER_STATE'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_SCHEDULER_STATE_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_SCHEDULER_STATE '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_QRTZ_SCHEDULER_STATE_PK PRIMARY KEY  '||CHR(10)||
+                          '  (INSTANCE_NAME) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_QRTZ_LOCKS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_LOCKS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_LOCKS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_QRTZ_LOCKS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (LOCK_NAME) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_DBOARD_VIEW'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_DBOARD_VIEW_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_DBOARD_VIEW '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_DBOARD_VIEW_PK PRIMARY KEY  '||CHR(10)||
+                          '  (ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_PI_JOB_TRANS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_PI_JOB_TRANS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_PI_JOB_TRANS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_PI_JOB_TRANS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (PI_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_MEDIA_FORMAT_INFO_PK'
+DECLARE
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_MEDIA_FORMAT_INFO_PK';
+  l_new_column CONSTANT VARCHAR2(30) := 'FIELD_VALUE';
+  l_dummy INTEGER;
+BEGIN
+  BEGIN
+    SELECT 1
+    INTO   l_dummy
+    FROM   user_cons_columns
+    WHERE  constraint_name = l_constraint_name
+    AND    column_name = l_new_column;
+
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+           BEGIN 
+             SELECT 1
+             INTO   l_dummy
+             FROM   user_constraints
+             WHERE  constraint_name = l_constraint_name;
+           
+             EXECUTE IMMEDIATE 'ALTER TABLE eams_media_format_info DROP CONSTRAINT '||l_constraint_name;
+             
+             EXCEPTION
+               WHEN NO_DATA_FOUND THEN NULL;              
+           END;
+           
+           BEGIN 
+             SELECT 1
+             INTO   l_dummy
+             FROM   user_indexes
+             WHERE  index_name = l_constraint_name;
+           
+             EXECUTE IMMEDIATE 'DROP INDEX '||l_constraint_name;
+             
+             EXCEPTION
+               WHEN NO_DATA_FOUND THEN NULL;              
+           END;           
+                       
+           EXECUTE IMMEDIATE 'ALTER TABLE eams_media_format_info ADD CONSTRAINT '||l_constraint_name||' PRIMARY KEY (media_format_id, field_id,field_value) USING INDEX TABLESPACE LEAPSTONE_128K_IDX';
+  END;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_CONFIG_REPOSITORY'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_CONFIG_REPOSITORY_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_CONFIG_REPOSITORY '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_CONFIG_REPOSITORY_PK PRIMARY KEY  '||CHR(10)||
+                          '  (ID, VERSION) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'CCE_RPT_DISPLAY_OPTIONS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_RPT_DISPLAY_OPTIONS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_RPT_DISPLAY_OPTIONS '||CHR(10)||
+                          ' ADD (CONSTRAINT CCE_RPT_DISPLAY_OPTIONS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (DISPLAY_OPT_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'CCE_RPT_EXPORT_ASSOC_PK'
+DECLARE
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_RPT_EXPORT_ASSOC_PK';
+  l_new_column CONSTANT VARCHAR2(30) := 'DISPLAY_OPT_ID';
+  l_dummy INTEGER;
+BEGIN
+  BEGIN
+    SELECT 1
+    INTO   l_dummy
+    FROM   user_cons_columns
+    WHERE  constraint_name = l_constraint_name
+    AND    column_name = l_new_column;
+
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+           SELECT COUNT(*)
+           INTO   l_dummy
+           FROM   user_constraints
+           WHERE  constraint_name = l_constraint_name;
+
+           IF l_dummy > 0 THEN
+              EXECUTE IMMEDIATE 'ALTER TABLE cce_rpt_export_assoc DROP CONSTRAINT '||l_constraint_name;
+           ELSE
+              SELECT COUNT(*)
+              INTO   l_dummy
+              FROM   user_indexes
+              WHERE  index_name = l_constraint_name;        
+              
+              IF l_dummy > 0 THEN
+                 EXECUTE IMMEDIATE 'DROP INDEX '||l_constraint_name;
+              END IF;
+           END IF;
+
+           EXECUTE IMMEDIATE 'ALTER TABLE cce_rpt_export_assoc ADD CONSTRAINT '||l_constraint_name||' PRIMARY KEY (export_opt_id, report_id, display_opt_id) USING INDEX TABLESPACE LEAPSTONE_128K_IDX';
+  END;
+END;
+/
+
+PROMPT Add COLUMN VERSION TO CONSTRAINT 'EAMS_CONFIG_REPOSITORY_PK'
+DECLARE 
+  l_table_name CONSTANT VARCHAR2(30) := 'EAMS_CONFIG_REPOSITORY'; 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_CONFIG_REPOSITORY_PK'; 
+  l_new_column CONSTANT VARCHAR2(30) := 'VERSION';
+  l_dummy INTEGER;    
+BEGIN
+  BEGIN 
+    SELECT 1
+    INTO   l_dummy
+    FROM   user_cons_columns
+    WHERE  constraint_name = l_constraint_name
+    AND    column_name = l_new_column;    
+    
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+           EXECUTE IMMEDIATE 'ALTER TABLE '||l_table_name||' DROP CONSTRAINT '||l_constraint_name;
+           EXECUTE IMMEDIATE 'ALTER TABLE '||l_table_name||' ADD CONSTRAINT '||l_constraint_name||' PRIMARY KEY (ID, VERSION) USING INDEX TABLESPACE LEAPSTONE_128K_IDX';
+  END;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_INGEST_ASSET_ASSET_ASSOC'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_INGEST_ASSET_ASSET_ASS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_INGEST_ASSET_ASSET_ASSOC '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_INGEST_ASSET_ASSET_ASS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (ITEM_CATEGORY_ID, ITEM_CATEGORY_VERSION,ASSET_ID,ASSOC_ASSET_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_PUBLISH_SUB_STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_PUBLISH_SUB_STATUS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_PUBLISH_SUB_STATUS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_PUBLISH_SUB_STATUS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (SUB_STATUS_CODE) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_CATCHER_MONITOR'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_CATCHER_MONITOR_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_CATCHER_MONITOR '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_CATCHER_MONITOR_PK PRIMARY KEY  '||CHR(10)||
+                          '  (NE_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_AR_MAP_INFO'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_AR_MAP_INFO_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_AR_MAP_INFO '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_AR_MAP_INFO_PK PRIMARY KEY  '||CHR(10)||
+                          '  (AR_MAP_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_RM_POLL_STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RM_POLL_STATUS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RM_POLL_STATUS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_RM_POLL_STATUS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (POLL_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_POLLING_JOBS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_POLLING_JOBS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_POLLING_JOBS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_POLLING_JOBS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (JOB_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_AR_MAP_FIELD_INFO'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_AR_MAP_FIELD_INFO_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_AR_MAP_FIELD_INFO '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_AR_MAP_FIELD_INFO_PK PRIMARY KEY  '||CHR(10)||
+                          '  (AR_MAP_ID, FIELD_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_CATCHER_MONITOR_FILES'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_CATCHER_MONITOR_FILES_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_CATCHER_MONITOR_FILES '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_CATCHER_MONITOR_FILES_PK PRIMARY KEY  '||CHR(10)||
+                          '  (ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_WORKFLOW_TRANS_INFO'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKFLOW_TRANS_INFO_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKFLOW_TRANS_INFO '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_WORKFLOW_TRANS_INFO_PK PRIMARY KEY  '||CHR(10)||
+                          ' (WORKFLOW_OP_ID, FIELD_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE EAMS_MOT_8M_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_INFLIGHT_PACKAGE'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_INFLIGHT_PACKAGE_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_INFLIGHT_PACKAGE '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_INFLIGHT_PACKAGE_PK PRIMARY KEY  '||CHR(10)||
+                          '  (ALT_CODE, PROVIDER_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE EAMS_MOT_8M_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_INFLIGHT_PLATFORM_ASSOC'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_INF_PLATFORM_ASSOC_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_INFLIGHT_PLATFORM_ASSOC '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_INF_PLATFORM_ASSOC_PK PRIMARY KEY  '||CHR(10)||
+                          '  (ALT_CODE, PROVIDER_ID, PUBLISH_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE EAMS_MOT_8M_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating PRIMARY KEY ON 'EAMS_PACKAGE_STORAGE_DETAILS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_PKG_STORAGE_DETAILS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_PACKAGE_STORAGE_DETAILS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_PKG_STORAGE_DETAILS_PK  PRIMARY KEY  '||CHR(10)||
+                          '  (ITEM_CATEGORY_ID, ITEM_CATEGORY_VERSION) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_DBOARD_USER'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_DBOARD_USER_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_DBOARD_USER '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_DBOARD_USER_PK PRIMARY KEY  '||CHR(10)||
+                          '  (LOGIN_NAME) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_DBOARD'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_DBOARD_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_DBOARD '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_DBOARD_PK PRIMARY KEY  '||CHR(10)||
+                          '  (ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_DBOARD_ITEM'
+DECLARE 
+  l_table_name VARCHAR2(30);
+  l_column_name CONSTANT VARCHAR2(30) := 'ID';
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_DBOARD_ITEM_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_DBOARD_ITEM '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_DBOARD_ITEM_PK PRIMARY KEY  '||CHR(10)||
+                          '  (WIDGET_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  BEGIN 
+    SELECT table_name
+    INTO   l_table_name
+    FROM   user_cons_columns
+    WHERE  constraint_name = l_constraint_name
+    AND    column_name = l_column_name;
+    
+    EXECUTE IMMEDIATE 'ALTER TABLE '||l_table_name||' RENAME CONSTRAINT '||l_constraint_name||' TO '||l_table_name||'_PK';
+    EXECUTE IMMEDIATE 'ALTER INDEX '||l_constraint_name||' RENAME TO '||l_table_name||'_PK';
+    
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN NULL;
+  END;
+  
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_DBOARD_ITEM_ASSOC'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_DBOARD_ITEM_ASSOC_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_DBOARD_ITEM_ASSOC '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_DBOARD_ITEM_ASSOC_PK PRIMARY KEY  '||CHR(10)||
+                          '  (WIDGET_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_DBOARD_USR_ITEM_ASSOC'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_DBOARD_USR_ITEM_ASSOC_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_DBOARD_USR_ITEM_ASSOC '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_DBOARD_USR_ITEM_ASSOC_PK PRIMARY KEY  '||CHR(10)||
+                          '  (LOGIN_NAME, WIDGET_ID, DBOARD_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_DBOARD_ITEM_PROPS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_DBOARD_ITEM_PROPS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_DBOARD_ITEM_PROPS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_DBOARD_ITEM_PROPS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (NAME, WIDGET_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_RESOURCE'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RESOURCE_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_RESOURCE_PK PRIMARY KEY  '||CHR(10)||
+                          '  (RESOURCE_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_RESOURCE_INFO'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RESOURCE_INFO_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE_INFO '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_RESOURCE_INFO_PK PRIMARY KEY  '||CHR(10)||
+                          '  (RESOURCE_ID, FIELD_NAME, FIELD_VALUE) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_RESOURCE_RESOURCE_ASSOC'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RES_RESOURCE_ASSOC_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE_RESOURCE_ASSOC '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_RES_RESOURCE_ASSOC_PK PRIMARY KEY  '||CHR(10)||
+                          '  (RESOURCE_ID, PARENT_RESOURCE_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_RESOURCE_ROLE'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RESOURCE_ROLE_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE_ROLE '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_RESOURCE_ROLE_PK PRIMARY KEY  '||CHR(10)||
+                          '  (ROLE_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_RESOURCE_ROLE_MAP'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RESOURCE_ROLE_MAP_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE_ROLE_MAP '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_RESOURCE_ROLE_MAP_PK PRIMARY KEY  '||CHR(10)||
+                          '  (RESOURCE_MAP_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_RESOURCE_ROLE_MAP_INFO'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RESOURCE_ROLE_MAP_INFO_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE_ROLE_MAP_INFO '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_RESOURCE_ROLE_MAP_INFO_PK PRIMARY KEY  '||CHR(10)||
+                          '  (RESOURCE_MAP_ID, FIELD_NAME, FIELD_VALUE) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_RULEGROUP'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RULEGROUP_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RULEGROUP '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_RULEGROUP_PK PRIMARY KEY  '||CHR(10)||
+                          '  (RULEGROUP_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_WORKFLOW_OP_INFO'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKFLOW_OP_INFO_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKFLOW_OP_INFO '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_WORKFLOW_OP_INFO_PK PRIMARY KEY  '||CHR(10)||
+                          '  (WORKFLOW_OP_ID, FIELD_NAME, FIELD_VALUE) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_WORKFLOW_OP_TRANS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKFLOW_OP_TRANS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKFLOW_OP_TRANS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_WORKFLOW_OP_TRANS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (WORKFLOW_OP_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_WORKFLOW_WORKSTEP_ASSOC'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WF_WORKSTEP_ASSOC_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKFLOW_WORKSTEP_ASSOC '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_WF_WORKSTEP_ASSOC_PK PRIMARY KEY  '||CHR(10)||
+                          '  (WORKSTEP_ID, WORKFLOW_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_WORKSTEP'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_WORKSTEP_PK PRIMARY KEY  '||CHR(10)||
+                          '  (WORKSTEP_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_WORKSTEP_ROLE_ASSOC'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_ROLE_ASSOC_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP_ROLE_ASSOC '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_WORKSTEP_ROLE_ASSOC_PK PRIMARY KEY  '||CHR(10)||
+                          '  (WORKSTEP_ID, ROLE_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_WORKSTEP_RULEGROUP_ASSOC'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_RULEGRP_ASSOC_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP_RULEGROUP_ASSOC '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_WORKSTEP_RULEGRP_ASSOC_PK PRIMARY KEY  '||CHR(10)||
+                          '  (WORKSTEP_ID, RULEGROUP_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_WORKSTEP_TRANS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_TRANS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP_TRANS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_WORKSTEP_TRANS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (WORKSTEP_TRANS_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_WORKSTEP_TRANS_INFO'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_TRANS_INFO_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP_TRANS_INFO '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_WORKSTEP_TRANS_INFO_PK PRIMARY KEY  '||CHR(10)||
+                          '  (WORKSTEP_TRANS_ID, FIELD_NAME, FIELD_VALUE) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_PKG_STORAGE_EVENTS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_PKG_STORAGE_EVENTS_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_PKG_STORAGE_EVENTS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_PKG_STORAGE_EVENTS_PK PRIMARY KEY  '||CHR(10)||
+                          '  (EVENT_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_PKG_STORAGE_EVENT_DETAILS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_PKG_STORAGE_EVENT_DET_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_PKG_STORAGE_EVENT_DETAILS '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_PKG_STORAGE_EVENT_DET_PK PRIMARY KEY  '||CHR(10)||
+                          '  (EVENT_ID, EVENT_MESSAGE_KEY) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_WF_RESOURCE_MAP_ASSOC'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WF_RESOURCE_MAP_ASSOC_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WF_RESOURCE_MAP_ASSOC '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_WF_RESOURCE_MAP_ASSOC_PK PRIMARY KEY  '||CHR(10)||
+                          '  (WORKFLOW_OP_ID, RESOURCE_MAP_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Primary Key on 'EAMS_RM_JOB_AUDIT'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RM_JOB_AUDIT_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RM_JOB_AUDIT '||CHR(10)||
+                          ' ADD (CONSTRAINT EAMS_RM_JOB_AUDIT_PK PRIMARY KEY '||CHR(10)||
+                          '  (JOB_ID, JOB_GROUP_NAME) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+--
+-- Unique keys
+--
+
+PROMPT Create constraints CCE_REPORT_GROUP_UK1
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_REPORT_GROUP_UK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_REPORT_GROUP  '||CHR(10)||
+                          'ADD CONSTRAINT CCE_REPORT_GROUP_UK1 UNIQUE  '||CHR(10)||
+                          '(  '||CHR(10)||
+                          '  RPT_GRP_NAME  '||CHR(10)||
+                          ')  '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Create constraints CCE_REPORT_DEF_UK1
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_REPORT_DEF_UK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_REPORT_DEF  '||CHR(10)||
+                          'ADD CONSTRAINT CCE_REPORT_DEF_UK1 UNIQUE  '||CHR(10)||
+                          '(  '||CHR(10)||
+                          '  REPORT_NAME  '||CHR(10)||
+                          ')  '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Create constraints CCE_RPT_EXPORT_OPTIONS_UK1
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_RPT_EXPORT_OPTIONS_UK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_RPT_EXPORT_OPTIONS  '||CHR(10)||
+                          'ADD CONSTRAINT CCE_RPT_EXPORT_OPTIONS_UK1 UNIQUE  '||CHR(10)||
+                          '(  '||CHR(10)||
+                          '  EXPORT_OPT_NAME  '||CHR(10)||
+                          ')  '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+-- Constraint CCE_RPT_FILTERS_UK was added on 11/26/2009 based on Pradheep's request 
+PROMPT Create constraints CCE_RPT_FILTERS_UK
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_RPT_FILTERS_UK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_RPT_FILTERS '||CHR(10)||
+                          ' ADD (CONSTRAINT CCE_RPT_FILTERS_UK UNIQUE  '||CHR(10)||
+                          '  (REPORT_ID '||CHR(10)||
+                          '  ,RPT_FIELD_NAME) USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT -- Check and rebuild unique constraint of EAMS_QA_ASSET
+DECLARE 
+  l_constraint_exists BOOLEAN := FALSE;
+  l_diff_definition BOOLEAN := FALSE;
+  l_table_name CONSTANT VARCHAR2(30) := 'EAMS_QA_ASSET'; 
+  l_a_column CONSTANT VARCHAR2(30) := 'ITEM_CATEGORY_ID';
+  l_constraint_name VARCHAR2(30);
+  l_sql VARCHAR2(1024);    
+BEGIN
+  BEGIN 
+    SELECT a.constraint_name
+    INTO   l_constraint_name
+    FROM   user_constraints a,
+           user_cons_columns b
+    WHERE  a.table_name = l_table_name
+    AND    b.table_name = l_table_name
+    AND    constraint_type = 'U'
+    AND    a.constraint_name = b.constraint_name
+    AND    column_name = l_a_column;    
+    
+    l_constraint_exists := TRUE;
+    
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+           l_constraint_name := l_table_name||'_UK';    
+  END;
+  
+  IF l_constraint_exists THEN 
+     FOR rec IN (SELECT column_name
+                 FROM   (SELECT 'ITEM_CATEGORY_ID' column_name
+                         FROM   dual
+                         UNION  ALL 
+                         SELECT 'ITEM_CATEGORY_VERSION' column_name
+                         FROM   dual
+                         UNION  ALL 
+                         SELECT 'PROVIDER_ASSET_ID' column_name
+                         FROM   dual
+                         UNION  ALL 
+                         SELECT 'NE_ID' column_name
+                         FROM   dual
+                         UNION  ALL 
+                         SELECT 'PROFILE_ID' column_name
+                         FROM   dual
+                         UNION  ALL 
+                         SELECT 'WORKFLOW_TRANS_ID' column_name
+                         FROM   dual) 
+                 MINUS         
+                 SELECT column_name
+                 FROM   user_cons_columns
+                 WHERE  constraint_name = l_constraint_name) LOOP
+         l_diff_definition := TRUE;        
+         EXIT;
+     END LOOP rec;  
+     
+     IF l_diff_definition THEN
+        EXECUTE IMMEDIATE 'ALTER TABLE '||l_table_name||' DROP CONSTRAINT '||l_constraint_name;
+     END IF;
+  END IF;
+  
+  FOR rec IN (SELECT a.index_name
+              FROM   user_indexes a,
+                     user_ind_columns b
+              WHERE  uniqueness = 'UNIQUE'
+              AND    a.table_name = l_table_name
+              AND    a.index_name = b.index_name
+              AND    column_name = l_a_column) LOOP
+                                          
+      FOR inn IN (SELECT column_name
+                  FROM   (SELECT 'ITEM_CATEGORY_ID' column_name
+                          FROM   dual
+                          UNION  ALL 
+                          SELECT 'ITEM_CATEGORY_VERSION' column_name
+                          FROM   dual
+                          UNION  ALL 
+                          SELECT 'PROVIDER_ASSET_ID' column_name
+                          FROM   dual
+                          UNION  ALL 
+                          SELECT 'NE_ID' column_name
+                          FROM   dual
+                          UNION  ALL 
+                          SELECT 'PROFILE_ID' column_name
+                          FROM   dual
+                          UNION  ALL 
+                          SELECT 'WORKFLOW_TRANS_ID' column_name
+                          FROM   dual) 
+                  MINUS         
+                  SELECT column_name
+                  FROM   user_ind_columns 
+                  WHERE  index_name = rec.index_name) LOOP
+          l_diff_definition := TRUE;        
+          EXIT;
+      END LOOP inn;  
+      
+      IF l_diff_definition THEN
+         EXECUTE IMMEDIATE 'DROP INDEX '||rec.index_name;
+         l_diff_definition := FALSE;
+      END IF;
+                   
+  END LOOP rec;  
+  
+  BEGIN 
+    SELECT a.constraint_name
+    INTO   l_constraint_name
+    FROM   user_constraints a,
+           user_cons_columns b
+    WHERE  a.table_name = l_table_name
+    AND    b.table_name = l_table_name
+    AND    constraint_type = 'U'
+    AND    a.constraint_name = b.constraint_name
+    AND    column_name = l_a_column;    
+    
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+           EXECUTE IMMEDIATE 'ALTER TABLE '||l_table_name||' ADD CONSTRAINT '||l_constraint_name||' '||
+                             'UNIQUE (ITEM_CATEGORY_ID, ITEM_CATEGORY_VERSION, PROVIDER_ASSET_ID, NE_ID, PROFILE_ID, WORKFLOW_TRANS_ID) '||
+                             'USING INDEX TABLESPACE EAMS_MOT_128K_IDX';  
+  END;    
+END;
+/
+
+PROMPT -- Check and rebuild unique constraint of EAMS_ADAPT_ASSET
+DECLARE 
+  l_constraint_exists BOOLEAN := FALSE;
+  l_diff_definition BOOLEAN := FALSE;
+  l_table_name CONSTANT VARCHAR2(30) := 'EAMS_ADAPT_ASSET'; 
+  l_a_column CONSTANT VARCHAR2(30) := 'ITEM_CATEGORY_ID';
+  l_constraint_name VARCHAR2(30);
+  l_sql VARCHAR2(1024);    
+BEGIN
+  BEGIN 
+    SELECT a.constraint_name
+    INTO   l_constraint_name
+    FROM   user_constraints a,
+           user_cons_columns b
+    WHERE  a.table_name = l_table_name
+    AND    b.table_name = l_table_name
+    AND    constraint_type = 'U'
+    AND    a.constraint_name = b.constraint_name
+    AND    column_name = l_a_column;    
+    
+    l_constraint_exists := TRUE;
+    
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+           l_constraint_name := l_table_name||'_UK';    
+  END;
+  
+  IF l_constraint_exists THEN 
+     FOR rec IN (SELECT 'ITEM_CATEGORY_ID' column_name
+                 FROM   dual
+                 UNION  ALL 
+                 SELECT 'ITEM_CATEGORY_VERSION' column_name
+                 FROM   dual
+                 UNION  ALL 
+                 SELECT 'PROVIDER_ASSET_ID' column_name
+                 FROM   dual
+                 UNION  ALL 
+                 SELECT 'ADAPT_ASSET_ID' column_name
+                 FROM   dual
+                 UNION  ALL 
+                 SELECT 'NE_ID' column_name
+                 FROM   dual
+                 UNION  ALL 
+                 SELECT 'PROFILE_ID' column_name
+                 FROM   dual
+                 UNION  ALL 
+                 SELECT 'WORKFLOW_TRANS_ID' column_name
+                 FROM   dual 
+                 MINUS         
+                 SELECT column_name
+                 FROM   user_cons_columns 
+                 WHERE  constraint_name = l_constraint_name) LOOP
+         l_diff_definition := TRUE;        
+         EXIT;
+     END LOOP rec;  
+     
+     IF l_diff_definition THEN
+        EXECUTE IMMEDIATE 'ALTER TABLE '||l_table_name||' DROP CONSTRAINT '||l_constraint_name;
+     END IF;
+  END IF;
+  
+  FOR rec IN (SELECT a.index_name
+              FROM   user_indexes a,
+                     user_ind_columns b
+              WHERE  uniqueness = 'UNIQUE'
+              AND    a.table_name = l_table_name
+              AND    a.index_name = b.index_name
+              AND    column_name = l_a_column) LOOP
+                                          
+      FOR inn IN (SELECT 'ITEM_CATEGORY_ID' column_name
+                  FROM   dual
+                  UNION  ALL 
+                  SELECT 'ITEM_CATEGORY_VERSION' column_name
+                  FROM   dual
+                  UNION  ALL 
+                  SELECT 'PROVIDER_ASSET_ID' column_name
+                  FROM   dual
+                  UNION  ALL 
+                  SELECT 'ADAPT_ASSET_ID' column_name
+                  FROM   dual
+                  UNION  ALL 
+                  SELECT 'NE_ID' column_name
+                  FROM   dual
+                  UNION  ALL 
+                  SELECT 'PROFILE_ID' column_name
+                  FROM   dual
+                  UNION  ALL 
+                  SELECT 'WORKFLOW_TRANS_ID' column_name
+                  FROM   dual 
+                  MINUS         
+                  SELECT column_name
+                  FROM   user_ind_columns 
+                  WHERE  index_name = rec.index_name) LOOP
+          l_diff_definition := TRUE;        
+          EXIT;
+      END LOOP inn;  
+      
+      IF l_diff_definition THEN
+         EXECUTE IMMEDIATE 'DROP INDEX '||rec.index_name;
+         l_diff_definition := FALSE;
+      END IF;
+                   
+  END LOOP rec;  
+  
+  BEGIN 
+    SELECT a.constraint_name
+    INTO   l_constraint_name
+    FROM   user_constraints a,
+           user_cons_columns b
+    WHERE  a.table_name = l_table_name
+    AND    b.table_name = l_table_name
+    AND    constraint_type = 'U'
+    AND    a.constraint_name = b.constraint_name
+    AND    column_name = l_a_column;    
+    
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+           EXECUTE IMMEDIATE 'ALTER TABLE '||l_table_name||' ADD CONSTRAINT '||l_constraint_name||' '||
+                             'UNIQUE (ITEM_CATEGORY_ID, ITEM_CATEGORY_VERSION, PROVIDER_ASSET_ID, ADAPT_ASSET_ID, NE_ID,PROFILE_ID,WORKFLOW_TRANS_ID) '||
+                             ' USING INDEX TABLESPACE EAMS_MOT_128K_IDX';      
+  END;    
+END;
+/
+
+PROMPT Creating Unique Key on 'EAMS_DBOARD_VIEW'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_DBOARD_VIEW_UK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_DBOARD_VIEW '||CHR(10)||
+                          'ADD (CONSTRAINT EAMS_DBOARD_VIEW_UK UNIQUE '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  NAME) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Unique Key on 'EAMS_ADAPT_ASSET_INFO'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_ADAPT_ASSET_INFO_UK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_ADAPT_ASSET_INFO '||CHR(10)||
+                          'ADD (CONSTRAINT EAMS_ADAPT_ASSET_INFO_UK UNIQUE '||CHR(10)||
+                          '(ADAPT_ASSET_ID, FIELD_ID, FIELD_VALUE) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Unique Key on 'CCE_RPT_DISPLAY_OPTIONS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_RPT_DISPLAY_OPTIONS_UK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_RPT_DISPLAY_OPTIONS '||CHR(10)||
+                          'ADD (CONSTRAINT CCE_RPT_DISPLAY_OPTIONS_UK UNIQUE '||CHR(10)||
+                          '(DISPLAY_OPT_NAME) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Unique Key on 'EAMS_POLLING_JOBS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_POLLING_JOBS_UK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_POLLING_JOBS '||CHR(10)||
+                          'ADD (CONSTRAINT EAMS_POLLING_JOBS_UK UNIQUE '||CHR(10)||
+                          '(JOB_NAME, IMPL_CLASS) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Unique Key on 'EAMS_RESOURCE_ROLE_MAP'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RESOURCE_ROLE_MAP_UK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE_ROLE_MAP '||CHR(10)||
+                          'ADD (CONSTRAINT EAMS_RESOURCE_ROLE_MAP_UK UNIQUE '||CHR(10)||
+                          '(RESOURCE_ID, ROLE_ID, ROLE_TYPE) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Unique Key on 'EAMS_RULEGROUP'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RULEGROUP_UK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RULEGROUP '||CHR(10)||
+                          'ADD (CONSTRAINT EAMS_RULEGROUP_UK UNIQUE '||CHR(10)||
+                          '(RULEGROUP_NAME) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Unique Key on 'EAMS_WORKSTEP_TRANS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_TRANS_UK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP_TRANS '||CHR(10)||
+                          'ADD (CONSTRAINT EAMS_WORKSTEP_TRANS_UK UNIQUE '||CHR(10)||
+                          '(WORKFLOW_STEP_ID, WORKFLOW_OP_ID, INBOUND_RESOURCE_MAP_ID) '||CHR(10)||
+                          'USING INDEX TABLESPACE LEAPSTONE_128K_IDX)';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating UNIQUE KEY ON 'EAMS_WORKFLOW_PROFILE_ASSOC_UK'
+DECLARE
+  l_table_name CONSTANT VARCHAR2(30) := 'EAMS_WORKFLOW_PROFILE_ASSOC';
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKFLOW_PROFILE_ASSOC_UK';
+  l_new_column CONSTANT VARCHAR2(30) := 'JOB_ID';
+  l_dummy INTEGER;
+BEGIN
+  BEGIN
+    SELECT 1
+    INTO   l_dummy
+    FROM   user_cons_columns
+    WHERE  constraint_name = l_constraint_name
+    AND    column_name = l_new_column;
+
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN
+           BEGIN 
+             SELECT 1
+             INTO   l_dummy
+             FROM   user_constraints
+             WHERE  constraint_name = l_constraint_name;
+           
+             EXECUTE IMMEDIATE 'ALTER TABLE '||l_table_name||' DROP CONSTRAINT '||l_constraint_name;
+             
+             EXCEPTION
+               WHEN NO_DATA_FOUND THEN NULL;              
+           END;
+           
+           BEGIN 
+             SELECT 1
+             INTO   l_dummy
+             FROM   user_indexes
+             WHERE  index_name = l_constraint_name;
+           
+             EXECUTE IMMEDIATE 'DROP INDEX '||l_constraint_name;
+             
+             EXCEPTION
+               WHEN NO_DATA_FOUND THEN NULL;              
+           END;           
+                       
+           EXECUTE IMMEDIATE 'ALTER TABLE '||l_table_name||' ADD CONSTRAINT '||l_constraint_name||' UNIQUE (WORKFLOW_ID, PROFILE_ID, JOB_ID) USING INDEX TABLESPACE LEAPSTONE_128K_IDX';
+  END;
+END;
+/
+
+--
+-- Foreign keys
+--
+
+PROMPT Create constraints CCE_RPT_GRP_ASSOC_CCE_REP_FK2
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_RPT_GRP_ASSOC_CCE_REP_FK2';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_RPT_GRP_ASSOC  '||CHR(10)||
+                          'ADD CONSTRAINT CCE_RPT_GRP_ASSOC_CCE_REP_FK2 FOREIGN KEY  '||CHR(10)||
+                          '(  '||CHR(10)||
+                          '  REPORT_GRP_ID  '||CHR(10)||
+                          ')  '||CHR(10)||
+                          'REFERENCES CCE_REPORT_GROUP  '||CHR(10)||
+                          '(  '||CHR(10)||
+                          'RPT_GRP_ID  '||CHR(10)||
+                          ')';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Create constraints CCE_RPT_FILTERS_CCE_REPOR_FK1
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_RPT_FILTERS_CCE_REPOR_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_RPT_FILTERS  '||CHR(10)||
+                          'ADD CONSTRAINT CCE_RPT_FILTERS_CCE_REPOR_FK1 FOREIGN KEY  '||CHR(10)||
+                          '(  '||CHR(10)||
+                          '  REPORT_ID  '||CHR(10)||
+                          ')  '||CHR(10)||
+                          'REFERENCES CCE_REPORT_DEF  '||CHR(10)||
+                          '(  '||CHR(10)||
+                          'REPORT_ID  '||CHR(10)||
+                          ')';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Create constraints CCE_RPT_EXPORT_ASSOC_CCE_R_FK1
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_RPT_EXPORT_ASSOC_CCE_R_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_RPT_EXPORT_ASSOC  '||CHR(10)||
+                          'ADD CONSTRAINT CCE_RPT_EXPORT_ASSOC_CCE_R_FK1 FOREIGN KEY  '||CHR(10)||
+                          '(  '||CHR(10)||
+                          '  REPORT_ID  '||CHR(10)||
+                          ')  '||CHR(10)||
+                          'REFERENCES CCE_REPORT_DEF  '||CHR(10)||
+                          '(  '||CHR(10)||
+                          'REPORT_ID  '||CHR(10)||
+                          ')';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Create constraints CCE_RPT_EXPORT_ASSOC_CCE_R_FK2
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_RPT_EXPORT_ASSOC_CCE_R_FK2';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_RPT_EXPORT_ASSOC  '||CHR(10)||
+                          'ADD CONSTRAINT CCE_RPT_EXPORT_ASSOC_CCE_R_FK2 FOREIGN KEY  '||CHR(10)||
+                          '(  '||CHR(10)||
+                          '  EXPORT_OPT_ID  '||CHR(10)||
+                          ')  '||CHR(10)||
+                          'REFERENCES CCE_RPT_EXPORT_OPTIONS  '||CHR(10)||
+                          '(  '||CHR(10)||
+                          'EXPORT_OPT_ID  '||CHR(10)||
+                          ')';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key on 'CCE_USER_VENDOR_ASSOC_FK'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_USER_VENDOR_ASSOC_FK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_USER_VENDOR_ASSOC  '||CHR(10)||
+                          'ADD CONSTRAINT CCE_USER_VENDOR_ASSOC_FK FOREIGN KEY  '||CHR(10)||
+                          '(  '||CHR(10)||
+                          '  USER_ID  '||CHR(10)||
+                          ')  '||CHR(10)||
+                          'REFERENCES CCE_USER  '||CHR(10)||
+                          '(  '||CHR(10)||
+                          'USER_ID  '||CHR(10)||
+                          ')';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key on 'CCE_USER_VENDOR_ASSOC_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_USER_VENDOR_ASSOC_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_USER_VENDOR_ASSOC  '||CHR(10)||
+                          'ADD CONSTRAINT CCE_USER_VENDOR_ASSOC_FK1 FOREIGN KEY  '||CHR(10)||
+                          '(  '||CHR(10)||
+                          '  VENDOR_ID  '||CHR(10)||
+                          ')  '||CHR(10)||
+                          'REFERENCES CCE_VENDOR_INFO  '||CHR(10)||
+                          '(  '||CHR(10)||
+                          'VENDOR_ID  '||CHR(10)||
+                          ')';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key on 'QRTZ_JOB_LISTENERS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_JOB_LISTENERS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_JOB_LISTENERS '||CHR(10)||
+                          'ADD CONSTRAINT QRTZ_JOB_LISTENERS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  JOB_NAME,JOB_GROUP '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES QRTZ_JOB_DETAILS '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  JOB_NAME,JOB_GROUP '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key on 'QRTZ_TRIGGERS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_TRIGGERS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_TRIGGERS '||CHR(10)||
+                          'ADD CONSTRAINT QRTZ_TRIGGERS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  JOB_NAME,JOB_GROUP '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES QRTZ_JOB_DETAILS '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  JOB_NAME,JOB_GROUP '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key on 'QRTZ_SIMPLE_TRIGGERS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_SIMPLE_TRIGGERS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_SIMPLE_TRIGGERS '||CHR(10)||
+                          'ADD CONSTRAINT QRTZ_SIMPLE_TRIGGERS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  TRIGGER_NAME,TRIGGER_GROUP '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES QRTZ_TRIGGERS '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  TRIGGER_NAME,TRIGGER_GROUP '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key on 'QRTZ_CRON_TRIGGERS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_CRON_TRIGGERS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_CRON_TRIGGERS '||CHR(10)||
+                          'ADD CONSTRAINT QRTZ_CRON_TRIGGERS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  TRIGGER_NAME,TRIGGER_GROUP '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES QRTZ_TRIGGERS '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  TRIGGER_NAME,TRIGGER_GROUP '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key on 'QRTZ_BLOB_TRIGGERS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_BLOB_TRIGGERS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_BLOB_TRIGGERS '||CHR(10)||
+                          'ADD CONSTRAINT QRTZ_BLOB_TRIGGERS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  TRIGGER_NAME,TRIGGER_GROUP '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES QRTZ_TRIGGERS '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  TRIGGER_NAME,TRIGGER_GROUP '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key on 'QRTZ_TRIGGER_LISTENERS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'QRTZ_TRIGGER_LISTENERS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE QRTZ_TRIGGER_LISTENERS '||CHR(10)||
+                          'ADD CONSTRAINT QRTZ_TRIGGER_LISTENERS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  TRIGGER_NAME,TRIGGER_GROUP '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES QRTZ_TRIGGERS '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  TRIGGER_NAME,TRIGGER_GROUP '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key on 'EAMS_MEDIA_FORMAT_INFO_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_MEDIA_FORMAT_INFO_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_MEDIA_FORMAT_INFO '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_MEDIA_FORMAT_INFO_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  MEDIA_FORMAT_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_MEDIA_FORMAT '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  MEDIA_FORMAT_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key on 'EAMS_PUBLISH_ASSET_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_PUBLISH_ASSET_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_PUBLISH_ASSET '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_PUBLISH_ASSET_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  MEDIA_FORMAT_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_MEDIA_FORMAT '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  MEDIA_FORMAT_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+/*
+-- removed on 08/02/2010, requested by Maheswar
+PROMPT Creating Foreign Key 'EAMS_RM_NE_LOAD_INFO_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RM_NE_LOAD_INFO_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RM_NE_LOAD_INFO '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_RM_NE_LOAD_INFO_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  NE_ID  '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES CCE_NETWORK_ELEMENT '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  NE_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+*/
+
+PROMPT Creating Foreign Key on 'EAMS_QRTZ_JOB_LISTENERS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_JOB_LISTENERS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_JOB_LISTENERS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_QRTZ_JOB_LISTENERS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  JOB_NAME,JOB_GROUP '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_QRTZ_JOB_DETAILS '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  JOB_NAME,JOB_GROUP '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key on 'EAMS_QRTZ_TRIGGERS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_TRIGGERS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_TRIGGERS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_QRTZ_TRIGGERS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  JOB_NAME,JOB_GROUP '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_QRTZ_JOB_DETAILS '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  JOB_NAME,JOB_GROUP '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key on 'EAMS_QRTZ_SIMPLE_TRIGGERS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_SIMPLE_TRIGGERS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_SIMPLE_TRIGGERS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_QRTZ_SIMPLE_TRIGGERS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  TRIGGER_NAME,TRIGGER_GROUP '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_QRTZ_TRIGGERS '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  TRIGGER_NAME,TRIGGER_GROUP '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key on 'EAMS_QRTZ_CRON_TRIGGERS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_CRON_TRIGGERS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_CRON_TRIGGERS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_QRTZ_CRON_TRIGGERS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  TRIGGER_NAME,TRIGGER_GROUP '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_QRTZ_TRIGGERS '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  TRIGGER_NAME,TRIGGER_GROUP '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key on 'EAMS_QRTZ_BLOB_TRIGGERS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_BLOB_TRIGGERS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_BLOB_TRIGGERS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_QRTZ_BLOB_TRIGGERS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  TRIGGER_NAME,TRIGGER_GROUP '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_QRTZ_TRIGGERS '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  TRIGGER_NAME,TRIGGER_GROUP '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key on 'EAMS_QRTZ_TRG_LISTENERS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_QRTZ_TRG_LISTENERS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_QRTZ_TRIGGER_LISTENERS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_QRTZ_TRG_LISTENERS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  TRIGGER_NAME,TRIGGER_GROUP '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_QRTZ_TRIGGERS '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  TRIGGER_NAME,TRIGGER_GROUP '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+/*
+-- removed on 08/02/2010, requested by Maheswar
+PROMPT Creating Foreign Key 'EAMS_PI_JOB_TRANS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_PI_JOB_TRANS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_PI_JOB_TRANS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_PI_JOB_TRANS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  NE_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES CCE_NETWORK_ELEMENT '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  NE_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+*/
+
+PROMPT Creating Foreign Key 'EAMS_PI_JOB_TRANS_FK2'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_PI_JOB_TRANS_FK2';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_PI_JOB_TRANS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_PI_JOB_TRANS_FK2 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  WORKFLOW_TRANS_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_WORKFLOW_TRANS '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  WORKFLOW_TRANS_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'CCE_RPT_EXPORT_ASSOC_CCE_R_FK3'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'CCE_RPT_EXPORT_ASSOC_CCE_R_FK3';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE CCE_RPT_EXPORT_ASSOC '||CHR(10)||
+                          'ADD CONSTRAINT CCE_RPT_EXPORT_ASSOC_CCE_R_FK3 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'DISPLAY_OPT_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES CCE_RPT_DISPLAY_OPTIONS '||CHR(10)||
+                          '( '||CHR(10)||
+                          'DISPLAY_OPT_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_PUBLISH_PACKAGE_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_PUBLISH_PACKAGE_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_PUBLISH_PACKAGE '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_PUBLISH_PACKAGE_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  SUB_STATUS_CODE '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_PUBLISH_SUB_STATUS '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  SUB_STATUS_CODE '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_AR_MAP_FIELD_INFO_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_AR_MAP_FIELD_INFO_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_AR_MAP_FIELD_INFO '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_AR_MAP_FIELD_INFO_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  FIELD_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES CCE_FIELD_INFO '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  FIELD_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_CATCHER_MONITOR_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_CATCHER_MONITOR_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_CATCHER_MONITOR '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_CATCHER_MONITOR_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  NE_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES CCE_NETWORK_ELEMENT '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  NE_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_RM_POLL_STATUS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RM_POLL_STATUS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RM_POLL_STATUS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_RM_POLL_STATUS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  NE_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES CCE_NETWORK_ELEMENT '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  NE_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_CATCHER_MONITOR_FILES_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_CATCHER_MONITOR_FILES_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_CATCHER_MONITOR_FILES '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_CATCHER_MONITOR_FILES_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  NE_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES CCE_NETWORK_ELEMENT '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  NE_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_WORKFLOW_TRANS_INFO_FK1'
+DECLARE 
+  l_table_name CONSTANT VARCHAR2(30) := 'EAMS_WORKFLOW_TRANS_INFO';
+  l_r_constraint_name CONSTANT VARCHAR2(30) := 'CCE_UFIELD_INFO_FLDID_PK';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKFLOW_TRANS_INFO '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_WORKFLOW_TRANS_INFO_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'FIELD_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES CCE_USER_FIELD_INFO '||CHR(10)||
+                          '( '||CHR(10)||
+                            'FIELD_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  table_name = l_table_name
+  AND    constraint_type = 'R'
+  AND    r_constraint_name = l_r_constraint_name;  
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_INF_PLATFORM_ASSOC_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_INF_PLATFORM_ASSOC_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_INFLIGHT_PLATFORM_ASSOC '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_INF_PLATFORM_ASSOC_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  ALT_CODE, '||CHR(10)||
+                          '  PROVIDER_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_INFLIGHT_PACKAGE '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  ALT_CODE, '||CHR(10)||
+                          '  PROVIDER_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_INF_PLATFORM_ASSOC_FK2'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_INF_PLATFORM_ASSOC_FK2';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_INFLIGHT_PLATFORM_ASSOC '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_INF_PLATFORM_ASSOC_FK2 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  PUBLISH_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_PUBLISH_PACKAGE '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  PUBLISH_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_DBOARD_ITEM_ASSOC_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_DBOARD_ITEM_ASSOC_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_DBOARD_ITEM_ASSOC '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_DBOARD_ITEM_ASSOC_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  DBOARD_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_DBOARD '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_DBOARD_ITEM_ASSOC_FK2'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_DBOARD_ITEM_ASSOC_FK2';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_DBOARD_ITEM_ASSOC '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_DBOARD_ITEM_ASSOC_FK2 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  WIDGET_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_DBOARD_ITEM '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  WIDGET_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_DBOARD_USR_ITEM_ASSOC_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_DBOARD_USR_ITEM_ASSOC_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_DBOARD_USR_ITEM_ASSOC '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_DBOARD_USR_ITEM_ASSOC_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  LOGIN_NAME '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_DBOARD_USER '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  LOGIN_NAME '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_DBOARD_USR_ITEM_ASSOC_FK2'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_DBOARD_USR_ITEM_ASSOC_FK2';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_DBOARD_USR_ITEM_ASSOC '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_DBOARD_USR_ITEM_ASSOC_FK2 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  WIDGET_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_DBOARD_ITEM_ASSOC '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  WIDGET_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_DBOARD_USR_ITEM_ASSOC_FK3'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_DBOARD_USR_ITEM_ASSOC_FK3';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_DBOARD_USR_ITEM_ASSOC '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_DBOARD_USR_ITEM_ASSOC_FK3 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  DBOARD_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_DBOARD '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_DBOARD_ITEM_PROPS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_DBOARD_ITEM_PROPS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_DBOARD_ITEM_PROPS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_DBOARD_ITEM_PROPS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  WIDGET_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_DBOARD_ITEM '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  WIDGET_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_WORKSTEP_TRANS_INFO_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_TRANS_INFO_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP_TRANS_INFO '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_WORKSTEP_TRANS_INFO_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'WORKSTEP_TRANS_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_WORKSTEP_TRANS '||CHR(10)||
+                          '( '||CHR(10)||
+                            'WORKSTEP_TRANS_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_RES_RESOURCE_ASSOC_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RES_RESOURCE_ASSOC_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE_RESOURCE_ASSOC '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_RES_RESOURCE_ASSOC_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'RESOURCE_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_RESOURCE '||CHR(10)||
+                          '( '||CHR(10)||
+                            'RESOURCE_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_RESOURCE_INFO_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RESOURCE_INFO_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE_INFO '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_RESOURCE_INFO_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'RESOURCE_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_RESOURCE '||CHR(10)||
+                          '( '||CHR(10)||
+                            'RESOURCE_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_RESOURCE_ROLE_MAP_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RESOURCE_ROLE_MAP_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE_ROLE_MAP '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_RESOURCE_ROLE_MAP_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'RESOURCE_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_RESOURCE '||CHR(10)||
+                          '( '||CHR(10)||
+                            'RESOURCE_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_RESOURCE_ROLE_MAP_FK2'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RESOURCE_ROLE_MAP_FK2';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE_ROLE_MAP '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_RESOURCE_ROLE_MAP_FK2 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'ROLE_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_RESOURCE_ROLE '||CHR(10)||
+                          '( '||CHR(10)||
+                            'ROLE_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_WORKSTEP_ROLE_ASSOC_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_ROLE_ASSOC_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP_ROLE_ASSOC '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_WORKSTEP_ROLE_ASSOC_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'WORKSTEP_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_WORKSTEP '||CHR(10)||
+                          '( '||CHR(10)||
+                            'WORKSTEP_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_WF_RES_MAP_ASSOC_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WF_RES_MAP_ASSOC_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WF_RESOURCE_MAP_ASSOC '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_WF_RES_MAP_ASSOC_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'RESOURCE_MAP_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_RESOURCE_ROLE_MAP '||CHR(10)||
+                          '( '||CHR(10)||
+                            'RESOURCE_MAP_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_RES_ROLE_MAP_INFO_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RES_ROLE_MAP_INFO_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE_ROLE_MAP_INFO '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_RES_ROLE_MAP_INFO_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'RESOURCE_MAP_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_RESOURCE_ROLE_MAP '||CHR(10)||
+                          '( '||CHR(10)||
+                            'RESOURCE_MAP_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_WORKFLOW_OP_INFO_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKFLOW_OP_INFO_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKFLOW_OP_INFO '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_WORKFLOW_OP_INFO_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'WORKFLOW_OP_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_WORKFLOW_OP_TRANS '||CHR(10)||
+                          '( '||CHR(10)||
+                            'WORKFLOW_OP_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_WORKSTEP_RG_ASSOC_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_RG_ASSOC_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP_RULEGROUP_ASSOC '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_WORKSTEP_RG_ASSOC_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'WORKSTEP_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_WORKSTEP '||CHR(10)||
+                          '( '||CHR(10)||
+                            'WORKSTEP_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_WORKSTEP_RG_ASSOC_FK2'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_RG_ASSOC_FK2';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP_RULEGROUP_ASSOC '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_WORKSTEP_RG_ASSOC_FK2 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'RULEGROUP_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_RULEGROUP '||CHR(10)||
+                          '( '||CHR(10)||
+                            'RULEGROUP_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_WORKSTEP_TRANS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_TRANS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP_TRANS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_WORKSTEP_TRANS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'WORKFLOW_STEP_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_WORKSTEP '||CHR(10)||
+                          '( '||CHR(10)||
+                            'WORKSTEP_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_WORKSTEP_TRANS_FK2'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_TRANS_FK2';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP_TRANS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_WORKSTEP_TRANS_FK2 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'WORKFLOW_OP_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_WORKFLOW_OP_TRANS '||CHR(10)||
+                          '( '||CHR(10)||
+                            'WORKFLOW_OP_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_WF_WORKSTEP_ASSOC_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WF_WORKSTEP_ASSOC_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKFLOW_WORKSTEP_ASSOC '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_WF_WORKSTEP_ASSOC_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'WORKSTEP_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_WORKSTEP '||CHR(10)||
+                          '( '||CHR(10)||
+                            'WORKSTEP_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_WORKSTEP_TRANS_FK3'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_TRANS_FK3';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP_TRANS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_WORKSTEP_TRANS_FK3 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'OUTBOUND_RESOURCE_MAP_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_RESOURCE_ROLE_MAP '||CHR(10)||
+                          '( '||CHR(10)||
+                            'RESOURCE_MAP_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_WORKSTEP_TRANS_FK4'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_TRANS_FK4';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP_TRANS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_WORKSTEP_TRANS_FK4 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'INBOUND_RESOURCE_MAP_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_RESOURCE_ROLE_MAP '||CHR(10)||
+                          '( '||CHR(10)||
+                            'RESOURCE_MAP_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_PKG_STORAGE_DETAILS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_PKG_STORAGE_DETAILS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_PACKAGE_STORAGE_DETAILS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_PKG_STORAGE_DETAILS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'ITEM_CATEGORY_ID, '||CHR(10)||
+                            'ITEM_CATEGORY_VERSION '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES CCE_ITEM_CATEGORY '||CHR(10)||
+                          '( '||CHR(10)||
+                            'ITEM_CATEGORY_ID, '||CHR(10)||
+                            'ITEM_CATEGORY_VERSION '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_PKG_STORAGE_EVENTS_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_PKG_STORAGE_EVENTS_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_PKG_STORAGE_EVENTS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_PKG_STORAGE_EVENTS_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  ITEM_CATEGORY_ID, '||CHR(10)||
+                          '  ITEM_CATEGORY_VERSION '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES CCE_ITEM_CATEGORY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  ITEM_CATEGORY_ID, '||CHR(10)||
+                          '  ITEM_CATEGORY_VERSION '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating Foreign Key 'EAMS_PKG_STORAGE_EVENT_DET_FK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_PKG_STORAGE_EVENT_DET_FK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_PKG_STORAGE_EVENT_DETAILS '||CHR(10)||
+                          'ADD CONSTRAINT EAMS_PKG_STORAGE_EVENT_DET_FK1 FOREIGN KEY '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  EVENT_ID '||CHR(10)||
+                          ') '||CHR(10)||
+                          'REFERENCES EAMS_PKG_STORAGE_EVENTS '||CHR(10)||
+                          '( '||CHR(10)||
+                          '  EVENT_ID '||CHR(10)||
+                          ') ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+-- removed on 08/02/2010, requested by Maheswar
+PROMPT Drop Foreign Key on 'EAMS_RM_NE_LOAD_INFO_FK1'
+DECLARE
+  l_dummy INTEGER;
+BEGIN
+  SELECT 1
+  INTO   l_dummy
+  FROM   user_cons_columns
+  WHERE  constraint_name = 'EAMS_RM_NE_LOAD_INFO_FK1'
+  AND    column_name = 'NE_ID';
+  
+  EXECUTE IMMEDIATE 'ALTER TABLE EAMS_RM_NE_LOAD_INFO DROP CONSTRAINT EAMS_RM_NE_LOAD_INFO_FK1';
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN 
+         NULL;
+END;
+/
+
+-- removed on 08/02/2010, requested by Maheswar
+PROMPT Drop Foreign Key on 'EAMS_PI_JOB_TRANS_FK1'
+DECLARE
+  l_dummy INTEGER;
+BEGIN
+  SELECT 1
+  INTO   l_dummy
+  FROM   user_cons_columns
+  WHERE  constraint_name = 'EAMS_PI_JOB_TRANS_FK1'
+  AND    column_name = 'NE_ID';
+  
+  EXECUTE IMMEDIATE 'ALTER TABLE EAMS_PI_JOB_TRANS DROP CONSTRAINT EAMS_PI_JOB_TRANS_FK1';
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN 
+         NULL;
+END;
+/
+
+--
+-- Check constraints
+--
+
+PROMPT Creating check constraint on 'EAMS_WORKFLOW_TRANS.REPROCESS'
+DECLARE 
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKFLOW_TRANS ADD CONSTRAINT EAMS_WORKFLOW_TRANS_CK1 CHECK (REPROCESS IN (''Y'', ''N'') OR REPROCESS IS NULL)';
+BEGIN
+  SELECT 1
+  INTO   l_dummy
+  FROM   user_cons_columns a,
+         user_constraints b
+  WHERE  a.table_name = 'EAMS_WORKFLOW_TRANS'
+  AND    b.table_name = 'EAMS_WORKFLOW_TRANS'
+  AND    a.constraint_name = b.constraint_name
+  AND    b.constraint_type = 'C'
+  AND    column_name = 'REPROCESS'
+  AND    ROWNUM = 1;  
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint 'EAMS_ASPERA_SUB_INFO_CK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_ASPERA_SUB_INFO_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_ASPERA_SUB_INFO ADD CONSTRAINT EAMS_ASPERA_SUB_INFO_CK1  '||CHR(10)||
+                          'CHECK (SUBSCRIPTION_STATUS IN (''ACTIVE'', ''INACTIVE'', ''EXPIRED'')) ';                          
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint 'EAMS_ASPERA_SUB_INFO_CK2'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_ASPERA_SUB_INFO_CK2';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_ASPERA_SUB_INFO ADD CONSTRAINT EAMS_ASPERA_SUB_INFO_CK2  '||CHR(10)||
+                          'CHECK (SUBSCRIPTION_REQUIRED IN (''Y'', ''N''))';                        
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint 'EAMS_RM_NE_LOAD_INFO_CK1'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RM_NE_LOAD_INFO_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RM_NE_LOAD_INFO ADD CONSTRAINT EAMS_RM_NE_LOAD_INFO_CK1 CHECK (STATUS IN (1, 0))';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+DECLARE 
+  l_old_ck BOOLEAN := FALSE;
+  l_search_condition VARCHAR2(32000);
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WI_ERR_STATUS_CHECK';
+  l_sql VARCHAR2(2048) := 'ALTER TABLE EAMS_WI_ERROR_LOG DROP CONSTRAINT EAMS_WI_ERR_STATUS_CHECK';    
+BEGIN
+  BEGIN 
+    SELECT search_condition
+    INTO   l_search_condition
+    FROM   user_constraints
+    WHERE  constraint_name = l_constraint_name;
+    
+    IF l_search_condition NOT LIKE '%MANUAL_ASSIGNED%' THEN
+       l_old_ck := TRUE;
+    END IF;
+       
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN 
+           l_old_ck := NULL;         
+  END;
+  
+  IF l_old_ck THEN
+     EXECUTE IMMEDIATE l_sql;
+  END IF;
+  
+  IF NVL(l_old_ck, TRUE) THEN     
+     l_sql := 'ALTER TABLE EAMS_WI_ERROR_LOG ADD CONSTRAINT EAMS_WI_ERR_STATUS_CHECK '||CHR(10)||
+              'CHECK (ERROR_STATUS IN (''ERROR'',''ASSIGNED'',''PROGRESS'',''RESOLVED'',''REJECTED'',''MANUAL_ASSIGNED'',''MANUAL_COMPLETED'',''MANUAL_PROCEED'',''MANUAL_REJECTED''))';
+
+     EXECUTE IMMEDIATE l_sql;  
+  END IF; 
+END;
+/
+
+PROMPT Creating check constraint 'EAMS_WI_STATUS_CHECK'
+DECLARE 
+  l_old_ck BOOLEAN := FALSE;
+  l_search_condition VARCHAR2(32000);
+  l_table_name CONSTANT VARCHAR2(30) := 'EAMS_WI_ERROR_LOG';
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WI_STATUS_CHECK';
+  l_new_ck_values VARCHAR2(80) := '%CORRELATION_ERROR%';
+  l_sql VARCHAR2(2048) := 'ALTER TABLE '||l_table_name||' DROP CONSTRAINT '||l_constraint_name;    
+BEGIN
+  BEGIN 
+    SELECT search_condition
+    INTO   l_search_condition
+    FROM   user_constraints
+    WHERE  constraint_name = l_constraint_name;
+    
+    IF l_search_condition NOT LIKE l_new_ck_values THEN
+       l_old_ck := TRUE;
+    END IF;
+       
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN 
+           l_old_ck := NULL;         
+  END;
+  
+  IF l_old_ck THEN
+     EXECUTE IMMEDIATE l_sql;
+  END IF;
+  
+  IF NVL(l_old_ck, TRUE) THEN     
+     l_sql := 'ALTER TABLE EAMS_WI_ERROR_LOG ADD CONSTRAINT EAMS_WI_STATUS_CHECK '||CHR(10)||
+              'CHECK (STATUS IN (''ADMIN_ERROR'', '||CHR(10)||
+              '                  ''NOTIFY_ERROR'', '||CHR(10)||
+              '                  ''SCHEDULE_ERROR'', '||CHR(10)||
+              '                  ''COPY_ERROR'', '||CHR(10)||
+              '                  ''INGEST_ERROR'', '||CHR(10)||
+              '                  ''VALIDATE_ERROR'', '||CHR(10)||
+              '                  ''QA_ERROR'', '||CHR(10)||
+              '                  ''TRANSFORM_ERROR'', '||CHR(10)||
+              '                  ''TRANSCODE_ERROR'', '||CHR(10)||
+              '                  ''ENCRYPT_ERROR'', '||CHR(10)||
+              '                  ''PUBLISH_ERROR'', '||CHR(10)||
+              '                  ''DELETE_ERROR'', '||CHR(10)||
+              '                  ''INSTALL_ERROR'', '||CHR(10)||
+              '                  ''REPROCESS_ERROR'', '||CHR(10)||
+              '                  ''WORKFLOW_ERROR'',  '||CHR(10)||
+              '                  ''MANUAL_QA'', '||CHR(10)||
+              '                  ''MANUAL_TRANSCODE'', '||CHR(10)||
+              '                  ''MANUAL_ENCRYPT'', '||CHR(10)||
+              '                  ''MANUAL_PUBLISH'', '||CHR(10)||
+              '                  ''DISCOVERY_ERROR'', '||CHR(10)||
+              '                  ''ROLE_RECOGNIZE_ERROR'', '||CHR(10)||
+              '                  ''CONVERSION_ERROR'', '||CHR(10)||
+              '                  ''NORMALIZE_ERROR'', '||CHR(10)||
+              '                  ''RESOURCE_ANALYSIS_ERROR'', '||CHR(10)||
+              '                  ''WORKFLOW_IDENT_ERROR'', '||CHR(10)||
+              '                  ''PACKAGE_DISTRIB_ERROR'', '||CHR(10)||
+              '                  ''CORRELATION_ERROR'', '||CHR(10)||
+              '                  ''PACKAGE_STORAGE_ERROR'', '||CHR(10)||
+              '                  ''POST_TRANSCODEQA_ERROR'')) ';
+
+     EXECUTE IMMEDIATE l_sql;  
+  END IF; 
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_MEDIA_FORMAT.SOURCE_FORMAT'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_MEDIA_FORMAT_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_MEDIA_FORMAT ADD CONSTRAINT EAMS_MEDIA_FORMAT_CK1 '||CHR(10)||
+                          'CHECK (SOURCE_FORMAT IN (''Y'', ''N''))';                          
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_MEDIA_FORMAT.TARGET_FORMAT'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_MEDIA_FORMAT_CK2';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_MEDIA_FORMAT ADD CONSTRAINT EAMS_MEDIA_FORMAT_CK2 '||CHR(10)||
+                          'CHECK (TARGET_FORMAT IN (''Y'', ''N''))';                          
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_MEDIA_FORMAT.METADATA_REQUIRED'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_MEDIA_FORMAT_CK3';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_MEDIA_FORMAT ADD CONSTRAINT EAMS_MEDIA_FORMAT_CK3 '||CHR(10)||
+                          'CHECK (METADATA_REQUIRED IN (''Y'', ''N''))';                          
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Make EAMS_CONFIG_REPOSITORY.INSTANCE_NAME NULLABLE
+DECLARE 
+  l_table_name CONSTANT VARCHAR2(30) := 'EAMS_CONFIG_REPOSITORY';
+  l_column_name CONSTANT VARCHAR2(30) := 'INSTANCE_NAME';
+  l_constraint_name VARCHAR2(30);
+  l_search_condition VARCHAR2(32000);
+BEGIN
+  SELECT a.search_condition,
+         a.constraint_name
+  INTO   l_search_condition,
+         l_constraint_name
+  FROM   user_constraints a,
+         user_cons_columns b
+  WHERE  a.table_name = l_table_name
+  AND    b.table_name = l_table_name
+  AND    constraint_type = 'C'
+  AND    a.constraint_name = b.constraint_name
+  AND    column_name = l_column_name
+  AND    position IS NULL;
+  
+  IF l_search_condition = '"INSTANCE_NAME" IS NOT NULL' THEN
+     EXECUTE IMMEDIATE 'ALTER TABLE '||l_table_name||' DROP CONSTRAINT '||l_constraint_name; 
+  END IF;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN NULL;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_INGEST_ASSET.CC_TYPE'
+DECLARE   
+  l_old_ck BOOLEAN := FALSE;
+  l_not_null_ck BOOLEAN := FALSE;
+  l_search_condition VARCHAR2(32000);
+  l_constraint_name VARCHAR2(30);
+  l_sql VARCHAR2(2048);    
+BEGIN  
+  BEGIN 
+    SELECT constraint_name,
+           search_condition
+    INTO   l_constraint_name,
+           l_search_condition
+    FROM   user_constraints
+    WHERE  constraint_name IN ('EAMS_INGEST_ASSET_CK1', 'EAMS_ING_CCTYPE_CHECK');
+    
+    IF l_search_condition NOT LIKE '%NONE%' THEN
+       l_old_ck := TRUE;
+    END IF;
+       
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN 
+           l_old_ck := NULL;         
+  END;
+  
+  IF l_old_ck THEN
+     l_sql := 'ALTER TABLE EAMS_INGEST_ASSET DROP CONSTRAINT '||l_constraint_name;  
+     EXECUTE IMMEDIATE l_sql;
+  END IF;
+  
+
+  UPDATE eams_ingest_asset
+  SET    cc_type = 'OTHER'
+  WHERE  cc_type IS NULL;
+  
+  COMMIT;
+    
+  IF NVL(l_old_ck, TRUE) THEN     
+     l_sql := 'ALTER TABLE EAMS_INGEST_ASSET ADD CONSTRAINT EAMS_INGEST_ASSET_CK1 '||CHR(10)||
+              'CHECK (CC_TYPE IN(''EMBED'',''CCFILE'',''OTHER'', ''NONE''))';
+
+     EXECUTE IMMEDIATE l_sql;  
+  END IF; 
+    
+  FOR rec IN (SELECT search_condition 
+              FROM   user_constraints a,
+                     user_cons_columns b
+              WHERE  a.table_name = 'EAMS_INGEST_ASSET'
+              AND    constraint_type = 'C'
+              AND    a.constraint_name = b.constraint_name
+              AND    column_name = 'CC_TYPE') LOOP
+              
+      IF rec.search_condition = '"CC_TYPE" IS NOT NULL' THEN
+         l_not_null_ck := TRUE;
+      END IF; 
+      
+  END LOOP rec;
+  
+  IF NOT l_not_null_ck THEN
+     l_sql := 'ALTER TABLE EAMS_INGEST_ASSET MODIFY CC_TYPE VARCHAR2(20) NOT NULL';
+     
+     EXECUTE IMMEDIATE l_sql;  
+  END IF;  
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_PUBLISH_PACKAGE.PRODUCTION_STATE'
+DECLARE 
+  l_exist BOOLEAN := FALSE; 
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_PUBLISH_PACKAGE ADD CONSTRAINT EAMS_PUBLISH_PACKAGE_CK1 '||CHR(10)||
+                          'CHECK (PRODUCTION_STATE IN (''IN_PROGRESS'',''IN_PRODUCTION'',''NOT_IN_PRODUCTION'', ''TERMINATED'', ''UNKNOWN''))';
+BEGIN
+  FOR rec IN (SELECT b.search_condition
+              FROM   user_cons_columns a,
+                     user_constraints b
+              WHERE  a.table_name = 'EAMS_PUBLISH_PACKAGE'
+              AND    b.table_name = 'EAMS_PUBLISH_PACKAGE'
+              AND    a.constraint_name = b.constraint_name
+              AND    b.constraint_type = 'C'
+              AND    column_name = 'PRODUCTION_STATE') LOOP
+              
+      IF rec.search_condition NOT LIKE '%"PRODUCTION_STATE" IS NOT NULL%' THEN
+         l_exist := TRUE;
+      END IF;
+       
+  END LOOP rec;
+  
+  IF NOT l_exist THEN
+     EXECUTE IMMEDIATE l_sql;     
+  END IF;  
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_AR_MAP_FIELD_INFO.MAP_TYPE'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_AR_MAP_FIELD_INFO_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_AR_MAP_FIELD_INFO ADD (CONSTRAINT EAMS_AR_MAP_FIELD_INFO_CK1 '||CHR(10)||
+                          'CHECK (MAP_TYPE IN (''INPUT'',''OUTPUT''))) ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_AR_MAP_INFO.STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_AR_MAP_INFO_CK2';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_AR_MAP_INFO ADD (CONSTRAINT EAMS_AR_MAP_INFO_CK2 '||CHR(10)||
+                          'CHECK (STATUS IN(''ACTIVE'',''INACTIVE''))) ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_RM_POLL_STATUS.STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RM_POLL_STATUS_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RM_POLL_STATUS ADD (CONSTRAINT EAMS_RM_POLL_STATUS_CK1 '||CHR(10)||
+                          'CHECK (STATUS IN (''INIT'',''STARTED'',''PROGRESS'',''COMPLETED'',''ERROR'',''DELETED''))) ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_CATCHER_MONITOR_FILES.FILE_STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_CATCHER_MONITOR_FILES_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_CATCHER_MONITOR_FILES ADD (CONSTRAINT EAMS_CATCHER_MONITOR_FILES_CK1 '||CHR(10)||
+                          'CHECK (FILE_STATUS IN (''PENDING'',''ERROR'',''IN_PROGRESS''))) ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Recreating check constraint 'EAMS_PUB_ASSET_STATUS_CHECK'
+DECLARE 
+  l_old_ck BOOLEAN := FALSE;
+  l_search_condition VARCHAR2(32000);
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_PUB_ASSET_STATUS_CHECK';
+  l_sql VARCHAR2(2048) := 'ALTER TABLE EAMS_PUBLISH_ASSET DROP CONSTRAINT EAMS_PUB_ASSET_STATUS_CHECK';    
+BEGIN
+  BEGIN 
+    SELECT search_condition
+    INTO   l_search_condition
+    FROM   user_constraints
+    WHERE  constraint_name = l_constraint_name;
+    
+    IF l_search_condition NOT LIKE '%REJECTED%' THEN
+       l_old_ck := TRUE;
+    END IF;
+       
+    EXCEPTION
+      WHEN NO_DATA_FOUND THEN 
+           l_old_ck := NULL;         
+  END;
+  
+  IF l_old_ck THEN
+     EXECUTE IMMEDIATE l_sql;
+  END IF;
+  
+  IF NVL(l_old_ck, TRUE) THEN     
+     l_sql := 'ALTER TABLE EAMS_PUBLISH_ASSET ADD CONSTRAINT EAMS_PUB_ASSET_STATUS_CHECK  '||CHR(10)||
+              'CHECK (STATUS IN(''PUBLISH_PENDING'',''PUBLISH_PROGRESS'',''PUBLISHED'',''DELETED'',''ERROR'', ''REJECTED'')) ';
+
+     EXECUTE IMMEDIATE l_sql;  
+  END IF; 
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_PACKAGE_STORAGE_DETAILS.STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_PKG_STORAGE_DETAILS_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_PACKAGE_STORAGE_DETAILS ADD (CONSTRAINT EAMS_PKG_STORAGE_DETAILS_CK1 '||CHR(10)||
+                          'CHECK (STATUS IN (''NEW'', '||CHR(10)||
+                          '                  ''BACKUP_PROGRESS'', '||CHR(10)||
+                          '                  ''BACKUP_COMPLETE'', '||CHR(10)||
+                          '                  ''BACKUP_ERROR'', '||CHR(10)||
+                          '                  ''ARCHIVED'', '||CHR(10)||
+                          '                  ''RESTORE_PROGRESS'', '||CHR(10)||
+                          '                  ''RESTORE_COMPLETE'', '||CHR(10)||
+                          '                  ''RESTORE_ERROR'', '||CHR(10)||
+                          '                  ''MARKED_FOR_DELETION'', '||CHR(10)||
+                          '                  ''DELETED''))) ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_RESOURCE.RESOURCE_TYPE'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RESOURCE_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE ADD (CONSTRAINT EAMS_RESOURCE_CK1 '||CHR(10)||
+                          'CHECK (RESOURCE_TYPE IN (''FILE'',''DIR''))) ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_RESOURCE.STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RESOURCE_CK2';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE ADD (CONSTRAINT EAMS_RESOURCE_CK2 '||CHR(10)||
+                          'CHECK (STATUS IN (''ACTIVE'',''INACTIVE''))) ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_RESOURCE.PACKAGED'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RESOURCE_CK3';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE ADD (CONSTRAINT EAMS_RESOURCE_CK3 '||CHR(10)||
+                          'CHECK (PACKAGED IN (''Y'',''N''))) ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_RESOURCE_RESOURCE_ASSOC.STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RES_RESOURCE_ASSOC_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE_RESOURCE_ASSOC ADD (CONSTRAINT EAMS_RES_RESOURCE_ASSOC_CK1 '||CHR(10)||
+                          'CHECK (STATUS IN (''ACTIVE'',''INACTIVE''))) ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_RESOURCE_ROLE.ROLE_TYPE'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RESOURCE_ROLE_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE_ROLE ADD (CONSTRAINT EAMS_RESOURCE_ROLE_CK1 '||CHR(10)||
+                          'CHECK (ROLE_TYPE IN (''WORKFLOW'',''WORKSTEP''))) ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_RESOURCE_ROLE.STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RESOURCE_ROLE_CK2';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE_ROLE ADD (CONSTRAINT EAMS_RESOURCE_ROLE_CK2 '||CHR(10)||
+                          'CHECK (STATUS IN (''ACTIVE'',''INACTIVE''))) ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_RESOURCE_ROLE_MAP.STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RESOURCE_ROLE_MAP_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE_ROLE_MAP ADD (CONSTRAINT EAMS_RESOURCE_ROLE_MAP_CK1 '||CHR(10)||
+                          'CHECK (STATUS IN (''ACTIVE'',''INACTIVE''))) ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_RESOURCE_ROLE_MAP.STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RESOURCE_ROLE_MAP_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RESOURCE_ROLE_MAP ADD (CONSTRAINT EAMS_RESOURCE_ROLE_MAP_CK1 '||CHR(10)||
+                          'CHECK (STATUS IN (''ACTIVE'',''INACTIVE''))) ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_RULEGROUP.STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_RULEGROUP_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_RULEGROUP ADD (CONSTRAINT EAMS_RULEGROUP_CK1 '||CHR(10)||
+                          'CHECK (STATUS IN (''ACTIVE'',''INACTIVE''))) ';
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_WORKFLOW_OP_TRANS.STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKFLOW_OP_TRANS_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKFLOW_OP_TRANS ADD (CONSTRAINT EAMS_WORKFLOW_OP_TRANS_CK1 '||CHR(10)||
+                          'CHECK (STATUS IN (''STARTED'',''PROGRESS'',''COMPLETED'',''ERROR'',''SUSPENDED'',''CANCELLED''))) ';                          
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_WORKFLOW_WORKSTEP_ASSOC.STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WF_WORKSTEP_ASSOC_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKFLOW_WORKSTEP_ASSOC ADD (CONSTRAINT EAMS_WF_WORKSTEP_ASSOC_CK1 '||CHR(10)||
+                          'CHECK (STATUS IN (''ACTIVE'',''INACTIVE''))) ';                          
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_WORKSTEP.STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP ADD (CONSTRAINT EAMS_WORKSTEP_CK1 '||CHR(10)||
+                          'CHECK (STATUS IN (''ACTIVE'',''INACTIVE''))) ';                       
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+        
+PROMPT Creating check constraint on 'EAMS_WORKSTEP_ROLE_ASSOC'
+DECLARE
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_ROLE_ASSOC_CK1';
+  l_dummy INTEGER;
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP_ROLE_ASSOC ADD (CONSTRAINT EAMS_WORKSTEP_ROLE_ASSOC_CK1 '||CHR(10)||
+                          'CHECK (WORKSTEP_TYPE IN (''SINGLE-RESOURCE'',''SINGLE-RESOURCEGROUP'',''MULTIPLE-RESOURCE'',''MULTIPLE-RESOURCEGROUP''))) ';
+BEGIN
+  SELECT 1
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_WORKSTEP_RULEGROUP_ASSOC.STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_RG_ASSOC_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP_RULEGROUP_ASSOC ADD (CONSTRAINT EAMS_WORKSTEP_RG_ASSOC_CK1 '||CHR(10)||
+                          'CHECK (STATUS IN (''ACTIVE'',''INACTIVE''))) ';                
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/
+
+PROMPT Creating check constraint on 'EAMS_WORKSTEP_TRANS.STATUS'
+DECLARE 
+  l_constraint_name CONSTANT VARCHAR2(30) := 'EAMS_WORKSTEP_TRANS_CK1';
+  l_dummy INTEGER;  
+  l_sql VARCHAR2(1024) := 'ALTER TABLE EAMS_WORKSTEP_TRANS ADD (CONSTRAINT EAMS_WORKSTEP_TRANS_CK1 '||CHR(10)||
+                          'CHECK (STATUS IN (''STARTED'',''PROGRESS'',''COMPLETED'',''ERROR'',''SUSPENDED'',''CANCELLED''))) ';              
+BEGIN
+  SELECT 1     
+  INTO   l_dummy
+  FROM   user_constraints
+  WHERE  constraint_name = l_constraint_name;
+  
+  EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+         EXECUTE IMMEDIATE l_sql;
+END;
+/

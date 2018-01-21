@@ -1,0 +1,9 @@
+how to make use of index in orcle query
+
+
+/*+ index(tablenamealias indexname) */
+
+
+/*+ index(tablename indexname) */
+
+Index Name	ADP_STATUS_BMP_IDX

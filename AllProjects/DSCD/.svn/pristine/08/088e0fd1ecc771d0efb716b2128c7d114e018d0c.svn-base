@@ -1,0 +1,23 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Organizations Participating in Delivery Scorecard</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <A NAME="c4fcc626"></A><IMG SRC="DSCDWRLD.gif" WIDTH="38" HEIGHT="32" VSPACE="0" HSPACE="0" ALT="DSCDWRLD.gif" BORDER="0"><B>Organizations
+    Participating in Delivery Scorecard</B></P>
+  <P>
+   Tyco Electronics organization that supply delivery performance data 
+   to the <A HREF="Dsc00099.htm">TED</A>.
+ </BODY>
+</HTML>

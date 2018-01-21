@@ -1,0 +1,21 @@
+connect SYS/change_on_install as SYSDBA
+set echo on
+spool /oracle/oradata/admin/SID/create/CreateDB.log
+startup nomount pfile="/oracle/oradata/admin/SID/pfile/init.ora";
+CREATE DATABASE SID
+MAXINSTANCES 1
+MAXLOGHISTORY 1
+MAXLOGFILES 32
+MAXLOGMEMBERS 5
+MAXDATAFILES 512
+DATAFILE '/u11/oradata/SID/system01.dbf' SIZE 1000M REUSE AUTOEXTEND ON NEXT  100M MAXSIZE 4000M EXTENT MANAGEMENT LOCAL
+UNDO TABLESPACE "UNDOTBS" DATAFILE '/u12/oradata/SID/undotbs01.dbf' SIZE 500M REUSE AUTOEXTEND ON NEXT  100M MAXSIZE 4000M
+DEFAULT TEMPORARY TABLESPACE "TEMP" TEMPFILE '/u15/oradata/SID/temp01.dbf' SIZE 500M REUSE AUTOEXTEND ON NEXT  10M MAXSIZE 4000M EXTENT MANAGEMENT LOCAL
+CHARACTER SET US7ASCII
+NATIONAL CHARACTER SET AL16UTF16
+LOGFILE GROUP 1 ('/u13/oradata/SID/redo11.log', '/u14/oradata/SID/redo12.log') SIZE 256M,
+GROUP 2 ('/u13/oradata/SID/redo21.log', '/u14/oradata/SID/redo22.log') SIZE 256M,
+GROUP 3 ('/u13/oradata/SID/redo31.log', '/u14/oradata/SID/redo32.log') SIZE 256M,
+GROUP 4 ('/u13/oradata/SID/redo41.log', '/u14/oradata/SID/redo42.log') SIZE 256M;
+spool off
+exit;

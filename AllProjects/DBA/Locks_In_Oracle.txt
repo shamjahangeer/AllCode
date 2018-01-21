@@ -1,0 +1,1 @@
+http://www.indiana.edu/~dbateam/Documents/oracle_locking.ppt#281,20,Oracle Table Lock Mode Table

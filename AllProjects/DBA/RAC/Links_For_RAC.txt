@@ -1,0 +1,4 @@
+http://www.oracledba.org/11gR2/Pre_Install_11gR2.htm
+
+
+http://www.oracledba.org/

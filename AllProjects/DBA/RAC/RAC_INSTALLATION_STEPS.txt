@@ -1,0 +1,31 @@
+RAC node          Database Name   Oracle SID  $ORACLE_BASE      Oracle Datafile Directory
+---------------   -------------   ----------  ---------------   ----------------------------------
+rac1pub/rac1prv   orcl            orcl1       /u01/app/oracle   Automatic Storage Management (ASM)
+rac2pub/rac2prv   orcl            orcl2       /u01/app/oracle   Automatic Storage Management (ASM)
+rac3pub/rac3prv   orcl            orcl3       /u01/app/oracle   Automatic Storage Management (ASM
+
+
+
+-------------------------------------
+->ORACLE cLUSTER READY sERVICES(CRS)::
+
+ It requires two files..oracle cluster registry(OCR) and CRS Voting Disk file which must
+be shared across all nodes.
+To store this file we can use either raw devices or ocfs.
+We cannot use ASM
+These CRS files need to be available for any RAC instance to run.
+Oracle's data files, control files are stored in ASM
+The shared storage space can be used as raw devices, or by using a cluster file system or ASM.
+
+
+->Fire wire based shared storage
+It is very important to get an external FireWire drive that allows concurrent access for more than one server.
+Otherwise the disk(s) and partitions can only be seen by one server at a time.
+
+------
+
+->For installing the oracle RAC we need sofwares for 1) Cluster Ready Services 10.1.0.2 and 2) oracle database 10g 10.1.0.2)
+
+
+
+

@@ -1,0 +1,332 @@
+=>Verify all instances are up
+
+=>Verify the alert log entries(alert_sid.log)
+
+Go to $ORACLE_BASE/<SID>/bdump/
+
+
+tail -f alert_sid.log
+
+Most common errors you see in the alert log files
+
+ #Arcx:Media Recovery disabled
+
+This message will be written into the alert.log if the arch process is started with the database being in noarchive log mode.
+It's unfortunately possible for ARCH to be sitting around doing nothing apart from just taking up memory when the database is in noarchive log mode.
+The archiver can be stopped dynamically: alter system archive log stop.
+
+#If there is any dead locks.Error message will be written to the alert log files
+
+#If any Error in the materliazed views at the time of refresh
+
+#Startup and shutdown instances
+
+#Create Drop,Alter sql statemtents on the databases,tabespaces,rollback segments
+
+#Any of the background process such as dbwr,lgwr,pmon,smon encounters any exception they will write to the trace files
+
+#ORA-00600 internal errors.This comes with the square bracket after the errors.May be due to memory leak
+
+#Any block corruption
+
+
+If you find any oracle errors then you should enter that in database_recovery file
+
+Database_recovery file is the one which you create for entering the oracle errors and 
+fix for that.
+
+
+select  value from v$parameter where upper(name)='BACKGROUND_DUMP_DEST';
+
+
+=>Verify that simple network management protocol (snmp) subagent for the oracle database
+dbsnmp is running(not required to check if the database is 10 and above)
+
+To check the dbsnmp process
+
+ps -ef|grep dbsnmp
+
+
+There should be two dbsnmp process running.If not restart dbsnmp
+
+
+=>Verify the database backup was successful
+
+=>Verify that database archiving to tape was successful
+
+=>Verify that you have enough resources for acceptable performances for the following
+
+1)For each instance, make sure that enough free space
+exists in each tablespace to handle the day’s expected
+growth. When incoming data is stable and the average
+daily growth can be calculated, your minimum
+free space should at least equal the amount of data
+growth you expect during the time it will take to order,
+receive, and install additional disks.
+
+2)Verify the rollback segments
+use v$rollstat to verify the status.The status should be online not offline or full
+Note:Except Any special big rollback segments for performing batch jobs whose normal status is offline.
+
+3)For each database you may have a list of rollback segments and expected status.This is optional.
+
+use dba_rollback_segs for segment name and status is less accurate than v$rollstat
+for pending offline it shows the status as offline and full it shows the status as online
+
+
+
+=>Identify the bad growth projections
+
+select (select sum(bytes/1048576) from dba_data_files) "Data Mb", 
+(select NVL(sum(bytes/1048576),0) from dba_temp_files) "Temp Mb",
+(select sum(bytes/1048576)*max(members) from v$log) "Redo Mb",
+(select sum(bytes/1048576) from dba_data_files) +
+(select NVL(sum(bytes/1048576),0) from dba_temp_files) +
+(select sum(bytes/1048576)*max(members) from v$log) "Total Mb"
+from dual;
+
+keep the value in the excel sheet everday and the next day value-current day value 
+gives you the data growth
+
+
+=>Identify the extents growing for the tablespace
+
+select SUM(BYTES) from dba_segments where tablespace_name='SYSTEM'
+
+select * from dba_tablespaces where tablespace_name='SYSTEM'
+
+or 
+
+SELECT e.owner, e.segment_type , e.segment_name , count(*) as nr_extents , s.max_extents
+, to_char ( sum ( e.bytes ) / ( 1024 * 1024 ) , '999,999.90') as MB
+FROM dba_extents e , dba_segments s
+WHERE e.segment_name = s.segment_name
+  AND e.owner = s.owner              -- 2001.10.19 Evgueni B. fix
+GROUP BY e.owner, e.segment_type , e.segment_name , s.max_extents
+--HAVING count(*) > &THRESHOLD 
+--    OR ( ( s.max_extents - count(*) ) < &&THRESHOLD )
+ORDER BY count(*) desc
+
+
+Note:if the next extens are more than the tablespace size then performance of the database degrades.
+For defragmentation of the tablespace
+
+
+
+alter tablespace tablespacename coalesce;
+
+=>Review contentions for cpu,memory,network and disk resources
+
+
+
+=>Identify the space bound objects
+
+SELECT a.table_name, a.next_extent, a.tablespace_name
+FROM all_tables a,
+    ( SELECT tablespace_name, max(bytes) as big_chunk
+      FROM dba_free_space
+      GROUP BY tablespace_name ) f
+WHERE f.tablespace_name = a.tablespace_name
+                AND a.next_extent > f.big_chunk;
+
+
+=>Copy archived logs to standby database and rollforward
+
+
+=>Spend atleast one hour a day for reading dba books
+
+
+Nightly DBA Procedures
+--------------------------------------------------------------
+
+=>Take the count of all rows to find the volumetric data.
+
+CREATE TABLE utl_vol_facts
+ (
+  table_name                 VARCHAR2(30),
+  num_rows                   NUMBER,
+  meas_dt                    DATE
+ )
+TABLESPACE platab
+ STORAGE   (
+      INITIAL     128k
+      NEXT        128k
+      PCTINCREASE 0
+      MINEXTENTS  1
+      MAXEXTENTS  unlimited
+   )
+/
+
+select table_name
+     , NVL ( num_rows, 0) as num_rows
+     , trunc ( last_analyzed ) as meas_dt
+from all_tables           -- or just user_tables
+where owner in ('SYS') -- or a comma-separated list of owners
+
+-- Public Synonym
+
+CREATE PUBLIC SYNONYM utl_vol_facts FOR &OWNER..utl_vol_facts
+/
+
+-- Grants for UTL_VOL_FACTS
+
+GRANT SELECT ON utl_vol_facts TO public
+/
+
+=>Analyze the schema using compute
+
+BEGIN
+   sys.dbms_utility.analyze_schema ( '&OWNER','COMPUTE');
+END ;
+/
+
+Weekely Procedures
+---------------------------
+
+=>Look for the object that break rules
+
+ex1:-Find the next extents of the tables which are not equal to the default next extents of the tablespace.
+Next_extent of table and tablespace should be equal
+Generally 2gb is allocated to the extents and 265kb is allocated to the index tablespace.
+
+
+SELECT segment_name, segment_type, ds.next_extent as Actual_Next
+, dt.tablespace_name,  dt.next_extent as Default_Next
+FROM dba_tablespaces dt, dba_segments ds
+WHERE dt.tablespace_name = ds.tablespace_name
+  AND dt.next_extent !=ds.next_extent
+AND ds.owner = UPPER ( '&OWNER' )
+ORDER BY tablespace_name, segment_type, segment_name
+
+ex2:--- This tells us how many of each object's extents differ in size from
+-- the tablespace's default size. If this report shows a lot of different
+-- sized extents, your free space is likely to become fragmented.  If so,
+-- this tablespace is a candidate for reorganizing.
+--
+-- 12/15/98
+
+SELECT segment_name, segment_type
+, count(*) as nr_exts
+, sum ( DECODE ( dx.bytes,dt.next_extent,0,1) ) as nr_illsized_exts
+, dt.tablespace_name, dt.next_extent as dflt_ext_size
+FROM dba_tablespaces dt, dba_extents dx
+WHERE dt.tablespace_name = dx.tablespace_name
+  AND dx.owner = '&OWNER'
+GROUP BY segment_name, segment_type, dt.tablespace_name, dt.next_extent
+
+
+
+ex3:-All tables should have unique primary keys.  
+
+SELECT table_name
+FROM all_tables
+WHERE owner = '&OWNER'
+MINUS
+SELECT table_name
+FROM all_constraints
+WHERE owner = '&&OWNER'
+AND constraint_type = 'P'
+
+
+ex4:-Find which primary key are disabled
+
+SELECT owner, constraint_name, table_name, status
+FROM all_constraints
+WHERE owner = '&OWNER' AND status = 'DISABLED’ AND constraint_type = 'P'
+
+ex5:-All indexes should use index tablespace
+
+SELECT 'alter index ' || index_name || ' rebuild '
+     , 'tablespace INDEXES storage '
+     || ' ( initial 256 K next 256 K pctincrease 0 ) ; '
+FROM all_indexes
+WHERE ( tablespace_name != 'INDEXES')
+
+ex6:-To check datatype consistency between two environments
+
+SELECT
+   table_name,
+   column_name,
+   data_type,
+   data_length,
+   data_precision,
+   data_scale,
+   nullable
+FROM all_tab_columns -- first environment
+WHERE owner = '&OWNER' 
+MINUS
+SELECT
+   table_name,
+   column_name,
+   data_type,
+   data_length,
+   data_precision,
+   data_scale,
+   nullable
+FROM all_tab_columns@&my_db_link  -- second environment
+WHERE owner = '&OWNER2' 
+order by table_name, column_name
+
+
+ex7:-To find out any difference in objects between two instances
+
+
+SELECT object_name, object_type
+FROM user_objects
+MINUS
+SELECT object_name, object_type
+FROM user_objects@&my_db_link
+
+=>Look for security policy violations
+
+
+=>Look for any sql*net logs for errors(YOu find this in 
+
+both client side and server side
+
+=>Archive alert logs file to history
+
+----------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-

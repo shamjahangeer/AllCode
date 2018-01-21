@@ -1,0 +1,6 @@
+select 'alter system kill session '||''''||sid||','||serial||''';' as stmt
+                from (
+                   select s.sid, s.serial# as serial, s.status, p.spid
+                   from v$session s, v$process p
+                   where s.username = 'SGIA_RADAR'  and status = 'INACTIVE'
+                  and p.addr (+) = s.paddr);

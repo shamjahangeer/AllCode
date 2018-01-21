@@ -1,0 +1,13 @@
+eamsmil4_srv1.am.mot.com =
+ (DESCRIPTION =
+  (ADDRESS = (PROTOCOL = TCP)(HOST = nj18-eamsdbn2-vip)(PORT = 1521))
+  (ADDRESS = (PROTOCOL = TCP)(HOST = nj18-eamsdbn1-vip)(PORT = 1521))
+  (LOAD_BALANCE = YES)
+  (CONNECT_DATA =
+   (SERVER = DEDICATED)
+   (SERVICE_NAME = eamsmil4_srv1)
+   (FAILOVER_MODE =
+   (TYPE = SELECT)(METHOD = BASIC)(RETRIES = 180)(DELAY = 5)
+   )
+  )
+ )

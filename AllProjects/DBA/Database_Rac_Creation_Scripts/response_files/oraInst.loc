@@ -1,0 +1,4 @@
+#Oracle Installer Location File Location
+#Tue Jul 08 08:56:39 EDT 2003
+inst_group=oinstall
+inventory_loc=/opt/db01/app/oracle/oraInventory

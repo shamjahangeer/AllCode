@@ -1,0 +1,80 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Comparison Type (Summary Type)</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <B>Comparison Type (Summary Type)</B></P>
+  <P>
+   The two specific dates you wish to have compared.</P>
+  <P>
+   <TABLE WIDTH="350" CELLPADDING="1" CELLSPACING="2" BORDER="0">
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       <B>Date Comparison</B></P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       <B>Dates Compared</B></P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;<BR>
+      </TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Schedule to Ship<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       <A HREF="Dsc00288.htm">Schedule Date</A><BR>
+       compared to<BR>
+       <A HREF="Dsc00289.htm">Shipped Date</A></P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;<BR>
+      </TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Request to Ship<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       <A HREF="Dsc00295.htm">Customer Requested Date</A><BR>
+       Compared to<BR>
+       <A HREF="Dsc00289.htm">Shipped Date</A></P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;<BR>
+      </TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Request to Schedule<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       <A HREF="Dsc00295.htm">Customer Requested Date</A><BR>
+       Compared to<BR>
+       <A HREF="Dsc00288.htm">Schedule Date</A></P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;<BR>
+      </TD>
+    </TR>
+   </TABLE>
+ </BODY>
+</HTML>

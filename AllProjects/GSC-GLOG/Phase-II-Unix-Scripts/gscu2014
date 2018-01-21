@@ -1,0 +1,61 @@
+#!/bin/ksh
+#set -x
+
+###################################################################################################
+# Name:    gscu2014
+# Purpose: Populate KPI summaries for the GLOG TFDS Metrics (Spend On Freight Services (Excl Duty)).
+# History:
+#          08/01/2011  Kumar Emany       Original Version.
+###################################################################################################
+
+###################################################################################################
+# Execute boiler plate to set environment
+###################################################################################################
+
+. /d013/project/gsc/scripts/gscu0000
+
+###################################################################################################
+
+JOBID=gscu2014
+mmsg "Job $JOBID - Populate KPI summaries for the GLOG TFDS Metrics - Started." > $LOGDIR/$JOBID.log
+
+RESULT=`sqlplus -s @$GSCSOURCEPASS <<EOF
+SET SERVEROUTPUT ON;
+SET FEEDBACK OFF;
+WHENEVER OSERROR  exit 1
+WHENEVER SQLERROR exit 1
+
+DECLARE
+   v_io_status   VARCHAR2(100);
+   v_io_sqlcode  NUMBER;
+   v_io_sqlerrm  VARCHAR2(2000);
+BEGIN
+   GSC_GLOG_KPI.TFDS_METRICS(v_io_status, v_io_sqlcode, v_io_sqlerrm);
+   IF v_io_status != 'OK' then
+      RAISE_APPLICATION_ERROR( -20001, 'SQLCODE:'||' '||v_io_sqlcode||' '||'SQLERRM:'||' '||v_io_sqlerrm);
+   END IF;
+EXCEPTION
+   WHEN OTHERS THEN
+      RAISE_APPLICATION_ERROR( -20001, 'SQLCODE:'||' '||v_io_sqlcode||' '||'SQLERRM:'||' '||SQLERRM);
+END;
+/
+EXIT
+EOF`
+
+if [ $? -ne 0 ]; then
+   echo "$RESULT" >> $LOGDIR/$JOBID.log
+   mmsg "Job $JOBID - Populate KPI summaries for the GLOG TFDS Metrics - Failed" >> $LOGDIR/$JOBID.log
+   cat $LOGDIR/$JOBID.log
+   mailx -s "Job $JOBID - $HOST_NAME - Populate KPI summaries for the GLOG TFDS Metrics - Failed" $GSC_Email <$LOGDIR/$JOBID.log
+   exit 1;
+fi
+
+###################################################################################################
+
+mmsg "Job $JOBID - Populate KPI summaries for the GLOG TVH Metrics - Completed Successfully." >> $LOGDIR/$JOBID.log
+cat $LOGDIR/$JOBID.log
+mailx -s "Job $JOBID - $HOST_NAME - Populate KPI summaries for the GLOG TVH Metrics - Completed Successfully." $GSC_Email <$LOGDIR/$JOBID.log
+
+###################################################################################################
+
+exit 0

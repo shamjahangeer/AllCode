@@ -1,0 +1,5 @@
+    (SID_DESC =
+      (ORACLE_HOME = /oracle/ora9i/product/9iR2)
+      (SID_NAME = DBSID)
+    )
+  #TAG#

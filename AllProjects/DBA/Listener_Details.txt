@@ -1,0 +1,60 @@
+http://psoug.org/reference/listener.html
+
+-----------------------------------------
+
+Some time if you face problem in listener
+
+ORA-00119: invalid specification for system parameter LOCAL_LISTENER
+ORA-00132: syntax error or unresolved network name 'LISTENER_SCRUM1'
+
+-------------------------------------------------------------------------
+
+change in the tnsnames.ora and listener.ora file to name of the listener created and the port number
+you can check the name of the listner using lsnrctl status in bin directory
+
+Location of tnsentry /opt/db02/app/oracle/product/11.1.0/db_1/network/admin
+
+examples:
+
+existing
+
+LISTENER_ivtfin=
+  (ADDRESS = (PROTOCOL = TCP)(HOST = eamsdb-03.migv.mot.com)(PORT = 1533))
+
+changed to 
+
+LISTENER=
+  (ADDRESS = (PROTOCOL = TCP)(HOST = eamsdb-03.migv.mot.com)(PORT = 1533))
+
+then give the command alter system set LOCAL_LISTENER=LISTENER;
+
+shutdown and restart it should work
+
+
+------------------------------------------------
+Find oracle parameter file
+
+/opt/db02/app/oracle/product/11.1.0/db_1/dbs/spfilescrum1.ora
+
+'/opt/db02/app/oracle/product/11.1.0/db_1/dbs/pfilescrum1.ora'
+
+
+eams41
+
+/opt/db02/app/oracle/product/11.1.0/db_1/dbs/spfileeams41.ora
+---------------------------------------------------------
+
+if you are not able to create the listener on the same port then create the listener on different
+port and change the port number in tns entry.This is also one way to solve the issue
+
+
+-------------------------------------------------
+
+
+still not working then change the hostname to ip address where database resides
+
+
+Link for listener setting
+
+http://www.ardentperf.com/2007/04/02/local_listener-and-ora-12545/
+

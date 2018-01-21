@@ -1,0 +1,27 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Daily Date Range</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <B>Daily Date Range</B></P>
+  <P>
+   The Daily Date Range is one of two date range choices in Delivery Scorecard.</P>
+  <P>
+   It's format is YYYY-MM-DD through YYYY-MM-DD. Use of the Daily Date 
+   Range is selected on the Search Criteria screen by clicking the radio 
+   button to the left of the Daily Date Range Choice.</P>
+  <P>
+   Note that there is a maximum range of 35-days when using this option.
+ </BODY>
+</HTML>

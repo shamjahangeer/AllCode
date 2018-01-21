@@ -1,0 +1,49 @@
+SELECT  
+          V.VENDOR_VENDORID,
+          EIP.ITEM_CATEGORY_ID,
+          EIP.ITEM_CATEGORY_VERSION,
+          'N/A' PUBLISH_VERSION,
+          'N/A' TARGET_PLATFORM,
+          'INBOUND' APPLICATION,
+          EWT.WORKFLOW_TRANS_ID,
+          EIP.CATCHER_ID NE_ID,
+          MTD.APP_DATA_NAME,
+          MTD.APP_DATA_VALUE,
+          EWT.WORKFLOW_OP_ID,
+          EWT.REPROCESS,
+          EIP.STATUS
+     FROM EAMS_INGEST_PKG_APP_DATA MTD,
+          EAMS_INGEST_PACKAGE EIP,
+          EAMS_WORKFLOW_TRANS EWT,
+          CCE_ITEM_CATEGORY CI,
+          CCE_VENDOR_INFO V,
+          (SELECT item_category_id, item_category_version, workflow_trans_id
+             FROM eams_qa_asset
+            WHERE status IN
+                     ('QA_PENDING', 'QA_PROGRESS', 'ERROR', 'QA_COMPLETE')
+           UNION
+           SELECT item_category_id, item_category_version, workflow_trans_id
+             FROM eams_adapt_asset
+            WHERE status IN
+                     ('TRX_PENDING',
+                      'TRX_PROGRESS',
+                      'TRX_COMPLETE',
+                      'ENC_PENDING',
+                      'ENC_PROGRESS',
+                      'ENC_COMPLETE',
+                      'QA_PENDING',
+                      'QA_PROGRESS',
+                      'QA_COMPLETE')) PP
+    WHERE MTD.ITEM_CATEGORY_ID = EIP.ITEM_CATEGORY_ID
+          AND MTD.ITEM_CATEGORY_VERSION =EIP.ITEM_CATEGORY_VERSION
+          AND(EIP.WORKFLOW_TRANS_ID= EWT.WORKFLOW_TRANS_ID
+               OR PP.WORKFLOW_TRANS_ID = EWT.WORKFLOW_TRANS_ID)
+          --and MTD.APP_DATA_NAME IN('Licensing_Window_Start','Category','Suggested_Price')
+          AND EIP.STATUS NOT IN ('INACTIVE', 'REJECTED')
+          AND CI.ITEM_CATEGORY_ID = EIP.ITEM_CATEGORY_ID
+          AND CI.ITEM_CATEGORY_VERSION = EIP.ITEM_CATEGORY_VERSION
+          AND CI.IC_PROVIDER_ID = V.VENDOR_ID
+          AND PP.ITEM_CATEGORY_ID = EIP.ITEM_CATEGORY_ID
+          AND PP.ITEM_CATEGORY_VERSION = EIP.ITEM_CATEGORY_VERSION
+         AND EIP.WORKFLOW_TRANS_ID  IS NOT NULL
+         AND CI.IC_PROVIDER_ID IS NOT NULL

@@ -1,0 +1,98 @@
+=>Which are the default passwords of SYSTEM/SYS?
+ MANAGER / CHANGE_ON_INSTALL
+=>How can you execute a script file in SQLPLUS?
+ To execute a script file in SQLPlus, type @ and then the file name.
+=>Where can you find official Oracle documentation?
+ tahiti.oracle.com
+=>What is the address of the Official Oracle Support?
+ metalink.oracle.com or support.oracle.com
+=>What file will you use to establish Oracle connections from a remote client?
+ tnsnames.ora
+=>How can you check if the database is accepting connections?
+ lsnrctl status or lsnrctl services
+=>Which log would you check if a database has a problem
+ Alert log
+=>Name three clients to connect with Oracle,
+ SQL Developer SQL Developer, SQL-Plus, TOAD, dbvisualizer, PL/SQL Developer
+
+=>How can you check the structure of a table from sqlplus?
+desc table
+
+=>What command will you start to run the installation of Oracle software on Linux?
+ runInstaller
+
+=>Daily activities of DBA
+
+ see daily dba tasks notes
+
+=>What should you do if you encounter an ORA-600?
+ Contact Oracle Support
+
+=>Explain the differences between PFILE and SPFILE
+
+A PFILE is a Static, text file that initialices the database parameter in the moment that it’s started.
+ If you want to modify parameters in PFILE, you have to restart the database.
+A SPFILE is a dynamic, binary file that allows you to overwrite parameters while the database is already started (with some exceptions)
+
+=>In which Oracle version was Data Pump introduced?
+Oracle 10g
+
+=>Say two examples of DML, two of DCL and two of DDL
+DML: SELECT, INSERT, UPDATE, DELETE, MERGE, CALL, EXPLAIN PLAN, LOCK TABLE
+DDL: CREATE, ALTER, DROP, TRUNCATE, COMMENT, RENAME
+DCL: GRANT, REVOKE
+
+=>You want to save the output of an Oracle script from sqlplus. How would you do it?
+ spool script_name.txt
+select * from your_oracle_operations;
+spool off;
+
+=>What is the most important requirement in order to use RMAN to make consistent hot backups?
+A- Your database has to be in ARCHIVELOG mode.
+
+=> Can you connect to a local database without a listener?
+yes,you can
+
+=>In which view can you find information about every view and table of oracle dictionary?
+dict or dictionary
+
+=>How can you view all the users account in the database?
+SELECT USERNAME FROM DBA_USERS;
+
+=>In linux, how can we change which databases are started during a reboot?
+edit /etc/oratab
+
+=>When a user process fails, what Oracle background process will clean after it?
+pmon
+
+=>How can you reduce the space of TEMP datafile?
+Prior to Oracle 11g, you had to recreate the datafile. In Oracle 11g a new feature was introduced, and you can shrink the TEMP tablespace
+
+=>How can you view all the current users connected in your database in this moment?
+A- SELECT COUNT(*),USERNAME FROM V$SESSION GROUP BY USERNAME;	
+
+=>Explain the differences between SHUTDOWN, SHUTDOWN NORMAL, SHUTDOWN IMMEDIATE AND SHUTDOWN ABORT
+A- SHUTOWN NORMAL = SHUTDOWN : It waits for all sessions to end, without allowing new connections.
+SHUTDOWN IMMEDIATE : Rollback current transactions and terminates every session.
+SHUTDOWN ABORT : Aborts all the sessions, leaving the database in an inconsistent state. It’s the fastest method, but can lead to database corruption.
+
+=>Is it possible to backup your database without the use of an RMAN database to store the catalog?
+A- Yes, but the catalog would be stored in the controlfile.
+
+=> Which are the main components of Oracle Grid Control?
+OMR (Oracle Management Repository), OMS (Oracle Management Server) and OMA (Oracle Management Agent)
+
+=>What command will you use to navigate through ASM files?
+asmcmd
+
+=>What is the difference between a view and a materialized view?
+A view is a select that is executed each time an user accesses to it. A materialized view stores the result of this query in memory for faster access purposes.
+
+=>Which one is faster: DELETE or TRUNCATE?
+TRUNCATE
+
+=>Q- Are passwords in oracle case sensitive?
+ Only since Oracle 11g.
+
+
+

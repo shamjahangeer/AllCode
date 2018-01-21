@@ -1,0 +1,68 @@
+CREATE OR REPLACE PROCEDURE TABLES_COMPARISON_PRC(P_USER VARCHAR2)   IS
+                
+CURSOR TABLE_COMPARISON_CUR IS
+                            SELECT HISTORY_TABLE_NAMES,MASTER_TABLE_NAMES
+                            FROM TABLE_COMPARISON_TAB;
+                            
+CURSOR TABLES_COLUMN_DIFF_CUR(P_TABLE_NAME VARCHAR2,P_HIST_TABLE_NAME VARCHAR2) IS
+                            (SELECT     COLUMN_NAME, DATA_TYPE
+                            FROM     ALL_TAB_COLUMNS
+                            WHERE     TABLE_NAME =P_TABLE_NAME
+                            AND OWNER =P_USER
+                            MINUS
+                            SELECT
+                            COLUMN_NAME , DATA_TYPE
+                            FROM
+                            ALL_TAB_COLUMNS
+                            WHERE
+                            TABLE_NAME = P_HIST_TABLE_NAME
+                            AND OWNER =P_USER);
+CURSOR TABLE_COUNT_CUR(P_TABLE_NAME VARCHAR2,P_HIST_TABLE_NAME VARCHAR2) IS
+                         SELECT COUNT(1)
+						 FROM (SELECT     COLUMN_NAME, DATA_TYPE
+                            FROM     ALL_TAB_COLUMNS
+                            WHERE     TABLE_NAME =P_TABLE_NAME
+                            AND OWNER =P_USER
+                            MINUS
+                            SELECT
+                            COLUMN_NAME , DATA_TYPE
+                            FROM
+                            ALL_TAB_COLUMNS
+                            WHERE
+                            TABLE_NAME = P_HIST_TABLE_NAME
+                            AND OWNER =P_USER);
+
+
+
+						 
+V_MTABLE_HTABLE_NAME TABLE_COMPARISON_CUR%ROWTYPE; 
+V_COLUMN_DIFF TABLES_COLUMN_DIFF_CUR%ROWTYPE;
+V_COUNT NUMBER;
+BEGIN
+
+    OPEN TABLE_COMPARISON_CUR;
+    LOOP
+        FETCH TABLE_COMPARISON_CUR INTO V_MTABLE_HTABLE_NAME;
+        EXIT WHEN TABLE_COMPARISON_CUR% NOTFOUND;
+		OPEN TABLE_COUNT_CUR(V_MTABLE_HTABLE_NAME.MASTER_TABLE_NAMES,V_MTABLE_HTABLE_NAME.HISTORY_TABLE_NAMES);
+		FETCH TABLE_COUNT_CUR INTO V_COUNT;
+		
+		IF (V_COUNT > 0) THEN 
+			DBMS_OUTPUT.PUT_LINE('History table:'||V_MTABLE_HTABLE_NAME.HISTORY_TABLE_NAMES||' has differences for the following column');
+			DBMS_OUTPUT.PUT_LINE('==========================================================================================');
+        END IF;
+		OPEN TABLES_COLUMN_DIFF_CUR(V_MTABLE_HTABLE_NAME.MASTER_TABLE_NAMES,V_MTABLE_HTABLE_NAME.HISTORY_TABLE_NAMES);
+         LOOP
+              FETCH TABLES_COLUMN_DIFF_CUR INTO V_COLUMN_DIFF;
+              EXIT WHEN TABLES_COLUMN_DIFF_CUR% NOTFOUND;
+              DBMS_OUTPUT.PUT_LINE('Column_Name: '||V_COLUMN_DIFF.COLUMN_NAME||', Data_Type: '||V_COLUMN_DIFF.DATA_TYPE);  
+         END LOOP;
+         CLOSE TABLES_COLUMN_DIFF_CUR;
+	    IF (V_COUNT > 0) THEN         
+			DBMS_OUTPUT.PUT_LINE('==========================================================================================');
+		END IF;
+	 CLOSE TABLE_COUNT_CUR;
+    END LOOP;
+    CLOSE TABLE_COMPARISON_CUR;
+
+END; 

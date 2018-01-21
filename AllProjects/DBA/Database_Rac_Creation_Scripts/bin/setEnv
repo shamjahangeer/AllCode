@@ -1,0 +1,67 @@
+#! /bin/ksh
+
+
+ORACLE_HOME=^ORACLE_HOME^
+
+INSTALLER_HOME=^INSTALLER_TEMP_DIR^
+INSTALLER_TEMP_DIR=^INSTALLER_TEMP_DIR^
+
+HOST1=`scstat -n | grep node | cut -d' ' -f9 | head -1`
+HOST2=`scstat -n | grep node | cut -d' ' -f9 | tail -1`
+REMOTEHOST=""
+HOSTNAME=`hostname`
+if [ "$HOSTNAME" = "$HOST1" ]
+then
+        REMOTEHOST=$HOST2
+else
+        REMOTEHOST=$HOST1
+fi
+
+DB_NAME=^DB_NAME^
+LISTENER1_IP=^LISTENER1_IP^
+LISTENER2_IP=^LISTENER2_IP^
+DOMAIN_NAME=^DOMAIN_NAME^
+BILLING_DB_NAME=^BILLING_DB_NAME^
+HOST1_IP=^HOST1_IP^ 
+HOST2_IP=^HOST2_IP^
+DISK_LAUNCH_STAGING=^DEF_DISK_LAUNCH_STAGING^
+PATH=$PATH:.
+
+
+############### Setting SUBSYSTEM ################
+SUBSYSTEM_COMBINED=^DEF_SUBSYSTEM_TYPE^
+
+echo $SUBSYSTEM_COMBINED | grep SM > /dev/null
+if [ $? -eq 0 ]
+then
+	SUBSYSTEM="SM"
+fi
+echo $SUBSYSTEM_COMBINED | grep SI > /dev/null
+if [ $? -eq 0 ]
+then
+	SUBSYSTEM="SI"
+fi
+echo $SUBSYSTEM_COMBINED | grep SC > /dev/null
+if [ $? -eq 0 ]
+then
+	SUBSYSTEM="SC"
+fi
+##################################################
+############### Setting SM DB Type ################
+SM_DB_TYPE_COMBINED=^DEF_SM_DB_TYPE^
+echo $SM_DB_TYPE_COMBINED | grep Same > /dev/null
+if [ $? -eq 0 ]
+then
+	SM_DB_TYPE="Same"
+fi
+echo $SM_DB_TYPE_COMBINED | grep Separate > /dev/null
+if [ $? -eq 0 ]
+then
+	SM_DB_TYPE="Separate"
+fi
+##################################################
+
+
+export ORACLE_HOME HOSTNAME REMOTEHOST DB_NAME LISTENER1_IP LISTENER2_IP DOMAIN_NAME INSTALLER_TEMP_DIR HOST1_IP HOST2_IP SUBSYSTEM SM_DB_TYPE INSTALLER_HOME DISK_LAUNCH_STAGING PATH BILLING_DB_NAME
+
+cd $INSTALLER_TEMP_DIR 

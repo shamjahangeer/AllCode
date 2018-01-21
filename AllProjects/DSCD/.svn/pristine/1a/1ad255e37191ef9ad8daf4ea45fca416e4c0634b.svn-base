@@ -1,0 +1,23 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Requested Date To Schedule Variance</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <B>Requested Date to Schedule Variance</B></P>
+  <P>
+   The difference in work days between the date of the file on which the 
+   schedule appeared and the<SPAN STYLE="font-weight : normal;"> <A HREF="DSC00295.HTM">Customer
+    Requested Date</A></SPAN><B><SPAN STYLE="font-weight : normal;">.</SPAN></B>
+ </BODY>
+</HTML>

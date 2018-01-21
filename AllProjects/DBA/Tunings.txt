@@ -1,0 +1,16 @@
+http://www.dba-oracle.com/art_sql_tune.htm
+
+------------------------------
+
+->Forcing to use index syntax
+
+/*+ INDEX (eip IND_SYS_C0012941)  */ 
+
+/*+ INDEX (tablename index name)  */ 
+
+NOTE:IF TABLE HAS ALIAS THEN USE
+
+/*+ INDEX (tablenameALIAS index name)  */ 
+----------------------------------------
+
+INDEX WONT WORK FOR  NVLFUNCTIONS ,NOT IN,in

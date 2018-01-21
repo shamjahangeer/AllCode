@@ -1,0 +1,3 @@
+SELECT name, value    FROM v$parameter  WHERE name = 'sessions' 
+
+SELECT   'Currently, '    || (SELECT COUNT(*) FROM V$SESSION)   || ' out of '    || DECODE(VL.SESSIONS_MAX,0,'unlimited',VL.SESSIONS_MAX)    || ' connections are used.' AS USAGE_MESSAGE FROM    V$LICENSE VL

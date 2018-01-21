@@ -1,0 +1,122 @@
+1.Database must be in archive log mode.
+2.We need all the archive log files from lost datafile created.
+
+1.Login into che database
+
+C:\>set oracle_sid=CHE
+
+SQL*Plus: Release 11.1.0.7.0 - Production on Wed May 19 14:21:03 2010
+
+Copyright (c) 1982, 2008, Oracle. All rights reserved.
+
+Connected to:
+Oracle Database 11g Enterprise Edition Release 11.1.0.7.0 - Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options
+
+SQL> startup
+ORACLE instance started.
+
+Total System Global Area 535662592 bytes
+Fixed Size 1348508 bytes
+Variable Size 226495588 bytes
+Database Buffers 301989888 bytes
+Redo Buffers 5828608 bytes
+Database mounted.
+ORA-01157: cannot identify/lock data file 9 - see DBWR trace file
+ORA-01110: data file 9: 'D:\ORACLE\APP\ORADATA\CHE\TEST.DBF'
+
+SQL> alter database datafile 9 offline;
+
+Database altered.
+
+SQL> alter database open;
+
+Database altered.
+
+SQL> select * from v$recover_file;
+
+FILE# ERROR TIME
+---------- ----------------------------------- ---------
+9 FILE NOT FOUND
+
+SQL> select file#,status from v$datafile;
+
+FILE# STATUS
+---------- -------
+1 SYSTEM
+2 ONLINE
+3 ONLINE
+4 ONLINE
+5 ONLINE
+6 ONLINE
+7 ONLINE
+8 ONLINE
+9 RECOVER
+
+9 rows selected.
+
+We need to recover the datafile 9.
+
+SQL> alter database create datafile 'D:\ORACLE\APP\ORADATA\CHE\TEST.DBF';
+
+Database altered.
+
+2.Recover the datafile without backup
+
+C:\>set oracle_sid=che
+
+RMAN> connect target /
+
+Recovery Manager: Release 11.1.0.7.0 - Production on Thu May 19 13:45:17 2010
+Copyright (c) 1982, 2007, Oracle. All rights reserved.
+Connected to target database: CHE (DBID=3460503574)
+
+RMAN> recover datafile 9;
+
+Starting recover at 19-MAY-10
+Using channel ORA_DISK_1
+
+Starting media recovery
+
+archived log for thread 1 with sequence 30 is already on disk as file D:\ORACLE\
+APP\FLASH_RECOVERY_AREA\CHE\ARCHIVELOG\2010_05_19\O1_MF_1_30_5Z7CTYPG_.ARC
+archived log for thread 1 with sequence 31 is already on disk as file D:\ORACLE\
+APP\FLASH_RECOVERY_AREA\CHE\ARCHIVELOG\2010_05_19\O1_MF_1_31_5Z7CV1QG_.ARC
+archived log for thread 1 with sequence 32 is already on disk as file D:\ORACLE\
+APP\FLASH_RECOVERY_AREA\CHE\ARCHIVELOG\2010_05_19\O1_MF_1_32_5Z7CV7OZ_.ARC
+archived log for thread 1 with sequence 33 is already on disk as file D:\ORACLE\
+APP\FLASH_RECOVERY_AREA\CHE\ARCHIVELOG\2010_05_19\O1_MF_1_33_5Z7CV9KL_.ARC
+archived log for thread 1 with sequence 34 is already on disk as file D:\ORACLE\
+APP\FLASH_RECOVERY_AREA\CHE\ARCHIVELOG\2010_05_19\O1_MF_1_34_5Z7D4FOH_.ARC
+archived log file name=D:\ORACLE\APP\FLASH_RECOVERY_AREA\CHE\ARCHIVELOG\2010_05_
+19\O1_MF_1_30_5Z7CTYPG_.ARC thread=1 sequence=30
+archived log file name=D:\ORACLE\APP\FLASH_RECOVERY_AREA\CHE\ARCHIVELOG\2010_05_
+19\O1_MF_1_31_5Z7CV1QG_.ARC thread=1 sequence=31
+archived log file name=D:\ORACLE\APP\FLASH_RECOVERY_AREA\CHE\ARCHIVELOG\2010_05_
+19\O1_MF_1_32_5Z7CV7OZ_.ARC thread=1 sequence=32
+media recovery complete, elapsed time: 00:00:01
+Finished recover at 19-MAY-10
+
+3. Verify the database
+
+SQL> alter database datafile 9 online;
+
+Database altered.
+
+SQL> select file#,error,time from v$recover_file;
+
+no rows selected
+
+SQL> select file#, status from v$datafile;
+
+FILE# STATUS
+---------- -------
+1 SYSTEM
+2 ONLINE
+3 ONLINE
+4 ONLINE
+5 ONLINE
+6 ONLINE
+7 ONLINE
+8 ONLINE
+9 ONLINE

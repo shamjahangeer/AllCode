@@ -1,0 +1,21 @@
+Clean Up Old Archived Logs
+The following script cleans up old archive logs if the log file system  reaches 90-percent capacity:
+$ df -k | grep arch
+Filesystem                kbytes   used     avail    capacity  Mounted on
+/dev/vx/dsk/proddg/archive 71123968 30210248 40594232   43%  /u08/archive
+#######################################################################
+## clean_arch.ksh                                                    ##
+#######################################################################
+#!/bin/ksh
+df -k | grep arch > dfk.result
+archive_filesystem=`awk  -F" "  '{ print $6 }' dfk.result`
+archive_capacity=`awk  -F" "  '{ print $5 }' dfk.result`
+
+if [[ $archive_capacity > 90% ] ]
+then
+    echo "Filesystem ${archive_filesystem} is ${archive_capacity} filled"
+    # try one of the following option depend on your need
+    find $archive_filesystem -type f -mtime +2 -exec rm -r {} \;    
+    tar 
+    rman
+fi

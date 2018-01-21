@@ -1,0 +1,134 @@
+Rollback and undo segments are same but the rollback segments storage needs to be done manually
+but undo segments storage is taken care by oracle automatically
+
+Managing Rollback Segments
+------------------------------------------------------
+
+=>Creating the rollback segments
+
+CREATE ROLLBACK SEGMENT rbs01
+TABLESPACE rbs
+STORAGE (
+INITIAL 100K
+NEXT 100K
+MINEXTENTS 20
+MAXEXTENTS 100
+OPTIMAL 2000K );
+
+
+=>Restrictions for creating the rollback segments
+
+rollback segment can be private(default) and public and it should be
+specified at the time of creation and later it cannot be changed
+
+minimum extents must be atleast 2 for rolback segments
+
+pctincrease for rolback segment should be always zero
+
+
+avoid setting maxextents to unlimited.
+
+always place rollback segments in separate tablespace to avoid contention and fragmentation
+
+always initial=next to ensure all extents are of same size
+
+
+set the optimal value which should be atlease equal to the size of the min extents or more
+
+Note:about Optimal paramter
+
+optimal value is set to minimize the allacoation and deallocation of the extents.
+optimal value helps in releasing the space on completion of transactions and the pointer moves to next extent.
+setting the optimal will ensure that the free space are released in the tablespace upto the optimal value.
+Not all the free space in the tablespace are used.
+
+extends are deallocated if both of the points are true.
+The current size of the rollback segments exceeds optimal.
+if there are contiguous inactive segments.
+
+
+
+
+=>you can set the rollback segments to the particular transaciton
+
+set transaction use rollback segment rbs
+
+Note:If you are not setting the rollback segments then oracle will automatically set the rollback
+segments which has fewer transactions
+
+=>The status of t he extents should be free or inactive for rollbacksegments to use that extents for rollback segments
+
+=>If the extents are not free then new extents are allocated.The rollback segments grows like this
+until it reaches the  maxextents parameter specified.
+
+=>Bringing the rollback segments online
+
+alter rollback segment rbs01 online(This will be there till the instance is shutdown)
+
+or 
+
+configure the parameter rollback_segments=(rsb01) in initialization paramater file.(This will be there forever)
+
+=>The number of rollback segments that can be brought online by a instance depends on the MAX_ROLLBACK_SEGMENTS parameter
+
+
+=>How to identify how much rollback segments needed for the instance
+
+transaction param value /transaction_per_rollback_segment value=
+
+ex:-`187/5=37.5 rollback segments needed
+
+If the 37.5 rollback segments is greater than the nonsystem rollback segments brought online then oracle uses the public
+rollback segments to cater the transactions
+
+=>how to change the rollback segments storage settings
+alter rollback segment rbs01
+storage (max extents 200);
+
+
+command:
+ALTER ROLLBACK SEGMENT rollback_segment
+[STORAGE ( [NEXT integer[K|M]]
+[MINEXTENTS integer]
+[MAXEXTENTS {integer|UNLIMITED}]
+[OPTIMAL {integer[K|M]|NULL}]
+)
+]
+
+
+=>Manual Deallocation of space from the rollback segments even the extents are active
+
+alter rollback segments rbs01
+shrink to 4M;
+
+alter rollback segments rbs01 shrink (this will try to deallocate the space upto the optimal size)
+
+=>Taking rollback segments offline
+
+alter rollback segment rbs01 offline
+
+Note:if the extents are active then rollback segments status will be pending offline
+     To drop the rollback  segments we take it as offline and then drop
+
+=>Dropping the rollback segments
+
+drop rollback segments rbs01;
+
+
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+
+
+

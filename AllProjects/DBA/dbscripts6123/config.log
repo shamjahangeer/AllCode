@@ -1,0 +1,608 @@
+CREATE USER bspace IDENTIFIED BY bspace
+            *
+ERROR at line 1:
+ORA-01920: user name 'BSPACE' conflicts with another user or role name
+
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+CREATE USER wpcdb IDENTIFIED BY wpcdb
+            *
+ERROR at line 1:
+ORA-01920: user name 'WPCDB' conflicts with another user or role name
+
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+CREATE USER bpcdb IDENTIFIED BY bpcdb
+            *
+ERROR at line 1:
+ORA-01920: user name 'BPCDB' conflicts with another user or role name
+
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+CREATE USER bpcobs IDENTIFIED BY bpcobs
+            *
+ERROR at line 1:
+ORA-01920: user name 'BPCOBS' conflicts with another user or role name
+
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+CREATE USER esblog IDENTIFIED BY esblog
+            *
+ERROR at line 1:
+ORA-01920: user name 'ESBLOG' conflicts with another user or role name
+
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+CREATE USER scasysmsg IDENTIFIED BY scasysmsg
+            *
+ERROR at line 1:
+ORA-01920: user name 'SCASYSMSG' conflicts with another user or role name
+
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+CREATE USER scaappmsg IDENTIFIED BY scaappmsg
+            *
+ERROR at line 1:
+ORA-01920: user name 'SCAAPPMSG' conflicts with another user or role name
+
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+CREATE USER ceimsg IDENTIFIED BY ceimsg
+            *
+ERROR at line 1:
+ORA-01920: user name 'CEIMSG' conflicts with another user or role name
+
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+CREATE USER bpcmsg IDENTIFIED BY bpcmsg
+            *
+ERROR at line 1:
+ORA-01920: user name 'BPCMSG' conflicts with another user or role name
+
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+
+Grant succeeded.
+
+CREATE TABLE WSCH_TASK
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE INDEX WSCH_TASK_IDX1 ON WSCH_TASK
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE INDEX WSCH_TASK_IDX2 ON WSCH_TASK
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE TABLE WSCH_TREG
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE TABLE WSCH_LMGR
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE TABLE WSCH_LMPR
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE INDEX WSCH_LMPR_IDX1 ON WSCH_LMPR
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE TABLE SchemaVersionInfo
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE TABLE BYTESTORE
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+  ADD CONSTRAINT PK_BYTESTORE PRIMARY KEY (ARTIFACTTYPE, ARTIFACTTNS, ARTIFACTNAME)
+                              *
+ERROR at line 2:
+ORA-02260: table can have only one primary key
+
+
+CREATE INDEX BYTESTORE_INDEX1 ON BYTESTORE (
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE INDEX BYTESTORE_INDEX2 ON BYTESTORE (
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE TABLE BYTESTOREOVERFLOW
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+  ADD CONSTRAINT PK_BYTESTOREOVERFL PRIMARY KEY (ARTIFACTTYPE, ARTIFACTTNS, ARTIFACTNAME, SEQUENCENUMBER)
+                                    *
+ERROR at line 2:
+ORA-02260: table can have only one primary key
+
+
+CREATE TABLE APPTIMESTAMP
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+  ADD CONSTRAINT PK_APPTIMESTAMP PRIMARY KEY (APPNAME)
+                                 *
+ERROR at line 2:
+ORA-02260: table can have only one primary key
+
+
+CREATE TABLE CUSTPROPERTIES
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+  ADD CONSTRAINT PK_CUSTPROPERTIES PRIMARY KEY (PROPERTYID)
+                                   *
+ERROR at line 2:
+ORA-02260: table can have only one primary key
+
+
+CREATE INDEX CUSTPROPERTIES_INDEX1 ON CUSTPROPERTIES (
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE INDEX CUSTPROPERTIES_INDEX2 ON CUSTPROPERTIES (
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE INDEX CUSTPROPERTIES_INDEX3 ON CUSTPROPERTIES (
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE INDEX CUSTPROPERTIES_INDEX4 ON CUSTPROPERTIES (
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE INDEX CUSTPROPERTIES_INDEX5 ON CUSTPROPERTIES (
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+create table persistentlock (
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+create table mediation_tickets (
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE TABLE FailedEvents
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+   ADD CONSTRAINT PK_FailedEvents PRIMARY KEY (MsgId)
+                                  *
+ERROR at line 2:
+ORA-02260: table can have only one primary key
+
+
+CREATE INDEX INX_FEDest ON FailedEvents
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE INDEX INX_FESrc ON FailedEvents
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE INDEX INX_FESID ON FailedEvents (SessionId)
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE INDEX INX_FEFTime ON FailedEvents (FailureTime)
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE TABLE FailedEventBOTypes
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+   ADD CONSTRAINT PK_FailedEventBO PRIMARY KEY (MsgId, Argument_Position)
+                                   *
+ERROR at line 2:
+ORA-02260: table can have only one primary key
+
+
+   ADD CONSTRAINT FK_FailedEventBO FOREIGN KEY (MsgId) REFERENCES FailedEvents(MsgId)
+                                   *
+ERROR at line 2:
+ORA-02275: such a referential constraint already exists in the table
+
+
+CREATE INDEX FailedEventBOTp ON FailedEventBOTypes (BOType)
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE TABLE FailedEventMessage
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+   ADD CONSTRAINT PK_FailedEventMSG PRIMARY KEY (MsgId)
+                                    *
+ERROR at line 2:
+ORA-02260: table can have only one primary key
+
+
+   ADD CONSTRAINT FK_FailedEventMSG FOREIGN KEY (MsgId) REFERENCES FailedEvents(MsgId)
+                                    *
+ERROR at line 2:
+ORA-02275: such a referential constraint already exists in the table
+
+
+CREATE TABLE FailedEventDetail
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+   ADD CONSTRAINT PK_FailedEventDTL PRIMARY KEY (MsgId)
+                                    *
+ERROR at line 2:
+ORA-02260: table can have only one primary key
+
+
+   ADD CONSTRAINT FK_FailedEventDTL FOREIGN KEY (MsgId) REFERENCES FailedEvents(MsgId)
+                                    *
+ERROR at line 2:
+ORA-02275: such a referential constraint already exists in the table
+
+
+CREATE TABLE RELN_METADATA_T(RELATIONSHIP_NAME VARCHAR2(255) NOT NULL, VERSION VARCHAR2(10) NOT NULL)
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+CREATE UNIQUE INDEX RMT_RELN_NAME_I ON RELN_METADATA_T (RELATIONSHIP_NAME)
+                    *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+INSERT INTO SchemaVersionInfo VALUES ('recovery.ejb', 6, 1, 2, 0, 0)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (WPCDB.SYS_C009529) violated
+
+
+INSERT INTO SchemaVersionInfo VALUES ('interfaceMediation', 6, 1, 2, 0, 0)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (WPCDB.SYS_C009529) violated
+
+
+INSERT INTO SchemaVersionInfo VALUES ('relationshipService', 6, 1, 2, 0, 0)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (WPCDB.SYS_C009529) violated
+
+
+INSERT INTO SchemaVersionInfo VALUES ('scheduler.wbi', 6, 1, 2, 0, 0)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (WPCDB.SYS_C009529) violated
+
+
+INSERT INTO SchemaVersionInfo VALUES ('customization', 6, 1, 2, 0, 0)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (WPCDB.SYS_C009529) violated
+
+
+INSERT INTO SchemaVersionInfo VALUES ('persistentlockmanager', 6, 1, 2, 0, 0)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (WPCDB.SYS_C009529) violated
+
+
+INSERT INTO SchemaVersionInfo VALUES ('WPS', 6, 1, 2, 0, 0)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (WPCDB.SYS_C009529) violated
+
+
+CREATE TABLE ESBLOG.MSGLOG
+                    *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+  ADD CONSTRAINT PK_MSGLOG PRIMARY KEY (TIMESTAMP, MESSAGEID, MEDIATIONNAME)
+                           *
+ERROR at line 2:
+ORA-02260: table can have only one primary key
+
+
+old   2:   DATAFILE '&1/AUDITLOG.dbf' SIZE 100M AUTOEXTEND ON NEXT 20M MAXSIZE UNLIMITED LOGGING
+new   2:   DATAFILE '/opt/db02/app/oracle/oradata/scrum1/AUDITLOG.dbf' SIZE 100M AUTOEXTEND ON NEXT 20M MAXSIZE UNLIMITED LOGGING
+CREATE TABLESPACE AUDITLOG
+*
+ERROR at line 1:
+ORA-01543: tablespace 'AUDITLOG' already exists
+
+
+old   2:   DATAFILE '&1/COMP.dbf' SIZE 10M AUTOEXTEND ON NEXT 2M MAXSIZE UNLIMITED LOGGING
+new   2:   DATAFILE '/opt/db02/app/oracle/oradata/scrum1/COMP.dbf' SIZE 10M AUTOEXTEND ON NEXT 2M MAXSIZE UNLIMITED LOGGING
+CREATE TABLESPACE COMP
+*
+ERROR at line 1:
+ORA-01543: tablespace 'COMP' already exists
+
+
+old   2:   DATAFILE '&1/INDEXTS.dbf' SIZE 250M AUTOEXTEND ON NEXT 50M MAXSIZE UNLIMITED LOGGING
+new   2:   DATAFILE '/opt/db02/app/oracle/oradata/scrum1/INDEXTS.dbf' SIZE 250M AUTOEXTEND ON NEXT 50M MAXSIZE UNLIMITED LOGGING
+CREATE TABLESPACE INDEXTS
+*
+ERROR at line 1:
+ORA-01543: tablespace 'INDEXTS' already exists
+
+
+old   2:   DATAFILE '&1/INSTANCE.dbf' SIZE 500M AUTOEXTEND ON NEXT 100M MAXSIZE UNLIMITED LOGGING
+new   2:   DATAFILE '/opt/db02/app/oracle/oradata/scrum1/INSTANCE.dbf' SIZE 500M AUTOEXTEND ON NEXT 100M MAXSIZE UNLIMITED LOGGING
+CREATE TABLESPACE INSTANCE
+*
+ERROR at line 1:
+ORA-01543: tablespace 'INSTANCE' already exists
+
+
+old   2:   DATAFILE '&1/LOBTS.dbf' SIZE 200M AUTOEXTEND ON NEXT 40M MAXSIZE UNLIMITED LOGGING
+new   2:   DATAFILE '/opt/db02/app/oracle/oradata/scrum1/LOBTS.dbf' SIZE 200M AUTOEXTEND ON NEXT 40M MAXSIZE UNLIMITED LOGGING
+CREATE TABLESPACE LOBTS
+*
+ERROR at line 1:
+ORA-01543: tablespace 'LOBTS' already exists
+
+
+old   2:   DATAFILE '&1/STAFFQRY.dbf' SIZE 10M AUTOEXTEND ON NEXT 2M MAXSIZE UNLIMITED LOGGING
+new   2:   DATAFILE '/opt/db02/app/oracle/oradata/scrum1/STAFFQRY.dbf' SIZE 10M AUTOEXTEND ON NEXT 2M MAXSIZE UNLIMITED LOGGING
+CREATE TABLESPACE STAFFQRY
+*
+ERROR at line 1:
+ORA-01543: tablespace 'STAFFQRY' already exists
+
+
+old   2:   DATAFILE '&1/TEMPLATE.dbf' SIZE 100M AUTOEXTEND ON NEXT 20M MAXSIZE UNLIMITED LOGGING
+new   2:   DATAFILE '/opt/db02/app/oracle/oradata/scrum1/TEMPLATE.dbf' SIZE 100M AUTOEXTEND ON NEXT 20M MAXSIZE UNLIMITED LOGGING
+CREATE TABLESPACE TEMPLATE
+*
+ERROR at line 1:
+ORA-01543: tablespace 'TEMPLATE' already exists
+
+
+old   2:   DATAFILE '&1/WORKITEM.dbf' SIZE 50M AUTOEXTEND ON NEXT 10M MAXSIZE UNLIMITED LOGGING
+new   2:   DATAFILE '/opt/db02/app/oracle/oradata/scrum1/WORKITEM.dbf' SIZE 50M AUTOEXTEND ON NEXT 10M MAXSIZE UNLIMITED LOGGING
+CREATE TABLESPACE WORKITEM
+*
+ERROR at line 1:
+ORA-01543: tablespace 'WORKITEM' already exists
+
+
+old   1: CREATE TABLESPACE SCHEDTS DATAFILE '&1/SCHEDTS.dbf' SIZE 5M AUTOEXTEND ON NEXT 1M MAXSIZE UNLIMITED
+new   1: CREATE TABLESPACE SCHEDTS DATAFILE '/opt/db02/app/oracle/oradata/scrum1/SCHEDTS.dbf' SIZE 5M AUTOEXTEND ON NEXT 1M MAXSIZE UNLIMITED
+CREATE TABLESPACE SCHEDTS DATAFILE '/opt/db02/app/oracle/oradata/scrum1/SCHEDTS.dbf' SIZE 5M AUTOEXTEND ON NEXT 1M MAXSIZE UNLIMITED
+*
+ERROR at line 1:
+ORA-01543: tablespace 'SCHEDTS' already exists
+
+
+old   2:   DATAFILE '&1/RMDEFAULTTS32S_BSPACE.dbf' SIZE 500M AUTOEXTEND ON NEXT 100M MAXSIZE UNLIMITED LOGGING
+new   2:   DATAFILE '/opt/db02/app/oracle/oradata/scrum1/RMDEFAULTTS32S_BSPACE.dbf' SIZE 500M AUTOEXTEND ON NEXT 100M MAXSIZE UNLIMITED LOGGING
+CREATE TABLESPACE BSPACE
+*
+ERROR at line 1:
+ORA-01543: tablespace 'BSPACE' already exists
+
+
+CREATE USER IBMBUSSP IDENTIFIED BY wpcdb
+            *
+ERROR at line 1:
+ORA-01920: user name 'IBMBUSSP' conflicts with another user or role name
+
+
+
+Grant succeeded.
+
+	CREATE TABLE IBMBUSSP.DASHBOARD_DATA_T (
+	                      *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+	CREATE TABLE IBMBUSSP.USER_DATA_T (
+	                      *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+	CREATE TABLE IBMBUSSP.SPACES (
+	                      *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+	CREATE TABLE IBMBUSSP.NLSINFO (
+	                      *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+	CREATE TABLE IBMBUSSP.PAGE (
+	                      *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+	CREATE TABLE IBMBUSSP.WIDGET (
+	                      *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+	CREATE TABLE IBMBUSSP.REGISTERED_WIDGET (
+	                      *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+	CREATE TABLE IBMBUSSP.REGISTERED_WIDGET_NLS (
+	                      *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+	CREATE TABLE IBMBUSSP.REGISTERED_CATEGORY (
+	                      *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+	CREATE TABLE IBMBUSSP.REGISTERED_CATEGORY_NLS (
+	                      *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+	CREATE TABLE IBMBUSSP.REGISTERED_ENDPOINT (
+	                      *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+
+	CREATE TABLE IBMBUSSP.REGISTRY_FILE (
+	                      *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object
+
+

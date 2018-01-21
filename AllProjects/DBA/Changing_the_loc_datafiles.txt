@@ -1,0 +1,26 @@
+Step 1. Shutdown the database 
+./sqlplus /nolog 
+./connect / as sysdba 
+./shutdown immediate 
+
+Step 2. Move the data files physically 
+cp -R --force /u01/app/oracle/oradata/orcl/* /home/oradata 
+
+Step 3. Startup mount the database 
+./sqlplus /nolog 
+./connect / as sysdba 
+./startup mount 
+
+Step 4. Alter the database and specify the new location of EACH datafile 
+Run this command on sqlplus 
+
+alter database rename file 
+'/u01/app/oracle/oradata/orcl/users01.dbf' to 
+'/home/oradata/users01.dbf'; 
+alter database rename file 
+
+Once you finish giving the location of all DATAFILES then shutdown immediate the database and make a STARTUP , which will load the database in normal mode. 
+Simple yet powerfull command. 
+
+Hope its usefull. 
+Felipe 

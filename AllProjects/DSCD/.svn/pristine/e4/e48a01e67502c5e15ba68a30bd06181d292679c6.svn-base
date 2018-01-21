@@ -1,0 +1,43 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Delivery Scorecard Rules</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <IMG SRC="DSCDWRLD.gif" WIDTH="38" HEIGHT="32" VSPACE="0" HSPACE="0" ALT="DSCDWRLD.gif" BORDER="0"><A NAME="7fbf597b"></A><B>Delivery
+    Scorecard Rules</B></P>
+  <P>
+   Whenever possible, Delivery Scorecard windows have been designed with 
+   standardization in mind. Rules define information common throughout 
+   the system. In many instances, these rules have been incorporated 
+   into field definitions and edits; however, by clicking on the window 
+   types below, you can view a listing of those rules as they apply to 
+   specific types of Scorecard windows.</P>
+  <P>
+   <A HREF="Dsc00529.htm#5fc21b45">Rules for All Windows</A></P>
+  <P>
+   <A HREF="Dsc00533.htm#36845e0e">General Summary Window Rules</A></P>
+  <P>
+   (Summary Lists and Graphical Summaries)</P>
+  <P>
+   <A HREF="Dsc00535.htm#cd0304f4">Nonconforming Schedule Detail Windows</A></P>
+  <P>
+   <A HREF="Dsc00536.htm#4dd12cd1">Conforming Schedule Detail Windows</A></P>
+  <P>
+   <A HREF="Dsc00537.htm#edc04f08">Past Due Schedule Detail Windows</A></P>
+  <P>
+   <A HREF="Dsc00538.htm#cdd1e6e7">Open Schedule Windows</A></P>
+  <P>
+   <A HREF="Dsc00539.htm">General Lead Time Window Rules</A>
+ </BODY>
+</HTML>

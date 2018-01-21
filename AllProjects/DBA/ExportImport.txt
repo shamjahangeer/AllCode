@@ -1,0 +1,192 @@
+http://wiki.oracle.com/page/Oracle+export+and+import+
+----------------------
+http://www.orafaq.com/wiki/Import_Export_FAQ
+------------------------
+
+Can one monitor how fast a table is imported
+
+
+select substr(sql_text,instr(sql_text,'INTO "'),30) table_name,
+         rows_processed,
+         round((sysdate-to_date(first_load_time,'yyyy-mm-dd hh24:mi:ss'))*24*60,1) minutes,
+         trunc(rows_processed/((sysdate-to_date(first_load_time,'yyyy-mm-dd hh24:mi:ss'))*24*60)) rows_per_min
+  from   sys.v_$sqlarea
+  where  sql_text like 'INSERT %INTO "%'
+    and  command_type = 2
+    and  open_versions > 0;
+------------------------------
+
+How does one use export and import utilities
+
+exp scott/tiger file=emp.dmp log=emp.log tables=emp rows=yes indexes=no
+exp scott/tiger file=emp.dmp tables=(emp,dept)
+
+------------------------------
+
+imp scott/tiger file=emp.dmp full=yes
+imp system/manager@db_name file=emp.dmp fromuser=scott touser=ciadmin tables=dept
+
+--------------------------------
+
+Using parameter file
+
+exp userid=scott/tiger@orcl parfile=export.txt
+... where export.txt contains:
+BUFFER=10000000
+FILE=account.dmp
+FULL=n
+OWNER=scott
+GRANTS=y
+COMPRESS=y
+--------------------------------
+
+Can one import tables to a different tablespace?
+
+Oracle offers no parameter to specify a different tablespace to import data into. Objects will be re-created in the tablespace they were originally exported from. One can alter this behaviour by following one of these procedures:
+Pre-create the table(s) in the correct tablespace:
+Import the dump file using the INDEXFILE= option
+Edit the indexfile. Remove remarks and specify the correct tablespaces.
+Run this indexfile against your database, this will create the required tables in the appropriate tablespaces
+Import the table(s) with the IGNORE=Y option
+
+-----------------------------------
+
+Change the default tablespace for the user:
+
+Revoke the "UNLIMITED TABLESPACE" privilege from the user
+Revoke the user's quota from the tablespace from where the object was exported. This forces the import utility to create tables in the user's default tablespace.
+Make the tablespace to which you want to import the default tablespace for the user
+Import the table
+
+----------------------------------------------
+
+Can one export subset of a table?
+
+
+exp ciadmin/ciadmin@xe file=c:\a.dmp tables=a_tab query=\"where deptno=10\"
+
+
+exp scott/tiger file=abc.dmp tables=abc query=\"where sex=\'f\'\" rows=yes
+
+
+-----------------------------------------------
+Does one need to drop/truncate objects before importing?
+
+Before one imports rows into already populated tables, one needs to truncate or drop these tables to get rid of the old data. If not, the new data will be appended to the existing tables. One must always DROP existing Sequences before re-importing. If the sequences are not dropped, they will generate numbers inconsistent with the rest of the database.
+
+Note: It is also advisable to drop indexes before importing to speed up the import process. Indexes can easily be recreated after the data was successfully imported.
+
+--------------------------------------------------
+
+Can one import/export between different versions of Oracle?
+
+
+Different versions of the import utility are upwards compatible. This means that one can take an export file created from an old export version, and import it using a later version 
+of the import utility. This is quite an effective way of upgrading a database from one release of Oracle to the next.
+Oracle also ships some previous catexpX.sql scripts that can be executed as user SYS enabling older imp/exp versions
+ to work (for backwards compatibility). For example, one can run $ORACLE_HOME/rdbms/admin/catexp7.sql on an Oracle 8 
+database to allow the Oracle 7.3 exp/imp utilities to run against an Oracle 8 database.
+
+----------------------------------------------------
+
+Can one export to multiple files?/ Can one beat the Unix 2 Gig limit?
+
+
+
+exp ciadmin/ciadmin@xe file=c:\a.dmp,c:\b.dmp filesize=4k log=c:\a.log table
+
+
+
+------------------------------------------------------
+
+How can one improve Import/ Export performance?
+
+
+
+EXPORT:
+Set the BUFFER parameter to a high value (e.g. 2Mb -- entered as an integer "2000000")
+Set the RECORDLENGTH parameter to a high value (e.g. 64Kb -- entered as an integer "64000")
+Use DIRECT=yes (direct mode export)
+Stop unnecessary applications to free-up resources for your job.
+If you run multiple export sessions, ensure they write to different physical disks.
+DO NOT export to an NFS mounted filesystem. It will take forever
+
+IMPORT:
+Create an indexfile so that you can create indexes AFTER you have imported data. Do this by setting INDEXFILE to a filename and then import. No data will be imported but a file containing index definitions will be created. You must edit this file afterwards and supply the passwords for the schemas on all CONNECT statements.
+Place the file to be imported on a separate physical disk from the oracle data files
+Increase DB_CACHE_SIZE (DB_BLOCK_BUFFERS prior to 9i) considerably in the init$SID.ora file
+Set the LOG_BUFFER to a big value and restart oracle.
+Stop redo log archiving if it is running (ALTER DATABASE NOARCHIVELOG;)
+Create a BIG tablespace with a BIG rollback segment inside. Set all other rollback segments offline (except the SYSTEM rollback segment of course). The rollback segment must be as big as your biggest table (I think?)
+Use COMMIT=N in the import parameter file if you can afford it
+Use STATISTICS=NONE in the import parameter file to avoid time consuming to import the statistics
+Remember to run the indexfile previously created
+
+
+------------------------------------------------------
+
+What are the common Import/ Export problems?
+
+
+ORA-00001: Unique constraint (...) violated
+You are importing duplicate rows. Use IGNORE=YES to skip tables that already exist (imp will give an error if the object is re-created).
+ORA-01555: Snapshot too old
+Ask your users to STOP working while you are exporting or try using parameter CONSISTENT=NO
+ORA-01562: Failed to extend rollback segment
+Create bigger rollback segments or set parameter COMMIT=Y while importing
+IMP-00015: Statement failed ... object already exists...
+Use the IGNORE=Y import parameter to ignore these errors, but be careful as you might end up with duplicate rows.
+
+
+----------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

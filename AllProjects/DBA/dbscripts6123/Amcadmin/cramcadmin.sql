@@ -1,0 +1,17 @@
+drop user amcadmin cascade;
+create user amcadmin
+identified by amcadmin
+DEFAULT TABLESPACE AMC_DATA_TBS
+TEMPORARY TABLESPACE TEMP
+PROFILE DEFAULT
+ACCOUNT UNLOCK;
+-- 2 Roles for amcadmin
+GRANT RESOURCE TO amcadmin;
+GRANT CONNECT TO amcadmin;
+--
+GRANT CREATE SESSION TO amcadmin;
+GRANT CREATE TABLE TO amcadmin;
+GRANT ALTER SESSION TO amcadmin;
+GRANT SELECT ANY DICTIONARY TO amcadmin;
+GRANT UNLIMITED TABLESPACE TO amcadmin;
+ALTER USER amcadmin DEFAULT ROLE ALL;

@@ -1,0 +1,29 @@
+=>INITRANS is a block level storage parameter which can be specified while creating a object.
+=>can be a maximum of 255 concurrent sessions that can access a block at any given time. So the maximumITPUB???? i,?#S#{5o6a&d x
+value for MAXTRANS parameter is 255. The value specified through INITRANS are taken into considerationITPUB????x:JO8Qa#g c3v8l
+for creating the initial number of ITLs (Intersted Transaction Entries) in the block
+
+=>While creating the table if INITRANS 20 is specified, then 20 different ITL slots will be created in the blockITPUB????D8Q]L"c.S
+transaction variable header.
+
+=>The rule is
+the total size allocated for initial ITLs SHOULD be LESS THAN 50% of the database block size" 
+sizeof(INITIAL ITLs) <  ( 50 % of the DATABASE BLOCK SIZE )
+
+
+=>s I mentioned before, not more than 50 % of the block size are utilized for these headers.  For a 2k block
+sized database, the maximum ITLs during intial allocation is 41. Each ITL takes 24 bytes of space in theITPUB????+J#Y9ya _F
+header.
+
+41 * 24 = 984 bytes.   This is 48 % of the total block size.
+
+J]]b2}1kHq0For 4k block:   83 * 24 = 1992 bytes.(48%)  
+8k block:   169 * 24 = 4056 bytes. (48%)  
+
+Follow the above 5 steps to check the ITL allocation for different block sizes. So don't be surprised whenIT
+you don't see the value in the dump you set for INITRANS.
+
+
+
+Note:we increase the initrans to 3 for the transaction seriallizable
+

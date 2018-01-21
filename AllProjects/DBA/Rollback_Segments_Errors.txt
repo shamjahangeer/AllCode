@@ -1,0 +1,75 @@
+Insufficient space for transactions
+----------------------------------
+->no space in the tablespace
+
+Solution
+-------
+extend the data files
+Add new data files
+enable autmatic extension of the data files
+increase the maxextens in rollback segments
+shrink the rollback segments
+
+->Maxextents reached for the segments
+increase maxextents
+recreate the segments with the larger extents
+
+ex:-ALTER TABLESPACE ts_name STORAGE (MAXEXTENTS n);
+
+error:-ORA-01562 insufficient space in the tablespace for rollback segments to extend
+       ORA-01628 tHE NUMBER OF EXTENTS HAS REACHED  the maxextents unable to add additional extents
+
+
+Read consistency error or snapshot too old errros
+
+-------------------------
+
+The transaction slot in the rollback header has been reused
+before image in the rollback segments has been overwritten by another errors
+
+solution:
+
+increase the maxextents in the rollback segments
+a higher optimal value
+a higher minimum extent value
+
+
+
+Blocking transactions
+-------------------------------------
+if the extents  have lesser transactions but still active and segments cannot access this extents as it is active
+then the oracle will allcoate the new extents which results in the rollback segment growth
+To avoid this we need to kill those blocking transaction if it is idle for more or ask the user to kill the transaction
+
+to find the blocking transaction
+
+SELECT s.sid, s.serial#, t.start_time, t.xidusn,
+ s.username
+ FROM v$session s, v$transaction t, v$rollstat r
+ WHERE s.saddr = t.ses_addr
+ AND t.xidusn = r.usn
+ AND ((r.curext = t.start_uext-1) OR
+ ((r.curext = r.extents-1) AND t.start_uext=0));
+
+
+
+Error in taking tablespace offline
+--------------------------------------
+If tablespace contains one or more active rollback segments it cannot be taken offline
+
+Steps to take the rollback segments offline
+
+1. Query DBA_ROLLBACK_SEGS to find which rollback segments are in the tablespace.
+2. Take all rollback segments in the tablespace offline.
+3. Check V$TRANSACTION to find which transactions are currently using these rollback
+segments.
+4. Use V$SESSION to obtain the user name and session information.
+5. Kill the session or have the user end the transaction.
+6. Take the tablespace offline.
+
+	
+
+
+
+
+

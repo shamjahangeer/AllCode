@@ -1,0 +1,20 @@
+vxassist -g racdg -U gen make db_si02dbsf_service_data        512m
+vxassist -g racdg -U gen make db_si02dbsf_cce_sys_comp_data   512m
+vxassist -g racdg -U gen make db_si02dbsf_log_data            4g
+
+vxassist -g racdg -U gen make db_si02dbsf_service_index       256m
+vxassist -g racdg -U gen make db_si02dbsf_cce_sys_comp_index  256m
+vxassist -g racdg -U gen make db_si02dbsf_log_index_01        2g
+vxassist -g racdg -U gen make db_si02dbsf_cce_temp_data       512m
+vxassist -g racdg -U gen make db_si02dbsf_cce_arch_data_01    2g
+
+vxedit -g racdg set user=oracle group=dba db_si02dbsf_service_data
+vxedit -g racdg set user=oracle group=dba db_si02dbsf_cce_sys_comp_data
+vxedit -g racdg set user=oracle group=dba db_si02dbsf_log_data
+
+vxedit -g racdg set user=oracle group=dba db_si02dbsf_service_index
+vxedit -g racdg set user=oracle group=dba db_si02dbsf_cce_sys_comp_index
+vxedit -g racdg set user=oracle group=dba db_si02dbsf_log_index_01
+vxedit -g racdg set user=oracle group=dba db_si02dbsf_cce_temp_data
+vxedit -g racdg set user=oracle group=dba db_si02dbsf_cce_arch_data_01
+

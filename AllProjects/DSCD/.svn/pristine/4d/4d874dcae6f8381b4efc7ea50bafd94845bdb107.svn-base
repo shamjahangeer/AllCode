@@ -1,0 +1,26 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Date Type</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <B>Date Type</B></P>
+  <P>
+   The type of date display used for Delivery Scorecard window selection 
+   criteria. Date type will be either a monthly or daily date.</P>
+  <P>
+   <B>Note</B>: Monthly dates will be entered and displayed in <STRONG>YYYY-MM</STRONG> 
+   format (2001-11) and Daily dates will be entered and displayed in <STRONG>YYYY-MM-DD</STRONG> 
+   format (2001-11-15).
+ </BODY>
+</HTML>

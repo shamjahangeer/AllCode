@@ -1,0 +1,77 @@
+select log_mode,flashback_on from v$database;
+alter database flashback on;
+
+select distinct original_name  from dba_recyclebin
+
+flashback table MS_RAD_AE_ASSESSMENT_V0 to before drop
+-----------------------------------------------------
+
+Only long process
+
+How to Enable Flashback Database 
+
+
+
+To enable flashback database the following operations is needed.
+ 
+1)Configure the Database in archivelog mode.
+ To change archiving read, Change Archival Mode 
+
+2)Configure Flash Recovery Area.
+ To configure flash recovery area,
+ Set up Flash Recovery Area
+ 
+3)Clean Shutdown and mount the database.
+ SQL> SHUT IMMEDIATE;
+ SQL> STARTUP MOUNT;
+ SQL> Alter Database Flashback ON;
+ 
+Before running command you can check whether flashback was actually On or not.
+ 
+select flashback_on from v$database;
+ 
+Steps:
+ ------
+ SQL> alter database flashback ON;
+ Database altered.
+ 
+SQL> select flashback_on from v$database;
+ FLASHBACK_ON
+ ------------------
+ YES
+ 
+4)Open the database and optionally you can set DB_FLASHBACK_RETENTION_TARGET to the length of the desired flashback window in minutes. By default it is 1 day(1440 minutes).
+ 
+SQL> ALTER DATABASE OPEN;
+ 
+To make it 3 days
+ SQL> ALTER SYSTEM SET DB_FLASHBACK_RETENTION_TARGET=4320;
+ SQL> show parameter DB_FLASHBACK_RETENTION_TARGET
+ 
+NAME TYPE VALUE
+ ------------------------------------ ----------- ------------------------------
+ db_flashback_retention_target integer 4320
+ 
+However you can disable Flashback Database for a tablespace.Then you must take its datafiles offline before running FLASHBACK DATABASE.
+ 
+Like,
+ 
+SQL> select file_name,file_id from dba_data_files where tablespace_name='TEST';
+ FILE_NAME FILE_ID
+ ------------------------------ ----------
+ /oradata2/1.dbf 5
+ 
+SQL> alter database datafile 5 offline;
+ Database altered.
+ 
+SQL> ALTER TABLESPACE test flashback off;
+ Tablespace altered.
+ 
+SQL> recover datafile 5;
+ Media recovery complete.
+ 
+SQL> alter database datafile 5 online;
+ Database altered.
+ 
+To disable flashback feature simply issue,
+ SQL>ALTER DATABASE FLASHBACK OFF;

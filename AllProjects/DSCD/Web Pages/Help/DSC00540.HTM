@@ -1,0 +1,61 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Shipment Variance Logic</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <IMG SRC="DSCDWRLD.gif" WIDTH="38" HEIGHT="32" VSPACE="0" HSPACE="0" ALT="DSCDWRLD.gif" BORDER="0"><A NAME="6e711b3d"></A><B>Shipment
+    Variance Logic</B></P>
+  <P>
+   Following is the logic that will be used to calculate shipment 
+   variances. (<B>Note</B>: In the following logic, Commit Date can be 
+   defined as the earliest of Schedule Date or Earliest Expedite Date). 
+   These rules apply to both JIT and Non-JIT customers, except where 
+   otherwise noted.</P>
+  <P>
+   <B>&quot;Customer Variable&quot;</B> refers to a calculation that 
+   takes the customer's delivery window into consideration - the 
+   variance represents the number of days outside the customer's window.</P>
+  <P>
+   <B>&quot;Standard Default&quot;</B> refers to a calculation that does 
+   not take the customer's delivery window into consideration - this 
+   variance represents the number of days earlier or later than zero. 
+   For online viewing of this variance, Tyco Electronics will set a 
+   default window and then position the variance either inside or 
+   outside that window, depending on the value of the variance.</P>
+  <P>
+   <B>Click on the desired date comparison or schedule type to get the 
+   associated variance logic.</B></P>
+  <P>
+   <A HREF="Dsc00541.htm">Schedule to Ship</A></P>
+  <P>
+   <A HREF="Dsc00547.htm">Request to Ship</A></P>
+  <P>
+   <A HREF="Dsc00548.htm">Request to Schedule</A></P>
+  <P>
+   <A HREF="Dsc00549.htm">Past-Due Open Orders</A></P>
+  <P>
+   <A HREF="Dsc00550.htm">Lead Time</A></P>
+  <P>
+   <A HREF="Dsc00551.htm">Received to Ship</A> (not tracked on Delivery 
+   Scorecard windows)</P>
+  <P>
+   <A HREF="Dsc00552.htm">Release to Schedule</A> (not tracked on 
+   Delivery Scorecard windows)</P>
+  <P>
+   <A HREF="Dsc00553.htm">Release to Ship</A> (Shipping Facility Performance)</P>
+  <P>
+   Information on <A HREF="Dsc00554.htm">Shipping Facility Performance</A> 
+   (Warehouse Lates) View
+ </BODY>
+</HTML>

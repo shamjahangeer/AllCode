@@ -1,0 +1,47 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Make Stock Code</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <B>Make Stock Code</B></P>
+  <P>
+   The code which identifies production control's intent to stock, make, 
+   or not replenish part numbers based on inventory guidelines.</P>
+  <P>
+   <B>Code</B> <B>Description</B></P>
+  <OL>
+   <LI CLASS="mvd-P">
+   <P>
+    Stock</P>
+   <LI CLASS="mvd-P">
+   <P>
+    Make to order</P>
+   <LI CLASS="mvd-P">
+   <P>
+    Do not replenish</P>
+   <LI CLASS="mvd-P">
+   <P>
+    Assemble to order</P>
+   </OL>
+  <P>
+   <SPAN STYLE="font-weight : bold;">MRP Groups are synonymous with Make 
+   Stock codes</SPAN></P>
+  <P>
+   These codes can be looked up by using the appropriate button next to 
+   their respective field in the search criteria window, and are case-sensitive.</P>
+  <P>
+   <B>Note: </B>Codes may be different depending on the organization 
+   providing the data.
+ </BODY>
+</HTML>

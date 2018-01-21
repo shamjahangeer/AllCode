@@ -1,0 +1,84 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Reservation Level Code</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <B>Reservation Level Code</B></P>
+  <P>
+   A code representing the quantity of material reserved for a customer.</P>
+  <P>
+   <TABLE WIDTH="400" CELLPADDING="1" CELLSPACING="2" BORDER="0">
+    <TR>
+     <TD VALIGN=TOP>
+      <P STYLE="text-align : center;" ALIGN=CENTER>
+       <B>Code</B></P>
+      <P STYLE="text-align : center;" ALIGN=CENTER>
+       <!-- $MVD$:spaceretainer() -->&nbsp;<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       <B>Description</B></P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;<BR>
+      </TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P STYLE="text-align : center;" ALIGN=CENTER>
+       R<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       Quantity Released is greater than zero</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P STYLE="text-align : center;" ALIGN=CENTER>
+       1<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       <A HREF="Dsc00243.htm">Reservation Level 1</A> is greater than zero</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P STYLE="text-align : center;" ALIGN=CENTER>
+       5<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       <A HREF="Dsc00244.htm">Reservation Level 5</A> is greater than zero</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;<BR>
+      </TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P STYLE="text-align : center;" ALIGN=CENTER>
+       9<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       <A HREF="Dsc00245.htm">Reservation Level 9</A> is greater than zero</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;<BR>
+      </TD>
+    </TR>
+   </TABLE>
+ </BODY>
+</HTML>

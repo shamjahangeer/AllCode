@@ -1,0 +1,66 @@
+STep 1:
+
+WINDOWS-1.36min
+-------------------
+
+SQL> create or replace directory my_dir as 'D:\my_dir';
+
+SQL> grant read,write on DIRECTORY my_dir to public;
+
+------------------------------------------------------
+
+OR 
+
+
+UNIX
+--------------
+SQL> create or replace directory my_dir as ‘/oracle/backup/export’
+
+SQL> grant read,write on DIRECTORY my_dir to public;
+
+--------------------------------------------------------
+Step 2:
+
+Note:You need to manuall go to the server and create a directory 
+
+----------------------------------------------------------------
+
+Step3:
+
+sql> host expdp system/manager@qatest directory=my_dir dumpfile=exp_tab.
+dmp logfile=exp_tab.log full=y;
+
+ expdp system/manager@qatest directory=my_dir dumpfile=exp_tab.
+dmp logfile=exp_tab.log full=y;
+
+create or replace directory DEV_DUMP as 'C:\DB Dump';    
+grant read,write on DIRECTORY DEV_DUMP to public; 
+
+
+expdp csldev/clsdev@CLSDEVDB  directory=DEV_DUMP dumpfile=CLS_DEV_07_08_2013.dmp logfile=CLS_DEV_07_08_2013.log;
+
+
+--------------------------------------------------------------
+
+create or replace directory data_pump_dir as '/oracle/exp'
+
+GRANT EXP_FULL_DATABASE  TO ciadmin;
+GRANT read on directory data_pump_dir TO CIADMIN;
+GRANT write on directory data_pump_dir TO CIADMIN
+
+
+
+select * from gv$parameter where upper(name) ='UTL_FILE_DIR'
+
+1. alter system set UTL_FILE_DIR = '/tmp' scope=spfile;
+2. shutdown immediate
+3. startup.
+
+from windows command prompt  u can give:: expdp ciadmin/ciadmin@uteam7 DIRECTORY=data_pump_dir DUMPFILE=UTEAM7.DMP full=y
+
+
+
+Url:http://www.oracle-base.com/articles/10g/OracleDataPump10g.php
+
+
+

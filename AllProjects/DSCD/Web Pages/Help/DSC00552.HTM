@@ -1,0 +1,71 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Release to Schedule Logic</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <A NAME="0be25b28"></A><B>Release to Schedule Logic</B></P>
+  <OL>
+   <LI CLASS="mvd-P">
+   <P>
+    Scorecard tracks from the <A HREF="Dsc00309.htm">Commit Date</A> to 
+    the <A HREF="Dsc00298.htm">Release Date</A> . Weekends and holidays 
+    are considered in the calculations.</P>
+   <LI CLASS="mvd-P">
+   <P>
+    For non-JIT customers, if the Release Date is before the <A HREF="Dsc00295.htm">Customer
+     Requested Date</A> (or the <A HREF="Dsc00291.htm">Customer Requested 
+    Expedite Date</A>) and the Schedule Date is after the Customer 
+    Requested Date (or the Customer Requested Expedite Date), the 
+    Customer Requested Date (or the Customer Requested Expedite Date) 
+    will become the Commit Date.</P>
+   <LI CLASS="mvd-P">
+   <P>
+    If the schedule was on Credit Review, performance is tracked from the <A HREF="Dsc00310.htm">Credit
+     Off Date</A> or from the Commit Date, whichever is the latest. One 
+    day is added to the Credit Off Date for calculation purposes only if 
+    the Release Date is greater than the Credit Off Date.</P>
+   <LI CLASS="mvd-P">
+   <P>
+    For Temporary Holds (TH):</P>
+   <P>
+    A. If Commit and Release Dates are <B>on or within</B> the TH period, 
+    the measurement is on-time.</P>
+   <P>
+    B. If Commit and Release Dates are <B>both before or both after</B> 
+    the TH period, the calculation is the standard Release Date to Commit 
+    Date comparison.</P>
+   <P>
+    C. If the Commit Date is <B>before</B> the <A HREF="Dsc00302.htm">TH 
+    On Date</A> and the Release Date is <B>greater than</B> the <A HREF="Dsc00301.htm">TH
+     Off Date</A>, the calculation is Release Date to Commit Date, minus 
+    the TH period plus one day.</P>
+   <P>
+    D. If the Commit Date is <B>within</B> the TH period and the Release 
+    Date is <B>greater than</B> the TH Off Date, the calculation is 
+    Release Date to Commit Date, minus the TH period.</P>
+   <P>
+    E. If the Commit Date is <B>within</B> the TH period and the Release 
+    Date is <B>greater than</B> the TH Off Date, the calculation is 
+    Release Date to TH Off Date (plus one day).</P>
+   <LI CLASS="mvd-P">
+   <P>
+    99/99/99 signifies a non-schedule date for AMP USA only. Whenever a 
+    release is made against a non-schedule date, the measurement is 
+    always reflected as -999.</P>
+   </OL>
+  <P>
+   <B>NOTE:</B> This will be calculated for all opens that have a 
+   release date and all shipments. This is a Standard Default calculation.
+ </BODY>
+</HTML>

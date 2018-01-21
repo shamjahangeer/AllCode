@@ -1,0 +1,12 @@
+Shutdown Immediate
+startup nomount
+create spfile='c:\oracle\spfile' from pfile='c:\oracle\pfile'; 
+alter database mount
+alter database open
+
+/opt/db02/app/oracle/product/11.1.0/db_1/dbs/pfileivtfin.ora
+
+/opt/db02/app/oracle/product/11.1.0/db_1/dbs/spfileivtfin.ora
+
+create pfile='/opt/db01/oracle/app/oracle/product/11.2.0/dbhome_1/dbs/pfilewpsdb.ora' from
+       spfile='/opt/db01/oracle/app/oracle/product/11.2.0/dbhome_1/dbs/spfilewpsdb.ora'

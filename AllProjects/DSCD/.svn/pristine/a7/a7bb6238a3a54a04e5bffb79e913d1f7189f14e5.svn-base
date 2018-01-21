@@ -1,0 +1,33 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Product Code</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <B>Product Code</B></P>
+  <P>
+   A code that identifies a group of related products, components, 
+   materials, or charges.</P>
+  <P>
+   <!-- $MVD$:spaceretainer() -->&nbsp;</P>
+  <P>
+   <A HREF="http://us194wb06.us.tycoelectronics.com/DMF/CustomCodeLists/list.asp?Lvl=0&amp;Pos=1&amp;FileName=PRODFAM&amp;PageName=Browse_Product_Family&amp;Ver=Current">1
+    Position Product Codes</A></P>
+  <P>
+   <A HREF="http://us194wb06.us.tycoelectronics.com/DMF/CustomCodeLists/list.asp?Lvl=0&amp;Pos=2&amp;FileName=PRODFAM&amp;PageName=Browse_Product_Family&amp;Ver=Current">2
+    Position Product Codes</A></P>
+  <P>
+   <A HREF="http://us194wb06.us.tycoelectronics.com/DMF/CustomCodeLists/list.asp?Lvl=0&amp;Pos=3&amp;FileName=PRODFAM&amp;PageName=Browse_Product_Family&amp;Ver=Current">3
+    Position Product Codes</A>
+ </BODY>
+</HTML>

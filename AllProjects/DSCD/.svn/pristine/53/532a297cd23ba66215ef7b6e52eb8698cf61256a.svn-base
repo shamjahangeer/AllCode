@@ -1,0 +1,40 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHTML by Blue Sky Software, portions by MicroVision Dev. Inc.","512") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 2","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Release to Ship Logic</TITLE>
+  <!-- $MVD$:template("","0","0") -->
+ <LINK REL="StyleSheet" HREF="styles.css" MEDIA=""></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'">
+   </P>
+  </FORM>
+  <P>
+   <IMG SRC="DSCDWRLD.gif" ALIGN=BOTTOM WIDTH=38 HEIGHT=32 VSPACE=0 HSPACE=0 ALT="DSCDWRLD.gif" BORDER=0><A NAME="e51165b1"></A><B>Release to Ship Logic</B>
+  </P>
+  <OL><LI CLASS="mvd-P">
+  <P>
+   If The Release Date is greater than the <A HREF="Dsc00309.htm">Commit Date</A> then Scorecard tracks from the <A HREF="Dsc00298.htm">Release Date</A> to the <A HREF="Dsc00289.htm">Shipped Date</A> (Operational Late). Weekends and holidays are considered in the calculation, as well as holds for credit or other legitimate reasons.
+  </P>
+  <LI CLASS="mvd-P">
+  <P>
+   If the <A HREF="Dsc00298.htm">Release Date</A> is less than or equal to the <A HREF="Dsc00309.htm">Commit Date</A> then Scorecard tracks from the Schedule Date to Shipped Date (Warehouse Late). See <A NAME="662c5f61"></A><A HREF="Dsc00541.htm">Schedule to Ship</A> Logic.
+  </P>
+  <LI CLASS="mvd-P">
+  <P>
+   If the Release to Ship Variance is late (&gt; 0) after either step 1 or 2 above then the Consolidation Indicator is check, if it is set to &#145;Y&#146; then Scorecard tracks from the Consolidation Date to <A HREF="Dsc00289.htm">Shipped Date</A> and the Release to Ship Comparison Code is set to M (milk run). Weekends and holidays are considered in the calculation. Take note this process is being considered for US (COS system) only.
+  </P>
+  <LI CLASS="mvd-P">
+  <P>
+   Those shipments which have been delivered ahead of schedule are considered to be on-time.
+  </P>
+  </OL>
+  <P>
+   <B>NOTE:</B> This will be calculated for shipments only. This is a Standard Default calculation. In this variance, we are measuring the additional &quot;lateness' that the shipping facility has added to the shipment; we are not measuring to a customer window.
+ </BODY>
+</HTML>

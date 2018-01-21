@@ -1,0 +1,5 @@
+select *
+from sys.dba_dependencies
+where referenced_type = 'TABLE'
+and referenced_owner = 'CIADMIN'
+and referenced_name in ('EAMS_INGEST_PACKAGE');

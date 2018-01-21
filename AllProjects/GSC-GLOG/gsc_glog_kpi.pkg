@@ -1,0 +1,2109 @@
+CREATE OR REPLACE PACKAGE GSC_GLOG_KPI
+AUTHID CURRENT_USER
+AS
+
+-- ----------------------------------------------------------------------------------------------------------
+--
+-- Purpose:
+-- 
+-- This package contains the below listed proedures to validate the data in GLOG_METRIC_DETAILS_STG and populate to associated table based
+-- the kpi_cde/kpi_metric_cde.
+
+--    DCCC_METRICS: Table (DCCC_METRIC_DETAILS): Metric Data for DC Consolidations/Closures
+--    DCCM_METRICS: Table (DCCM_METRIC_DETAILS): Metric Data for # of confirmed customer complaints (TECHS) per million schedules shipped
+--    DCCP_METRICS: Table (DCCP_METRIC_DETAILS): Metric Data for TCRT/(HRS/8)
+--    DCCS_METRICS: Table (DCCS_METRIC_DETAILS): Metric Data for DC Cost as % of sales
+--    DCDS_METRICS: Table (DCDS_METRIC_DETAILS): Metric Data for Dock to Stock
+--    DCIA_METRICS: Table (DCIA_METRIC_DETAILS): Metric Data for Inventory Accuracy
+--    DCOS_METRICS: Table (DCOS_METRIC_DETAILS): Metric Data for Warehouse schedules shipped on time as a percent to total schedules shipped.
+--    DCPC_METRICS: Table (DCPC_METRIC_DETAILS): Metric Data for Productivity cost per carton (TCSR/TCRT)
+--    TCCC_METRICS: Table (TCCC_METRIC_DETAILS): Metric Data for Core carrier compliance
+--    TFPO_METRICS: Table (TFPO_METRIC_DETAILS): Metric Data for Freight productivity savings, Gross on-time Delivery Carrier Performance
+--    TOTD_METRICS: Table (TOTD_METRIC_DETAILS): Metric Data for Net on-time Delivery Carrier Performance %
+--    TVH_METRICS : Table (TVH_METRIC_DETAILS) : Metric Data for Total Kilos Handled
+--
+-- ----------------------------------------------------------------------------------------------------------
+--
+-- Modification Log
+--
+-- ----------------------------------------------------------------------------------------------------------
+-- 07/19/2011  Kumar Emany         Original Version
+-- ----------------------------------------------------------------------------------------------------------
+--
+-- ----------------------------------------------------------------------------------------------------------
+-- IN  Parms -
+-- OUT Parms - io_status  - the result of the procedure
+--                        - OK    - if no problems
+--                        - ABORT - if errors
+--             io_sqlcode - SQLCODE if abort
+--             io_sqlerrm - SQLERRM if abort
+-- ----------------------------------------------------------------------------------------------------------
+
+PROCEDURE DCCC_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 );
+
+PROCEDURE DCCM_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 );
+
+PROCEDURE DCCP_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 );
+
+PROCEDURE DCCS_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 );
+
+PROCEDURE DCDS_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 );
+
+PROCEDURE DCIA_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 );
+
+PROCEDURE DCOS_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 );
+
+PROCEDURE DCPC_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 );
+
+PROCEDURE TCCC_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 );
+
+PROCEDURE TFPO_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 );
+
+PROCEDURE TOTD_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 );
+
+PROCEDURE TVH_METRICS 
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 );
+
+END GSC_GLOG_KPI;
+/
+
+-- ==========================================================================================================
+
+CREATE OR REPLACE PACKAGE BODY GSC_GLOG_KPI
+AS
+
+-- ----------------------------------------------------------------------------------------------------------
+ -- Global Variables
+ v_kpi_cde        KPI_METRICS.kpi_cde%TYPE               := NULL;
+ v_kpi_metric_cde KPI_METRICS.operations_metric_cde%TYPE := NULL;
+ v_metric_amt     NUMBER                                 := NULL;
+ 
+ v_fiscal_year_id NUMBER(4)                              := NULL;
+
+-- ----------------------------------------------------------------------------------------------------------
+PROCEDURE DCCC_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 )
+AS
+
+ CURSOR get_kpi_data IS
+  WITH 
+  r12 AS 
+  (
+  -- Get Rollover 12 Months
+  SELECT tyco_month_key
+  FROM   (
+         SELECT TO_NUMBER (fdd.cd_tyco_year_id || LPAD (fdd.cd_tyco_month_of_year_id, 2, 0)) tyco_month_key
+              , CASE 
+                   WHEN ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id  < dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND 
+                          fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id >= dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id - 12 ) 
+                          OR ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND
+                               fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id ) 
+                   THEN 'R12_to_EFF' 
+                   ELSE 'Non_R12_to_EFF' 
+                END rltv_r12_to_eff_key 
+         FROM   ( SELECT DISTINCT fdd.cd_tyco_year_id, fdd.cd_tyco_quarter_id, fdd.cd_tyco_month_of_year_id FROM MBB.fiscal_date_dmn fdd ) fdd
+              , ( SELECT * FROM MBB.fiscal_date_dmn WHERE  calendar_dt = TRUNC (SYSDATE) ) dm0
+         ) 
+  WHERE  rltv_r12_to_eff_key = 'R12_to_EFF'   
+  ), 
+  lma AS 
+  (
+  SELECT CASE
+            WHEN l.iso_ctry_amp_region_org_id IN ('0002', '0933') THEN 'A002'
+            WHEN l.iso_ctry_amp_region_org_id IN ('0442', '0934') THEN '0442'
+            ELSE  l.iso_ctry_amp_region_org_id 
+         END AS iso_ctry_amp_region_org_id
+       , dd.tyco_year_id          fiscal_year_id
+       , dd.tyco_quarter_id       fiscal_quarter_id
+       , dd.tyco_month_of_year_id fiscal_month_id
+  FROM   LMA.locations l
+       , date_dmn      dd  
+  WHERE  TRUNC(l.location_actual_disposal_dt) = TRUNC(dd.calendar_dt)
+  AND    l.primary_location_use_cde = -- '12'
+                                      (
+                                      SELECT mc.general_cde
+				      FROM   source_systems  ss
+				           , code_type_lists ctl
+				           , master_codes    mc
+				      WHERE  mc.source_system_id = 100
+				      AND    mc.source_system_id = ss.source_system_id
+				      AND    mc.code_type_id     = ctl.code_type_id
+				      AND    ctl.long_nm         = 'LOCATION USE CODE'
+				      AND    mc.code_nm          = 'WAREHOUSE'
+                                      )
+  AND    (l.location_key_id, l.location_in_process_ind) NOT IN (SELECT location_key_id, location_in_process_ind FROM LMA.locations_active_v)
+  )
+  -- Partial Current Month + Rolling 12 Month data, Quarterly totals for all Regions
+  SELECT region_organization_id, fiscal_year_id, fiscal_quarter_id, fiscal_month_id, close_cnt
+  FROM   (SELECT lma.iso_ctry_amp_region_org_id region_organization_id
+  	       , lma.fiscal_year_id
+  	       , lma.fiscal_quarter_id
+  	       , lma.fiscal_month_id
+  	       , COUNT(*) close_cnt
+  	  FROM   lma
+  	       , r12
+  	  WHERE  r12.tyco_month_key = (lma.fiscal_year_id||LPAD (lma.fiscal_month_id, 2, 0))
+  	  GROUP BY ROLLUP (lma.iso_ctry_amp_region_org_id, lma.fiscal_year_id, lma.fiscal_quarter_id, lma.fiscal_month_id))
+  WHERE  fiscal_quarter_id IS NOT NULL
+  GROUP BY region_organization_id, fiscal_year_id, fiscal_quarter_id, fiscal_month_id, close_cnt
+  UNION ALL
+  -- Partial Current Month + Rolling 12 Month data, Quarterly totals for Global ('0001')
+  SELECT *
+  FROM   (SELECT /*+ NO_MERGE */ '0001' reg
+               , lma.fiscal_year_id
+               , lma.fiscal_quarter_id
+               , lma.fiscal_month_id
+               , COUNT(*) close_cnt
+          FROM   lma
+               , r12
+          WHERE  r12.tyco_month_key = (lma.fiscal_year_id||LPAD (lma.fiscal_month_id, 2, 0))
+          GROUP BY ROLLUP (lma.fiscal_year_id, lma.fiscal_quarter_id, lma.fiscal_month_id))
+  WHERE  fiscal_quarter_id IS NOT NULL
+  GROUP BY reg, fiscal_year_id, fiscal_quarter_id, fiscal_month_id, close_cnt
+  UNION ALL
+  -- Current Yr, 2 Previous Yrs totals for all regions and Global ('0001') 
+  SELECT * 
+  FROM   (
+         SELECT DECODE(GROUPING(lma.iso_ctry_amp_region_org_id), 1, '0001', lma.iso_ctry_amp_region_org_id)
+              , lma.fiscal_year_id
+              , NULL fiscal_quarter_id
+              , NULL fiscal_month_id
+              , COUNT(*) close_cnt
+         FROM   lma
+         WHERE  lma.fiscal_year_id >= v_fiscal_year_id
+         GROUP BY CUBE (lma.iso_ctry_amp_region_org_id, lma.fiscal_year_id)
+         )
+  WHERE  fiscal_year_id IS NOT NULL
+  ORDER BY 1, 2, 3 NULLS FIRST, 4 NULLS FIRST;
+
+ v_fyear         NUMBER;
+ v_fqtr          NUMBER;
+ v_fmonth        NUMBER;
+ v_fweek         NUMBER;
+ 
+ v_error_section VARCHAR2(1000);  
+
+BEGIN
+
+   v_kpi_cde        := 'DCCC';
+   v_kpi_metric_cde := 'COCL';
+
+  -- Delete from Table DCCC_METRIC_DETAILS
+   v_error_section := 'Delete previous KPI data From DCCC_METRIC_DETAILS';
+   DELETE FROM GSC.DCCC_METRIC_DETAILS;
+   COMMIT;
+   
+   v_error_section := 'Populate data for DCCC_METRIC_DETAILS';
+   FOR get_kpi_data_rec IN get_kpi_data
+   LOOP
+   
+      v_error_section := 'INSERT INTO DCCC_METRIC_DETAILS for: '               ||
+      		    ' kpi code '   || v_kpi_cde                                ||
+      		    ' metric cde ' || v_kpi_metric_cde                         ||
+      		    ' reg '        || GET_KPI_DATA_REC.region_organization_id  ||
+      		    ' fy '         || GET_KPI_DATA_REC.fiscal_year_id          ||
+      		    ' fm '         || GET_KPI_DATA_REC.fiscal_month_id         ||
+      		    ' amt '        || GET_KPI_DATA_REC.close_cnt;
+
+      INSERT INTO GSC.DCCC_METRIC_DETAILS
+             ( DCCC_METRIC_DETAIL_ID
+             , KPI_CDE
+             , KPI_METRIC_CDE
+             , REGION_ORGANIZATION_ID
+             , FISCAL_YEAR_ID
+             , FISCAL_QUARTER_ID
+             , FISCAL_MONTH_ID
+             , METRIC_AMT )
+      VALUES ( GSC.DCCC_METRIC_DETAILS_SEQ.NEXTVAL
+             , v_kpi_cde
+             , v_kpi_metric_cde
+             , GET_KPI_DATA_REC.region_organization_id
+             , GET_KPI_DATA_REC.fiscal_year_id
+             , GET_KPI_DATA_REC.fiscal_quarter_id
+             , GET_KPI_DATA_REC.fiscal_month_id
+             , GET_KPI_DATA_REC.close_cnt);
+      
+   END LOOP;
+   COMMIT;
+
+   v_error_section := 'Analyze the Table: DCCC_METRIC_DETAILS';
+   GSC.GSC_ANALYZE_TABLE('DCCC_METRIC_DETAILS');
+
+   v_error_section := 'Update the Reporting Periods for DCCC_METRIC_DETAILS';
+   SELECT fddi.*, 
+          (SELECT MAX (fdd.cd_tyco_week_id)
+           FROM   MBB.fiscal_date_dmn fdd
+           WHERE  fdd.cd_tyco_year_id          = fddi.fiscal_year_id
+           AND    fdd.cd_tyco_month_of_year_id = fddi.fiscal_month_id) fiscal_week
+   INTO   v_fyear, v_fqtr, v_fmonth, v_fweek   
+   FROM   (SELECT fiscal_year_id, MAX (fiscal_quarter_id), MAX (fiscal_month_id) fiscal_month_id
+           FROM   GSC.dccc_metric_details
+           WHERE  fiscal_year_id = (SELECT MAX (fiscal_year_id) FROM GSC.dccc_metric_details)
+           GROUP BY   fiscal_year_id) fddi;
+
+   GSC.UPDATE_KPI_REPORTING_PERIODS (v_kpi_cde, v_fyear, v_fqtr, v_fmonth, v_fweek);
+   COMMIT;
+
+   io_status  := 'OK';
+   io_sqlcode := NULL;
+   io_sqlerrm := NULL;
+   
+EXCEPTION
+   WHEN OTHERS THEN
+      io_status  := 'ABORT';
+      io_sqlcode := SQLCODE;
+      io_sqlerrm := v_error_section || ':' || SQLERRM;
+
+      ROLLBACK;
+      RAISE_APPLICATION_ERROR (-20101, v_error_section||' '||SQLERRM);
+
+END DCCC_METRICS;
+
+-- ----------------------------------------------------------------------------------------------------------
+PROCEDURE DCCM_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 )
+AS
+
+ CURSOR get_kpi_data IS
+  WITH 
+  r12 AS 
+  (
+  -- Get Rollover 12 Months
+  SELECT tyco_month_key
+  FROM   (
+         SELECT TO_NUMBER (fdd.cd_tyco_year_id || LPAD (fdd.cd_tyco_month_of_year_id, 2, 0)) tyco_month_key
+              , CASE 
+                   WHEN ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id  < dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND 
+                          fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id >= dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id - 12 ) 
+                          OR ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND
+                               fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id ) 
+                   THEN 'R12_to_EFF' 
+                   ELSE 'Non_R12_to_EFF' 
+                END rltv_r12_to_eff_key 
+         FROM   ( SELECT DISTINCT fdd.cd_tyco_year_id, fdd.cd_tyco_quarter_id, fdd.cd_tyco_month_of_year_id FROM MBB.fiscal_date_dmn fdd ) fdd
+              , ( SELECT * FROM MBB.fiscal_date_dmn WHERE  calendar_dt = TRUNC (SYSDATE) ) dm0
+         ) 
+  WHERE  rltv_r12_to_eff_key = 'R12_to_EFF'   
+  ), 
+  mdca AS 
+  (
+  SELECT CASE
+            WHEN loc.iso_ctry_amp_region_org_id IN ('0002', '0933') THEN 'A002'
+            WHEN loc.iso_ctry_amp_region_org_id IN ('0442', '0934') THEN '0442'
+            ELSE loc.iso_ctry_amp_region_org_id 
+         END AS iso_ctry_amp_region_org_id
+       , mdca.fiscal_year_id
+       , mdca.fiscal_month_of_year_id     fiscal_month_id
+       , mdca.number_of_complaints_qty    compl_tot
+       , mdca.number_of_lines_shipped_qty ship_tot       
+  FROM   GIN_CURRENT.monthly_dtrb_center_activities mdca
+       , LMA.locations                              loc
+  WHERE  mdca.te_location_id = loc.tyco_elec_location_id
+  )
+  -- Partial Current Month + Rolling 12 Month data, for all Regions
+  SELECT mdca.iso_ctry_amp_region_org_id region_organization_id
+       , mdca.fiscal_year_id
+       , mdca.fiscal_month_id
+       , SUM(compl_tot) compl_tot
+       , SUM(ship_tot)  ship_tot
+  FROM   mdca
+       , r12
+  WHERE  r12.tyco_month_key = (mdca.fiscal_year_id||LPAD (mdca.fiscal_month_id, 2, 0))
+  GROUP BY mdca.iso_ctry_amp_region_org_id, mdca.fiscal_year_id, mdca.fiscal_month_id
+  UNION ALL
+  -- Partial Current Month + Rolling 12 Month data, for Global ('0001')
+  SELECT *
+  FROM   (SELECT /*+ NO_MERGE */ '0001' reg
+               , mdca.fiscal_year_id
+               , mdca.fiscal_month_id
+               , SUM(compl_tot) compl_tot
+               , SUM(ship_tot)  ship_tot
+          FROM   mdca mdca
+               , r12
+          WHERE  r12.tyco_month_key = (mdca.fiscal_year_id||LPAD (mdca.fiscal_month_id, 2, 0))
+          GROUP BY ROLLUP (mdca.fiscal_year_id, mdca.fiscal_month_id))
+  WHERE  fiscal_month_id IS NOT NULL
+  GROUP BY reg, fiscal_year_id, fiscal_month_id, compl_tot, ship_tot
+  UNION ALL
+  -- Current Yr, 2 Previous Yrs totals for all regions and Global ('0001') 
+  SELECT * 
+  FROM   (
+         SELECT DECODE(GROUPING(mdca.iso_ctry_amp_region_org_id), 1, '0001', mdca.iso_ctry_amp_region_org_id)
+              , mdca.fiscal_year_id
+              , NULL
+              , SUM(compl_tot) compl_tot
+              , SUM(ship_tot)  ship_tot
+         FROM   mdca
+         WHERE  mdca.fiscal_year_id >= v_fiscal_year_id
+         GROUP BY CUBE (mdca.iso_ctry_amp_region_org_id, mdca.fiscal_year_id)
+         )
+  WHERE  fiscal_year_id IS NOT NULL
+  ORDER BY 1, 2, 3 NULLS FIRST, 4 NULLS FIRST;
+
+ v_fyear         NUMBER;
+ v_fqtr          NUMBER;
+ v_fmonth        NUMBER;
+ v_fweek         NUMBER;
+ 
+ v_error_section VARCHAR2(1000);  
+
+BEGIN
+
+   v_kpi_cde        := 'DCCM';
+   v_kpi_metric_cde := 'CPPM';
+   v_metric_amt     := NULL;
+ 
+   -- Delete from Table
+   v_error_section := 'Delete previous KPI data From DCCM_METRIC_DETAILS';
+   DELETE FROM GSC.DCCM_METRIC_DETAILS;
+   COMMIT;
+   
+   v_error_section := 'Populate data for DCCM_METRIC_DETAILS';
+   FOR get_kpi_data_rec IN get_kpi_data
+   LOOP
+      IF GET_KPI_DATA_REC.ship_tot <> 0 THEN
+         
+         v_metric_amt := ((GET_KPI_DATA_REC.compl_tot/GET_KPI_DATA_REC.ship_tot) * 1000000);
+
+         v_error_section := 'INSERT INTO DCCM_METRIC_DETAILS for: '                    ||
+         		    ' kpi code '   || v_kpi_cde                                ||
+         		    ' metric cde ' || v_kpi_metric_cde                         ||
+         		    ' reg '        || GET_KPI_DATA_REC.region_organization_id  ||
+         		    ' fy '         || GET_KPI_DATA_REC.fiscal_year_id          ||
+         		    ' fm '         || GET_KPI_DATA_REC.fiscal_month_id         ||
+         		    ' amt '        || v_metric_amt;
+
+         INSERT INTO GSC.DCCM_METRIC_DETAILS
+                ( DCCM_METRIC_DETAIL_ID
+                , KPI_CDE
+                , KPI_METRIC_CDE
+                , REGION_ORGANIZATION_ID
+                , FISCAL_YEAR_ID
+                , FISCAL_QUARTER_ID
+                , FISCAL_MONTH_ID
+                , METRIC_AMT )
+         VALUES ( GSC.DCCM_METRIC_DETAILS_SEQ.NEXTVAL
+                , v_kpi_cde
+                , v_kpi_metric_cde
+                , GET_KPI_DATA_REC.region_organization_id
+                , GET_KPI_DATA_REC.fiscal_year_id
+                , CASE
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (1,2,3) THEN 1
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (4,5,6) THEN 2
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (7,8,9) THEN 3
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (10,11,12) THEN 4
+                  END
+                , GET_KPI_DATA_REC.fiscal_month_id
+                , v_metric_amt );
+         
+         v_metric_amt := NULL;         
+
+      END IF;  -- GET_KPI_DATA_REC.ship_tot
+      
+   END LOOP;
+   COMMIT;
+
+   v_error_section := 'Analyze the Table: DCCM_METRIC_DETAILS';
+   GSC.GSC_ANALYZE_TABLE('DCCM_METRIC_DETAILS');
+
+   v_error_section := 'Update the Reporting Periods for DCIA_METRIC_DETAILS';
+   SELECT fddi.*, 
+          (SELECT MAX (fdd.cd_tyco_week_id)
+           FROM   MBB.fiscal_date_dmn fdd
+           WHERE  fdd.cd_tyco_year_id          = fddi.fiscal_year_id
+           AND    fdd.cd_tyco_month_of_year_id = fddi.fiscal_month_id) fiscal_week
+   INTO   v_fyear, v_fqtr, v_fmonth, v_fweek
+   FROM   (SELECT fiscal_year_id, MAX (fiscal_quarter_id), MAX (fiscal_month_id) fiscal_month_id
+           FROM   GSC.dccm_metric_details
+           WHERE  fiscal_year_id = (SELECT MAX (fiscal_year_id) FROM GSC.dccm_metric_details)
+           GROUP BY   fiscal_year_id) fddi;
+
+   GSC.UPDATE_KPI_REPORTING_PERIODS (v_kpi_cde, v_fyear, v_fqtr, v_fmonth, v_fweek);
+   COMMIT;
+
+   io_status  := 'OK';
+   io_sqlcode := NULL;
+   io_sqlerrm := NULL;
+   
+EXCEPTION
+   WHEN OTHERS THEN
+      io_status  := 'ABORT';
+      io_sqlcode := SQLCODE;
+      io_sqlerrm := v_error_section || ':' || SQLERRM;
+
+      ROLLBACK;
+      RAISE_APPLICATION_ERROR (-20101, v_error_section||' '||SQLERRM);
+
+END DCCM_METRICS;
+
+-- ----------------------------------------------------------------------------------------------------------
+PROCEDURE DCCP_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 )
+AS
+
+ CURSOR get_kpi_data IS
+  WITH 
+  r24 AS
+  (
+  -- Get Rollover 24 Months
+  SELECT tyco_month_key
+  FROM   (
+         SELECT TO_NUMBER (fdd.cd_tyco_year_id || LPAD (fdd.cd_tyco_month_of_year_id, 2, 0)) tyco_month_key
+              , CASE 
+                   WHEN ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id  < dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND 
+                          fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id >= dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id - 24 ) 
+                          OR ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND
+                               fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id ) 
+                   THEN 'R24_to_EFF' 
+                   ELSE 'Non_R24_to_EFF' 
+                END rltv_r24_to_eff_key 
+         FROM   ( SELECT DISTINCT fdd.cd_tyco_year_id, fdd.cd_tyco_quarter_id, fdd.cd_tyco_month_of_year_id FROM MBB.fiscal_date_dmn fdd ) fdd
+              , ( SELECT * FROM MBB.fiscal_date_dmn WHERE  calendar_dt = TRUNC (SYSDATE) ) dm0
+         ) 
+  WHERE  rltv_r24_to_eff_key = 'R24_to_EFF'   
+  ), 
+  mdca AS 
+  (
+  SELECT CASE
+            WHEN loc.iso_ctry_amp_region_org_id IN ('0002', '0933') THEN 'A002'
+            WHEN loc.iso_ctry_amp_region_org_id IN ('0442', '0934') THEN '0442'
+            ELSE loc.iso_ctry_amp_region_org_id 
+         END AS iso_ctry_amp_region_org_id
+       , mdca.fiscal_year_id
+       , mdca.fiscal_month_of_year_id fiscal_month_id
+       , mdca.cartons_received_qty    recd_tot
+       , mdca.cartons_shipped_qty     ship_tot
+       , mdca.hours_worked_qty        hrs_tot 
+  FROM   GIN_CURRENT.monthly_dtrb_center_activities mdca
+       , LMA.locations                              loc
+  WHERE  mdca.te_location_id = loc.tyco_elec_location_id
+  )
+  -- Partial Current Month + Rolling 12 Month data, for all Regions
+  SELECT mdca.iso_ctry_amp_region_org_id region_organization_id
+       , mdca.fiscal_year_id
+       , mdca.fiscal_month_id
+       , SUM(recd_tot) recd_tot
+       , SUM(ship_tot) ship_tot
+       , SUM(hrs_tot)  hrs_tot
+  FROM   mdca
+       , r24
+  WHERE  r24.tyco_month_key = (mdca.fiscal_year_id||LPAD (mdca.fiscal_month_id, 2, 0))
+  GROUP BY mdca.iso_ctry_amp_region_org_id, mdca.fiscal_year_id, mdca.fiscal_month_id
+  UNION ALL
+  -- Partial Current Month + Rolling 12 Month data, for Global ('0001')
+  SELECT *
+  FROM   (SELECT /*+ NO_MERGE */ '0001' reg
+               , mdca.fiscal_year_id
+               , mdca.fiscal_month_id
+               , SUM(recd_tot) recd_tot
+               , SUM(ship_tot) ship_tot
+               , SUM(hrs_tot)  hrs_tot
+          FROM   mdca mdca
+               , r24
+          WHERE  r24.tyco_month_key = (mdca.fiscal_year_id||LPAD (mdca.fiscal_month_id, 2, 0))
+          GROUP BY ROLLUP (mdca.fiscal_year_id, mdca.fiscal_month_id))
+  WHERE  fiscal_month_id IS NOT NULL
+  GROUP BY reg, fiscal_year_id, fiscal_month_id, recd_tot, ship_tot, hrs_tot
+  UNION ALL
+  -- Current Yr, 2 Previous Yrs totals for all regions and Global ('0001') 
+  SELECT * 
+  FROM   (
+         SELECT DECODE(GROUPING(mdca.iso_ctry_amp_region_org_id), 1, '0001', mdca.iso_ctry_amp_region_org_id)
+              , mdca.fiscal_year_id
+              , NULL
+               , SUM(recd_tot) recd_tot
+               , SUM(ship_tot) ship_tot
+               , SUM(hrs_tot)  hrs_tot
+         FROM   mdca
+         WHERE  mdca.fiscal_year_id >= v_fiscal_year_id
+         GROUP BY CUBE (mdca.iso_ctry_amp_region_org_id, mdca.fiscal_year_id)
+         )
+  WHERE  fiscal_year_id IS NOT NULL
+  ORDER BY 1, 2, 3 NULLS FIRST, 4 NULLS FIRST;
+
+ v_fyear         NUMBER;
+ v_fqtr          NUMBER;
+ v_fmonth        NUMBER;
+ v_fweek         NUMBER;
+ 
+ v_error_section VARCHAR2(1000);  
+
+BEGIN
+
+   v_kpi_cde        := 'DCCP';
+   v_kpi_metric_cde := 'CCP';
+   v_metric_amt     := NULL;
+ 
+   -- Delete from Table DCCP_METRIC_DETAILS
+   v_error_section := 'Delete previous KPI data From DCCP_METRIC_DETAILS';
+   DELETE FROM DCCP_METRIC_DETAILS;
+   COMMIT;
+   
+   v_error_section := 'Populate data for DCCP_METRIC_DETAILS';
+   FOR get_kpi_data_rec IN get_kpi_data
+   LOOP
+   
+      IF GET_KPI_DATA_REC.hrs_tot <> 0 THEN
+         
+         -- Cartons Received + Cartons shipped divided by equivalent headcount. (R+S/(Hours/8))
+         v_metric_amt := ( (GET_KPI_DATA_REC.recd_tot + GET_KPI_DATA_REC.ship_tot) / (GET_KPI_DATA_REC.hrs_tot/8) );
+
+         v_error_section := 'INSERT INTO DCCP_METRIC_DETAILS for: '                    ||
+         		    ' kpi code '   || v_kpi_cde                                ||
+         		    ' metric cde ' || v_kpi_metric_cde                         ||
+         		    ' reg '        || GET_KPI_DATA_REC.region_organization_id  ||
+         		    ' fy '         || GET_KPI_DATA_REC.fiscal_year_id          ||
+         		    ' fm '         || GET_KPI_DATA_REC.fiscal_month_id         ||
+         		    ' amt '        || v_metric_amt;
+   
+         INSERT INTO GSC.DCCP_METRIC_DETAILS
+                ( DCCP_METRIC_DETAIL_ID
+                , KPI_CDE
+                , KPI_METRIC_CDE
+                , REGION_ORGANIZATION_ID
+                , FISCAL_YEAR_ID
+                , FISCAL_QUARTER_ID
+                , FISCAL_MONTH_ID
+                , METRIC_AMT )
+         VALUES ( GSC.DCCP_METRIC_DETAILS_SEQ.NEXTVAL
+                , v_kpi_cde
+                , v_kpi_metric_cde
+                , GET_KPI_DATA_REC.region_organization_id
+                , GET_KPI_DATA_REC.fiscal_year_id
+                , CASE
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (1,2,3) THEN 1
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (4,5,6) THEN 2
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (7,8,9) THEN 3
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (10,11,12) THEN 4
+                  END
+                , GET_KPI_DATA_REC.fiscal_month_id
+                , ROUND(v_metric_amt, 2) -- Per GLOG KPI data base reqmts.xls round to 2 decimal points
+                );
+         
+         v_metric_amt := NULL;         
+   
+      END IF;  -- GET_KPI_DATA_REC.ship_tot
+      
+   END LOOP;  -- get_kpi_data
+   COMMIT;
+
+   v_error_section := 'Analyze the Table: DCCP_METRIC_DETAILS';
+   GSC.GSC_ANALYZE_TABLE('DCCP_METRIC_DETAILS');
+
+   v_error_section := 'Update the Reporting Periods for DCCP_METRIC_DETAILS';
+   SELECT fddi.*, 
+          (SELECT MAX (fdd.cd_tyco_week_id)
+           FROM   MBB.fiscal_date_dmn fdd
+           WHERE  fdd.cd_tyco_year_id          = fddi.fiscal_year_id
+           AND    fdd.cd_tyco_month_of_year_id = fddi.fiscal_month_id) fiscal_week
+   INTO   v_fyear, v_fqtr, v_fmonth, v_fweek
+   FROM   (SELECT fiscal_year_id, MAX (fiscal_quarter_id), MAX (fiscal_month_id) fiscal_month_id
+           FROM   GSC.dccp_metric_details
+           WHERE  fiscal_year_id = (SELECT MAX (fiscal_year_id) FROM GSC.dccp_metric_details)
+           GROUP BY   fiscal_year_id) fddi;
+
+   GSC.UPDATE_KPI_REPORTING_PERIODS (v_kpi_cde, v_fyear, v_fqtr, v_fmonth, v_fweek);
+   COMMIT;
+
+   io_status  := 'OK';
+   io_sqlcode := NULL;
+   io_sqlerrm := NULL;
+   
+EXCEPTION
+   WHEN OTHERS THEN
+      io_status  := 'ABORT';
+      io_sqlcode := SQLCODE;
+      io_sqlerrm := v_error_section || ':' || SQLERRM;
+
+      ROLLBACK;
+      RAISE_APPLICATION_ERROR (-20101, v_error_section||' '||SQLERRM);
+
+END DCCP_METRICS;
+
+-- ----------------------------------------------------------------------------------------------------------
+PROCEDURE DCCS_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 )
+AS
+
+ CURSOR get_kpi_data IS
+  WITH 
+  r24 AS
+  (
+  -- Get Rollover 24 Months
+  SELECT tyco_month_key
+  FROM   (
+         SELECT TO_NUMBER (fdd.cd_tyco_year_id || LPAD (fdd.cd_tyco_month_of_year_id, 2, 0)) tyco_month_key
+              , CASE 
+                   WHEN ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id  < dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND 
+                          fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id >= dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id - 24 ) 
+                          OR ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND
+                               fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id ) 
+                   THEN 'R24_to_EFF' 
+                   ELSE 'Non_R24_to_EFF' 
+                END rltv_r24_to_eff_key 
+         FROM   ( SELECT DISTINCT fdd.cd_tyco_year_id, fdd.cd_tyco_quarter_id, fdd.cd_tyco_month_of_year_id FROM MBB.fiscal_date_dmn fdd ) fdd
+              , ( SELECT * FROM MBB.fiscal_date_dmn WHERE  calendar_dt = TRUNC (SYSDATE) ) dm0
+         ) 
+  WHERE  rltv_r24_to_eff_key = 'R24_to_EFF'   
+  ), 
+  mdca AS 
+  (
+  SELECT CASE
+            WHEN loc.iso_ctry_amp_region_org_id IN ('0002', '0933') THEN 'A002'
+            WHEN loc.iso_ctry_amp_region_org_id IN ('0442', '0934') THEN '0442'
+            ELSE loc.iso_ctry_amp_region_org_id 
+         END AS iso_ctry_amp_region_org_id
+       , mdca.fiscal_year_id
+       , mdca.fiscal_month_of_year_id fiscal_month_id
+       , mdca.total_cost_without_freight_amt cost_tot       
+       , mdca.sum_of_usd_shipped_amt         sale_tot
+  FROM   GIN_CURRENT.monthly_dtrb_center_activities mdca
+       , LMA.locations                              loc
+  WHERE  mdca.te_location_id = loc.tyco_elec_location_id
+  )
+  -- Partial Current Month + Rolling 12 Month data, for all Regions
+  SELECT mdca.iso_ctry_amp_region_org_id region_organization_id
+       , mdca.fiscal_year_id
+       , mdca.fiscal_month_id
+       , SUM(cost_tot) cost_tot
+       , SUM(sale_tot) sale_tot
+  FROM   mdca
+       , r24
+  WHERE  r24.tyco_month_key = (mdca.fiscal_year_id||LPAD (mdca.fiscal_month_id, 2, 0))
+  GROUP BY mdca.iso_ctry_amp_region_org_id, mdca.fiscal_year_id, mdca.fiscal_month_id
+  UNION ALL
+  -- Partial Current Month + Rolling 12 Month data, for Global ('0001')
+  SELECT *
+  FROM   (SELECT /*+ NO_MERGE */ '0001' reg
+               , mdca.fiscal_year_id
+               , mdca.fiscal_month_id
+               , SUM(cost_tot) cost_tot
+               , SUM(sale_tot) sale_tot
+          FROM   mdca mdca
+               , r24
+          WHERE  r24.tyco_month_key = (mdca.fiscal_year_id||LPAD (mdca.fiscal_month_id, 2, 0))
+          GROUP BY ROLLUP (mdca.fiscal_year_id, mdca.fiscal_month_id))
+  WHERE  fiscal_month_id IS NOT NULL
+  GROUP BY reg, fiscal_year_id, fiscal_month_id, cost_tot, sale_tot
+  UNION ALL
+  -- Current Yr, 2 Previous Yrs totals for all regions and Global ('0001') 
+  SELECT * 
+  FROM   (
+         SELECT DECODE(GROUPING(mdca.iso_ctry_amp_region_org_id), 1, '0001', mdca.iso_ctry_amp_region_org_id)
+              , mdca.fiscal_year_id
+              , NULL
+              , SUM(cost_tot) cost_tot
+              , SUM(sale_tot) sale_tot
+         FROM   mdca
+         WHERE  mdca.fiscal_year_id >= v_fiscal_year_id
+         GROUP BY CUBE (mdca.iso_ctry_amp_region_org_id, mdca.fiscal_year_id)
+         )
+  WHERE  fiscal_year_id IS NOT NULL
+  ORDER BY 1, 2, 3 NULLS FIRST, 4 NULLS FIRST;
+
+ v_fyear         NUMBER;
+ v_fqtr          NUMBER;
+ v_fmonth        NUMBER;
+ v_fweek         NUMBER;
+ 
+ v_error_section VARCHAR2(1000);  
+
+BEGIN
+
+   v_kpi_cde        := 'DCCS';
+   v_kpi_metric_cde := 'COPS';
+   v_metric_amt     := NULL;
+ 
+   -- Delete from Table DCCS_METRIC_DETAILS
+   v_error_section := 'Delete previous KPI data From DCCS_METRIC_DETAILS';
+   DELETE FROM DCCS_METRIC_DETAILS;
+   COMMIT;
+   
+   v_error_section := 'Populate data for DCCS_METRIC_DETAILS';
+   FOR get_kpi_data_rec IN get_kpi_data
+   LOOP
+   
+      IF GET_KPI_DATA_REC.sale_tot <> 0 THEN
+         
+         v_metric_amt := ((GET_KPI_DATA_REC.cost_tot/GET_KPI_DATA_REC.sale_tot) * 100);
+   
+         v_error_section := 'INSERT INTO DCCS_METRIC_DETAILS for: '                 ||
+         		    ' kpi code '   || v_kpi_cde                                ||
+         		    ' metric cde ' || v_kpi_metric_cde                         ||
+         		    ' reg '        || GET_KPI_DATA_REC.region_organization_id  ||
+         		    ' fy '         || GET_KPI_DATA_REC.fiscal_year_id          ||
+         		    ' fm '         || GET_KPI_DATA_REC.fiscal_month_id         ||
+         		    ' amt '        || v_metric_amt;
+   
+         INSERT INTO GSC.DCCS_METRIC_DETAILS
+                ( DCCS_METRIC_DETAIL_ID
+                , KPI_CDE
+                , KPI_METRIC_CDE
+                , REGION_ORGANIZATION_ID
+                , FISCAL_YEAR_ID
+                , FISCAL_QUARTER_ID
+                , FISCAL_MONTH_ID
+                , METRIC_AMT )
+         VALUES ( GSC.DCCS_METRIC_DETAILS_SEQ.NEXTVAL
+                , v_kpi_cde
+                , v_kpi_metric_cde
+                , GET_KPI_DATA_REC.region_organization_id
+                , GET_KPI_DATA_REC.fiscal_year_id
+                , CASE
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (1,2,3) THEN 1
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (4,5,6) THEN 2
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (7,8,9) THEN 3
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (10,11,12) THEN 4
+                  END
+                , GET_KPI_DATA_REC.fiscal_month_id
+                , ROUND(v_metric_amt, 3) -- Per GLOG KPI data base reqmts.xls round to 3 decimal points
+                );
+         
+         v_metric_amt := NULL;         
+   
+      END IF;  -- GET_KPI_DATA_REC.ship_tot
+      
+   END LOOP;  -- get_kpi_data
+   COMMIT;
+
+   v_error_section := 'Analyze the Table: DCCS_METRIC_DETAILS';
+   GSC.GSC_ANALYZE_TABLE('DCCS_METRIC_DETAILS');
+
+   v_error_section := 'Update the Reporting Periods for DCCS_METRIC_DETAILS';
+   SELECT fddi.*, 
+          (SELECT MAX (fdd.cd_tyco_week_id)
+           FROM   MBB.fiscal_date_dmn fdd
+           WHERE  fdd.cd_tyco_year_id          = fddi.fiscal_year_id
+           AND    fdd.cd_tyco_month_of_year_id = fddi.fiscal_month_id) fiscal_week
+   INTO   v_fyear, v_fqtr, v_fmonth, v_fweek
+   FROM   (SELECT fiscal_year_id, MAX (fiscal_quarter_id), MAX (fiscal_month_id) fiscal_month_id
+           FROM   GSC.dccs_metric_details
+           WHERE  fiscal_year_id = (SELECT MAX (fiscal_year_id) FROM GSC.dccs_metric_details)
+           GROUP BY   fiscal_year_id) fddi;
+
+   GSC.UPDATE_KPI_REPORTING_PERIODS (v_kpi_cde, v_fyear, v_fqtr, v_fmonth, v_fweek);
+   COMMIT;
+
+   io_status  := 'OK';
+   io_sqlcode := NULL;
+   io_sqlerrm := NULL;
+   
+EXCEPTION
+   WHEN OTHERS THEN
+      io_status  := 'ABORT';
+      io_sqlcode := SQLCODE;
+      io_sqlerrm := v_error_section || ':' || SQLERRM;
+
+      ROLLBACK;
+      RAISE_APPLICATION_ERROR (-20101, v_error_section||' '||SQLERRM);
+
+END DCCS_METRICS;
+
+-- ----------------------------------------------------------------------------------------------------------
+PROCEDURE DCDS_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 )
+AS
+
+ CURSOR get_kpi_data IS
+  WITH 
+  r12 AS 
+  (
+  -- Get Rollover 12 Months
+  SELECT tyco_month_key
+  FROM   (
+         SELECT TO_NUMBER (fdd.cd_tyco_year_id || LPAD (fdd.cd_tyco_month_of_year_id, 2, 0)) tyco_month_key
+              , CASE 
+                   WHEN ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id  < dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND 
+                          fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id >= dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id - 12 ) 
+                          OR ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND
+                               fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id ) 
+                   THEN 'R12_to_EFF' 
+                   ELSE 'Non_R12_to_EFF' 
+                END rltv_r12_to_eff_key 
+         FROM   ( SELECT DISTINCT fdd.cd_tyco_year_id, fdd.cd_tyco_quarter_id, fdd.cd_tyco_month_of_year_id FROM MBB.fiscal_date_dmn fdd ) fdd
+              , ( SELECT * FROM MBB.fiscal_date_dmn WHERE  calendar_dt = TRUNC (SYSDATE) ) dm0
+         ) 
+  WHERE  rltv_r12_to_eff_key = 'R12_to_EFF'   
+  ), 
+  mdca AS 
+  (
+  SELECT CASE
+            WHEN loc.iso_ctry_amp_region_org_id IN ('0002', '0933') THEN 'A002'
+            WHEN loc.iso_ctry_amp_region_org_id IN ('0442', '0934') THEN '0442'
+            ELSE loc.iso_ctry_amp_region_org_id 
+         END AS iso_ctry_amp_region_org_id
+       , mdca.fiscal_year_id
+       , mdca.fiscal_month_of_year_id     fiscal_month_id
+       , mdca.dock_to_stock_hour_qty      dts_amt
+  FROM   GIN_CURRENT.monthly_dtrb_center_activities mdca
+       , LMA.locations                              loc
+  WHERE  mdca.te_location_id = loc.tyco_elec_location_id
+  )
+  -- Partial Current Month + Rolling 12 Month data, for all Regions
+  SELECT mdca.iso_ctry_amp_region_org_id region_organization_id
+       , mdca.fiscal_year_id
+       , mdca.fiscal_month_id
+       , AVG(mdca.dts_amt) avg_dts_amt
+  FROM   mdca
+       , r12
+  WHERE  r12.tyco_month_key = (mdca.fiscal_year_id||LPAD (mdca.fiscal_month_id, 2, 0))
+  GROUP BY mdca.iso_ctry_amp_region_org_id, mdca.fiscal_year_id, mdca.fiscal_month_id
+  UNION ALL
+  -- Partial Current Month + Rolling 12 Month data, for Global ('0001')
+  SELECT *
+  FROM   (SELECT /*+ NO_MERGE */ '0001' reg
+               , mdca.fiscal_year_id
+               , mdca.fiscal_month_id
+               , AVG(mdca.dts_amt) avg_dts_amt
+          FROM   mdca mdca
+               , r12
+          WHERE  r12.tyco_month_key = (mdca.fiscal_year_id||LPAD (mdca.fiscal_month_id, 2, 0))
+          GROUP BY ROLLUP (mdca.fiscal_year_id, mdca.fiscal_month_id))
+  WHERE  fiscal_month_id IS NOT NULL
+  GROUP BY reg, fiscal_year_id, fiscal_month_id, avg_dts_amt
+  UNION ALL
+  -- Current Yr, 2 Previous Yrs totals for all regions and Global ('0001') 
+  SELECT * 
+  FROM   (
+         SELECT DECODE(GROUPING(mdca.iso_ctry_amp_region_org_id), 1, '0001', mdca.iso_ctry_amp_region_org_id)
+              , mdca.fiscal_year_id
+              , NULL
+              , AVG(mdca.dts_amt) avg_dts_amt
+         FROM   mdca
+         WHERE  mdca.fiscal_year_id >= v_fiscal_year_id
+         GROUP BY CUBE (mdca.iso_ctry_amp_region_org_id, mdca.fiscal_year_id)
+         )
+  WHERE  fiscal_year_id IS NOT NULL
+  ORDER BY 1, 2, 3 NULLS FIRST, 4 NULLS FIRST;
+
+ v_fyear         NUMBER;
+ v_fqtr          NUMBER;
+ v_fmonth        NUMBER;
+ v_fweek         NUMBER;
+ 
+ v_error_section VARCHAR2(1000);  
+
+BEGIN
+
+   v_kpi_cde        := 'DCDS';
+   v_kpi_metric_cde := 'DTS';
+
+   -- Delete from Table DCDS_METRIC_DETAILS
+   v_error_section := 'Delete previous KPI data From DCDS_METRIC_DETAILS';
+   DELETE FROM GSC.DCDS_METRIC_DETAILS;
+   COMMIT;
+   
+   v_error_section := 'Populate data for DCDS_METRIC_DETAILS';
+   FOR get_kpi_data_rec IN get_kpi_data
+   LOOP
+
+      v_error_section := 'INSERT INTO DCDS_METRIC_DETAILS for: '               ||
+      		    ' kpi code '   || v_kpi_cde                                ||
+      		    ' metric cde ' || v_kpi_metric_cde                         ||
+      		    ' reg '        || GET_KPI_DATA_REC.region_organization_id  ||
+      		    ' fy '         || GET_KPI_DATA_REC.fiscal_year_id          ||
+      		    ' fm '         || GET_KPI_DATA_REC.fiscal_month_id         ||
+      		    ' amt '        || GET_KPI_DATA_REC.avg_dts_amt;
+      
+      INSERT INTO GSC.DCDS_METRIC_DETAILS
+             ( DCDS_METRIC_DETAIL_ID
+             , KPI_CDE
+             , KPI_METRIC_CDE
+             , REGION_ORGANIZATION_ID
+             , FISCAL_YEAR_ID
+             , FISCAL_QUARTER_ID
+             , FISCAL_MONTH_ID
+             , METRIC_AMT )
+      VALUES ( GSC.DCDS_METRIC_DETAILS_SEQ.NEXTVAL
+             , v_kpi_cde
+             , v_kpi_metric_cde
+             , GET_KPI_DATA_REC.region_organization_id
+             , GET_KPI_DATA_REC.fiscal_year_id
+                , CASE
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (1,2,3) THEN 1
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (4,5,6) THEN 2
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (7,8,9) THEN 3
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (10,11,12) THEN 4
+                  END
+             , GET_KPI_DATA_REC.fiscal_month_id
+             , GET_KPI_DATA_REC.avg_dts_amt );
+      
+   END LOOP;
+   COMMIT;
+
+   v_error_section := 'Analyze the Table: DCDS_METRIC_DETAILS';
+   GSC.GSC_ANALYZE_TABLE('DCDS_METRIC_DETAILS');
+
+   v_error_section := 'Update the Reporting Periods for DCDS_METRIC_DETAILS';
+   SELECT fddi.*, 
+          (SELECT MAX (fdd.cd_tyco_week_id)
+           FROM   MBB.fiscal_date_dmn fdd
+           WHERE  fdd.cd_tyco_year_id          = fddi.fiscal_year_id
+           AND    fdd.cd_tyco_month_of_year_id = fddi.fiscal_month_id) fiscal_week
+   INTO   v_fyear, v_fqtr, v_fmonth, v_fweek   
+   FROM   (SELECT fiscal_year_id, MAX (fiscal_quarter_id), MAX (fiscal_month_id) fiscal_month_id
+           FROM   GSC.dcds_metric_details
+           WHERE  fiscal_year_id = (SELECT MAX (fiscal_year_id) FROM GSC.dcds_metric_details)
+           GROUP BY   fiscal_year_id) fddi;
+
+   GSC.UPDATE_KPI_REPORTING_PERIODS (v_kpi_cde, v_fyear, v_fqtr, v_fmonth, v_fweek);
+   COMMIT;
+
+   io_status  := 'OK';
+   io_sqlcode := NULL;
+   io_sqlerrm := NULL;
+   
+EXCEPTION
+   WHEN OTHERS THEN
+      io_status  := 'ABORT';
+      io_sqlcode := SQLCODE;
+      io_sqlerrm := v_error_section || ':' || SQLERRM;
+
+      ROLLBACK;
+      RAISE_APPLICATION_ERROR (-20101, v_error_section||' '||SQLERRM);
+
+END DCDS_METRICS;
+
+-- ----------------------------------------------------------------------------------------------------------
+PROCEDURE DCIA_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 )
+AS
+
+ CURSOR get_kpi_data IS
+  WITH 
+  r12 AS 
+  (
+  -- Get Rollover 12 Months
+  SELECT tyco_month_key
+  FROM   (
+         SELECT TO_NUMBER (fdd.cd_tyco_year_id || LPAD (fdd.cd_tyco_month_of_year_id, 2, 0)) tyco_month_key
+              , CASE 
+                   WHEN ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id  < dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND 
+                          fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id >= dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id - 12 ) 
+                          OR ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND
+                               fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id ) 
+                   THEN 'R12_to_EFF' 
+                   ELSE 'Non_R12_to_EFF' 
+                END rltv_r12_to_eff_key 
+         FROM   ( SELECT DISTINCT fdd.cd_tyco_year_id, fdd.cd_tyco_quarter_id, fdd.cd_tyco_month_of_year_id FROM MBB.fiscal_date_dmn fdd ) fdd
+              , ( SELECT * FROM MBB.fiscal_date_dmn WHERE  calendar_dt = TRUNC (SYSDATE) ) dm0
+         ) 
+  WHERE  rltv_r12_to_eff_key = 'R12_to_EFF'   
+  ), 
+  mdca AS 
+  (
+  SELECT CASE
+            WHEN loc.iso_ctry_amp_region_org_id IN ('0002', '0933') THEN 'A002'
+            WHEN loc.iso_ctry_amp_region_org_id IN ('0442', '0934') THEN '0442'
+            ELSE loc.iso_ctry_amp_region_org_id 
+         END AS iso_ctry_amp_region_org_id
+       , mdca.fiscal_year_id
+       , mdca.fiscal_month_of_year_id fiscal_month_id
+       , mdca.adjusted_value_amt      adj_tot
+       , mdca.audited_value_amt       audit_tot
+  FROM   GIN_CURRENT.monthly_dtrb_center_activities mdca
+       , LMA.locations                              loc
+  WHERE  mdca.te_location_id = loc.tyco_elec_location_id
+  )
+  -- Partial Current Month + Rolling 12 Month data, for all Regions
+  SELECT mdca.iso_ctry_amp_region_org_id region_organization_id
+       , mdca.fiscal_year_id
+       , mdca.fiscal_month_id
+       , SUM(adj_tot)   adj_tot
+       , SUM(audit_tot) audit_tot
+  FROM   mdca
+       , r12
+  WHERE  r12.tyco_month_key = (mdca.fiscal_year_id||LPAD (mdca.fiscal_month_id, 2, 0))
+  GROUP BY mdca.iso_ctry_amp_region_org_id, mdca.fiscal_year_id, mdca.fiscal_month_id
+  UNION ALL
+  -- Partial Current Month + Rolling 12 Month data, for Global ('0001')
+  SELECT *
+  FROM   (SELECT /*+ NO_MERGE */ '0001' reg
+               , mdca.fiscal_year_id
+               , mdca.fiscal_month_id
+               , SUM(adj_tot)   adj_tot
+               , SUM(audit_tot) audit_tot
+          FROM   mdca mdca
+               , r12
+          WHERE  r12.tyco_month_key = (mdca.fiscal_year_id||LPAD (mdca.fiscal_month_id, 2, 0))
+          GROUP BY ROLLUP (mdca.fiscal_year_id, mdca.fiscal_month_id))
+  WHERE  fiscal_month_id IS NOT NULL
+  GROUP BY reg, fiscal_year_id, fiscal_month_id, adj_tot, audit_tot
+  UNION ALL
+  -- Current Yr, 2 Previous Yrs totals for all regions and Global ('0001') 
+  SELECT * 
+  FROM   (
+         SELECT DECODE(GROUPING(mdca.iso_ctry_amp_region_org_id), 1, '0001', mdca.iso_ctry_amp_region_org_id)
+              , mdca.fiscal_year_id
+              , NULL
+               , SUM(adj_tot)   adj_tot
+               , SUM(audit_tot) audit_tot
+         FROM   mdca
+         WHERE  mdca.fiscal_year_id >= v_fiscal_year_id
+         GROUP BY CUBE (mdca.iso_ctry_amp_region_org_id, mdca.fiscal_year_id)
+         )
+  WHERE  fiscal_year_id IS NOT NULL
+  ORDER BY 1, 2, 3 NULLS FIRST, 4 NULLS FIRST;
+
+ v_fyear         NUMBER;
+ v_fqtr          NUMBER;
+ v_fmonth        NUMBER;
+ v_fweek         NUMBER;
+ 
+ v_error_section VARCHAR2(1000);  
+
+BEGIN
+
+   v_kpi_cde        := 'DCIA';
+   v_kpi_metric_cde := 'INVA';
+   v_metric_amt     := NULL;
+
+   -- Delete from Table DCIA_METRIC_DETAILS
+   v_error_section := 'Delete previous KPI data From DCIA_METRIC_DETAILS';
+   DELETE FROM GSC.DCIA_METRIC_DETAILS;
+   COMMIT;
+   
+   v_error_section := 'Populate for DCIA_METRIC_DETAILS';
+   FOR get_kpi_data_rec IN get_kpi_data
+   LOOP
+
+      IF GET_KPI_DATA_REC.audit_tot <> 0 THEN
+         
+         v_metric_amt := 1- (GET_KPI_DATA_REC.adj_tot/GET_KPI_DATA_REC.audit_tot);
+
+         v_error_section := 'INSERT INTO DCIA_METRIC_DETAILS for: '                    ||
+         		    ' kpi code '   || v_kpi_cde                                ||
+         		    ' metric cde ' || v_kpi_metric_cde                         ||
+         		    ' reg '        || GET_KPI_DATA_REC.region_organization_id  ||
+         		    ' fy '         || GET_KPI_DATA_REC.fiscal_year_id          ||
+         		    ' fm '         || GET_KPI_DATA_REC.fiscal_month_id         ||
+         		    ' amt '        || v_metric_amt;
+
+         INSERT INTO GSC.DCIA_METRIC_DETAILS
+                ( DCIA_METRIC_DETAIL_ID
+                , KPI_CDE
+                , KPI_METRIC_CDE
+                , REGION_ORGANIZATION_ID
+                , FISCAL_YEAR_ID
+                , FISCAL_QUARTER_ID
+                , FISCAL_MONTH_ID
+                , METRIC_AMT )
+         VALUES ( GSC.DCIA_METRIC_DETAILS_SEQ.NEXTVAL
+                , v_kpi_cde
+                , v_kpi_metric_cde
+                , GET_KPI_DATA_REC.region_organization_id
+                , GET_KPI_DATA_REC.fiscal_year_id
+                , CASE
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (1,2,3) THEN 1
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (4,5,6) THEN 2
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (7,8,9) THEN 3
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (10,11,12) THEN 4
+                  END
+                , GET_KPI_DATA_REC.fiscal_month_id
+                , v_metric_amt );
+         
+         v_metric_amt := NULL;         
+
+      END IF;  -- GET_KPI_DATA_REC.audit_tot
+      
+   END LOOP;
+   COMMIT;
+
+   v_error_section := 'Analyze the Table: DCIA_METRIC_DETAILS';
+   GSC.GSC_ANALYZE_TABLE('DCIA_METRIC_DETAILS');
+
+   v_error_section := 'Update the Reporting Periods for DCIA_METRIC_DETAILS';
+   SELECT fddi.*, 
+          (SELECT MAX (fdd.cd_tyco_week_id)
+           FROM   MBB.fiscal_date_dmn fdd
+           WHERE  fdd.cd_tyco_year_id          = fddi.fiscal_year_id
+           AND    fdd.cd_tyco_month_of_year_id = fddi.fiscal_month_id) fiscal_week
+   INTO   v_fyear, v_fqtr, v_fmonth, v_fweek
+   FROM   (SELECT fiscal_year_id, MAX (fiscal_quarter_id), MAX (fiscal_month_id) fiscal_month_id
+           FROM   GSC.dcia_metric_details
+           WHERE  fiscal_year_id = (SELECT MAX (fiscal_year_id) FROM GSC.dcia_metric_details)
+           GROUP BY   fiscal_year_id) fddi;
+
+   GSC.UPDATE_KPI_REPORTING_PERIODS (v_kpi_cde, v_fyear, v_fqtr, v_fmonth, v_fweek);
+   COMMIT;
+
+   io_status  := 'OK';
+   io_sqlcode := NULL;
+   io_sqlerrm := NULL;
+   
+EXCEPTION
+   WHEN OTHERS THEN
+      io_status  := 'ABORT';
+      io_sqlcode := SQLCODE;
+      io_sqlerrm := v_error_section || ':' || SQLERRM;
+
+      ROLLBACK;
+      RAISE_APPLICATION_ERROR (-20101, v_error_section||' '||SQLERRM);
+
+END DCIA_METRICS;
+
+-- ----------------------------------------------------------------------------------------------------------
+PROCEDURE DCOS_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 )
+AS
+
+ CURSOR get_kpi_data IS
+  WITH 
+  r12 AS 
+  (
+  -- Get Rollover 12 Months
+  SELECT tyco_month_key
+  FROM   (
+         SELECT TO_NUMBER (fdd.cd_tyco_year_id || LPAD (fdd.cd_tyco_month_of_year_id, 2, 0)) tyco_month_key
+              , CASE 
+                   WHEN ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id  < dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND 
+                          fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id >= dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id - 12 ) 
+                          OR ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND
+                               fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id ) 
+                   THEN 'R12_to_EFF' 
+                   ELSE 'Non_R12_to_EFF' 
+                END rltv_r12_to_eff_key 
+         FROM   ( SELECT DISTINCT fdd.cd_tyco_year_id, fdd.cd_tyco_quarter_id, fdd.cd_tyco_month_of_year_id FROM MBB.fiscal_date_dmn fdd ) fdd
+              , ( SELECT * FROM MBB.fiscal_date_dmn WHERE  calendar_dt = TRUNC (SYSDATE) ) dm0
+         ) 
+  WHERE  rltv_r12_to_eff_key = 'R12_to_EFF'   
+  ), 
+  mdca AS 
+  (
+  SELECT CASE
+            WHEN loc.iso_ctry_amp_region_org_id IN ('0002', '0933') THEN 'A002'
+            WHEN loc.iso_ctry_amp_region_org_id IN ('0442', '0934') THEN '0442'
+            ELSE loc.iso_ctry_amp_region_org_id 
+         END AS iso_ctry_amp_region_org_id
+       , mdca.fiscal_year_id
+       , mdca.fiscal_month_of_year_id      fiscal_month_id
+       , mdca.number_of_late_schedules_qty late_tot
+       , mdca.schedules_shipped_qty        ship_tot       
+  FROM   GIN_CURRENT.monthly_dtrb_center_activities mdca
+       , LMA.locations                              loc
+  WHERE  mdca.te_location_id = loc.tyco_elec_location_id
+  )
+  -- Partial Current Month + Rolling 12 Month data, for all Regions
+  SELECT mdca.iso_ctry_amp_region_org_id region_organization_id
+       , mdca.fiscal_year_id
+       , mdca.fiscal_month_id
+       , SUM(late_tot) late_tot
+       , SUM(ship_tot) ship_tot
+  FROM   mdca
+       , r12
+  WHERE  r12.tyco_month_key = (mdca.fiscal_year_id||LPAD (mdca.fiscal_month_id, 2, 0))
+  GROUP BY mdca.iso_ctry_amp_region_org_id, mdca.fiscal_year_id, mdca.fiscal_month_id
+  -- Partial Current Month + Rolling 12 Month data, for Global ('0001')
+  UNION ALL
+  SELECT *
+  FROM   (SELECT /*+ NO_MERGE */ '0001' reg
+               , mdca.fiscal_year_id
+               , mdca.fiscal_month_id
+               , SUM(late_tot) late_tot
+               , SUM(ship_tot) ship_tot
+          FROM   mdca mdca
+               , r12
+          WHERE  r12.tyco_month_key = (mdca.fiscal_year_id||LPAD (mdca.fiscal_month_id, 2, 0))
+          GROUP BY ROLLUP (mdca.fiscal_year_id, mdca.fiscal_month_id))
+  WHERE  fiscal_month_id IS NOT NULL
+  GROUP BY reg, fiscal_year_id, fiscal_month_id, late_tot, ship_tot
+  UNION ALL
+  -- Current Yr, 2 Previous Yrs totals for all regions and Global ('0001') 
+  SELECT * 
+  FROM   (
+         SELECT DECODE(GROUPING(mdca.iso_ctry_amp_region_org_id), 1, '0001', mdca.iso_ctry_amp_region_org_id)
+              , mdca.fiscal_year_id
+              , NULL
+               , SUM(late_tot) late_tot
+               , SUM(ship_tot) ship_tot
+         FROM   mdca
+         WHERE  mdca.fiscal_year_id >= v_fiscal_year_id
+         GROUP BY CUBE (mdca.iso_ctry_amp_region_org_id, mdca.fiscal_year_id)
+         )
+  WHERE  fiscal_year_id IS NOT NULL
+  ORDER BY 1, 2, 3 NULLS FIRST, 4 NULLS FIRST;
+
+ v_fyear         NUMBER;
+ v_fqtr          NUMBER;
+ v_fmonth        NUMBER;
+ v_fweek         NUMBER;
+ 
+ v_error_section VARCHAR2(1000);  
+
+BEGIN
+
+   v_kpi_cde        := 'DCOS';
+   v_kpi_metric_cde := 'OTSD';
+   v_metric_amt     := NULL;
+ 
+   -- Delete from Table DCOS_METRIC_DETAILS
+   v_error_section := 'Delete previous KPI data From DCOS_METRIC_DETAILS';
+   DELETE FROM GSC.DCOS_METRIC_DETAILS;
+   COMMIT;
+   
+   v_error_section := 'Populate data for DCOS_METRIC_DETAILS';
+   FOR get_kpi_data_rec IN get_kpi_data
+   LOOP
+   
+      IF GET_KPI_DATA_REC.ship_tot <> 0 THEN
+         
+         v_metric_amt := 1 - (GET_KPI_DATA_REC.late_tot/GET_KPI_DATA_REC.ship_tot);
+
+         v_error_section := 'INSERT INTO DCOS_METRIC_DETAILS for: '                    ||
+         		    ' kpi code '   || v_kpi_cde                                ||
+         		    ' metric cde ' || v_kpi_metric_cde                         ||
+         		    ' reg '        || GET_KPI_DATA_REC.region_organization_id  ||
+         		    ' fy '         || GET_KPI_DATA_REC.fiscal_year_id          ||
+         		    ' fm '         || GET_KPI_DATA_REC.fiscal_month_id         ||
+         		    ' amt '        || v_metric_amt;
+
+         INSERT INTO GSC.DCOS_METRIC_DETAILS
+                ( DCOS_METRIC_DETAIL_ID
+                , KPI_CDE
+                , KPI_METRIC_CDE
+                , REGION_ORGANIZATION_ID
+                , FISCAL_YEAR_ID
+                , FISCAL_QUARTER_ID
+                , FISCAL_MONTH_ID
+                , METRIC_AMT )
+         VALUES ( GSC.DCOS_METRIC_DETAILS_SEQ.NEXTVAL
+                , v_kpi_cde
+                , v_kpi_metric_cde
+                , GET_KPI_DATA_REC.region_organization_id
+                , GET_KPI_DATA_REC.fiscal_year_id
+                , CASE
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (1,2,3) THEN 1
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (4,5,6) THEN 2
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (7,8,9) THEN 3
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (10,11,12) THEN 4
+                  END
+                , GET_KPI_DATA_REC.fiscal_month_id
+                , ROUND(v_metric_amt, 2) -- Per GLOG KPI data base reqmts.xls round to 2 decimal points
+                );
+         
+         v_metric_amt := NULL;         
+
+      END IF;  -- GET_KPI_DATA_REC.ship_tot
+      
+   END LOOP;
+   COMMIT;
+
+   v_error_section := 'Analyze the Table: DCOS_METRIC_DETAILS';
+   GSC.GSC_ANALYZE_TABLE('DCOS_METRIC_DETAILS');
+
+   v_error_section := 'Update the Reporting Periods for DCOS_METRIC_DETAILS';
+   SELECT fddi.*, 
+          (SELECT MAX (fdd.cd_tyco_week_id)
+           FROM   MBB.fiscal_date_dmn fdd
+           WHERE  fdd.cd_tyco_year_id          = fddi.fiscal_year_id
+           AND    fdd.cd_tyco_month_of_year_id = fddi.fiscal_month_id) fiscal_week
+   INTO   v_fyear, v_fqtr, v_fmonth, v_fweek   
+   FROM   (SELECT fiscal_year_id, MAX (fiscal_quarter_id), MAX (fiscal_month_id) fiscal_month_id
+           FROM   GSC.dcos_metric_details
+           WHERE  fiscal_year_id = (SELECT MAX (fiscal_year_id) FROM GSC.dcos_metric_details)
+           GROUP BY   fiscal_year_id) fddi;
+
+   GSC.UPDATE_KPI_REPORTING_PERIODS (v_kpi_cde, v_fyear, v_fqtr, v_fmonth, v_fweek);
+   COMMIT;
+
+   io_status  := 'OK';
+   io_sqlcode := NULL;
+   io_sqlerrm := NULL;
+   
+EXCEPTION
+   WHEN OTHERS THEN
+      io_status  := 'ABORT';
+      io_sqlcode := SQLCODE;
+      io_sqlerrm := v_error_section || ':' || SQLERRM;
+
+      ROLLBACK;
+      RAISE_APPLICATION_ERROR (-20101, v_error_section||' '||SQLERRM);
+
+END DCOS_METRICS;
+
+-- ----------------------------------------------------------------------------------------------------------
+PROCEDURE DCPC_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 )
+AS
+
+ CURSOR get_kpi_data IS
+  WITH 
+  r24 AS
+  (
+  -- Get Rollover 24 Months
+  SELECT tyco_month_key
+  FROM   (
+         SELECT TO_NUMBER (fdd.cd_tyco_year_id || LPAD (fdd.cd_tyco_month_of_year_id, 2, 0)) tyco_month_key
+              , CASE 
+                   WHEN ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id  < dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND 
+                          fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id >= dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id - 24 ) 
+                          OR ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND
+                               fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id ) 
+                   THEN 'R24_to_EFF' 
+                   ELSE 'Non_R24_to_EFF' 
+                END rltv_r24_to_eff_key 
+         FROM   ( SELECT DISTINCT fdd.cd_tyco_year_id, fdd.cd_tyco_quarter_id, fdd.cd_tyco_month_of_year_id FROM MBB.fiscal_date_dmn fdd ) fdd
+              , ( SELECT * FROM MBB.fiscal_date_dmn WHERE  calendar_dt = TRUNC (SYSDATE) ) dm0
+         ) 
+  WHERE  rltv_r24_to_eff_key = 'R24_to_EFF'   
+  ), 
+  mdca AS 
+  (
+  SELECT CASE
+            WHEN loc.iso_ctry_amp_region_org_id IN ('0002', '0933') THEN 'A002'
+            WHEN loc.iso_ctry_amp_region_org_id IN ('0442', '0934') THEN '0442'
+            ELSE loc.iso_ctry_amp_region_org_id 
+         END AS iso_ctry_amp_region_org_id
+       , mdca.fiscal_year_id
+       , mdca.fiscal_month_of_year_id fiscal_month_id
+       , mdca.total_cost_without_freight_amt
+       , mdca.cartons_received_qty
+       , mdca.cartons_shipped_qty
+  FROM   GIN_CURRENT.monthly_dtrb_center_activities mdca
+       , LMA.locations                              loc
+  WHERE  mdca.te_location_id = loc.tyco_elec_location_id
+  )
+  -- Partial Current Month + Rolling 12 Month data, for all Regions
+  SELECT mdca.iso_ctry_amp_region_org_id region_organization_id
+       , mdca.fiscal_year_id
+       , mdca.fiscal_month_id
+       , SUM(mdca.total_cost_without_freight_amt) cost_tot
+       , SUM(mdca.cartons_received_qty) + SUM(mdca.cartons_shipped_qty) cart_tot
+  FROM   mdca
+       , r24
+  WHERE  r24.tyco_month_key = (mdca.fiscal_year_id||LPAD (mdca.fiscal_month_id, 2, 0))
+  GROUP BY mdca.iso_ctry_amp_region_org_id, mdca.fiscal_year_id, mdca.fiscal_month_id
+  UNION ALL
+  -- Partial Current Month + Rolling 12 Month data, for Global ('0001')
+  SELECT *
+  FROM   (SELECT /*+ NO_MERGE */ '0001' reg
+               , mdca.fiscal_year_id
+               , mdca.fiscal_month_id
+               , SUM(mdca.total_cost_without_freight_amt) cost_tot
+               , SUM(mdca.cartons_received_qty) + SUM(mdca.cartons_shipped_qty) cart_tot
+          FROM   mdca mdca
+               , r24
+          WHERE  r24.tyco_month_key = (mdca.fiscal_year_id||LPAD (mdca.fiscal_month_id, 2, 0))
+          GROUP BY ROLLUP (mdca.fiscal_year_id, mdca.fiscal_month_id))
+  WHERE  fiscal_month_id IS NOT NULL
+  GROUP BY reg, fiscal_year_id, fiscal_month_id, cost_tot, cart_tot
+  UNION ALL
+  -- Current Yr, 2 Previous Yrs totals for all regions and Global ('0001') 
+  SELECT * 
+  FROM   (
+         SELECT DECODE(GROUPING(mdca.iso_ctry_amp_region_org_id), 1, '0001', mdca.iso_ctry_amp_region_org_id)
+              , mdca.fiscal_year_id
+              , NULL
+              , SUM(mdca.total_cost_without_freight_amt) cost_tot
+              , SUM(mdca.cartons_received_qty) + SUM(mdca.cartons_shipped_qty) cart_tot
+         FROM   mdca
+         WHERE  mdca.fiscal_year_id >= v_fiscal_year_id
+         GROUP BY CUBE (mdca.iso_ctry_amp_region_org_id, mdca.fiscal_year_id)
+         )
+  WHERE  fiscal_year_id IS NOT NULL
+  ORDER BY 1, 2, 3 NULLS FIRST, 4 NULLS FIRST;
+
+ v_fyear         NUMBER;
+ v_fqtr          NUMBER;
+ v_fmonth        NUMBER;
+ v_fweek         NUMBER;
+ 
+ v_error_section VARCHAR2(1000);  
+
+BEGIN
+
+   v_kpi_cde        := 'DCPC';
+   v_kpi_metric_cde := 'PCP';
+   v_metric_amt     := NULL;
+ 
+   -- Delete from Table DCPC_METRIC_DETAILS
+   v_error_section := 'Delete previous KPI data From DCPC_METRIC_DETAILS';
+   DELETE FROM DCPC_METRIC_DETAILS;
+   COMMIT;
+   
+   v_error_section := 'Populate data for DCPC_METRIC_DETAILS';
+   FOR get_kpi_data_rec IN get_kpi_data
+   LOOP
+   
+      IF GET_KPI_DATA_REC.cart_tot <> 0 THEN
+         
+         v_metric_amt := (GET_KPI_DATA_REC.cost_tot/GET_KPI_DATA_REC.cart_tot);
+   
+         v_error_section := 'INSERT INTO DCPC_METRIC_DETAILS for: '                    ||
+         		    ' kpi code '   || v_kpi_cde                                ||
+         		    ' metric cde ' || v_kpi_metric_cde                         ||
+         		    ' reg '        || GET_KPI_DATA_REC.region_organization_id  ||
+         		    ' fy '         || GET_KPI_DATA_REC.fiscal_year_id          ||
+         		    ' fm '         || GET_KPI_DATA_REC.fiscal_month_id         ||
+         		    ' amt '        || v_metric_amt;
+   
+         INSERT INTO GSC.DCPC_METRIC_DETAILS
+                ( DCPC_METRIC_DETAIL_ID
+                , KPI_CDE
+                , KPI_METRIC_CDE
+                , REGION_ORGANIZATION_ID
+                , FISCAL_YEAR_ID
+                , FISCAL_QUARTER_ID
+                , FISCAL_MONTH_ID
+                , METRIC_AMT )
+         VALUES ( GSC.DCPC_METRIC_DETAILS_SEQ.NEXTVAL
+                , v_kpi_cde
+                , v_kpi_metric_cde
+                , GET_KPI_DATA_REC.region_organization_id
+                , GET_KPI_DATA_REC.fiscal_year_id
+                , CASE
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (1,2,3) THEN 1
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (4,5,6) THEN 2
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (7,8,9) THEN 3
+                     WHEN GET_KPI_DATA_REC.fiscal_month_id IN (10,11,12) THEN 4
+                  END
+                , GET_KPI_DATA_REC.fiscal_month_id
+                , v_metric_amt );
+         
+         v_metric_amt := NULL;         
+   
+      END IF;  -- GET_KPI_DATA_REC.ship_tot
+      
+   END LOOP;  -- get_kpi_data
+   COMMIT;
+
+   v_error_section := 'Analyze the Table: DCPC_METRIC_DETAILS';
+   GSC.GSC_ANALYZE_TABLE('DCPC_METRIC_DETAILS');
+
+   v_error_section := 'Update the Reporting Periods for DCPC_METRIC_DETAILS';
+   SELECT fddi.*, 
+          (SELECT MAX (fdd.cd_tyco_week_id)
+           FROM   MBB.fiscal_date_dmn fdd
+           WHERE  fdd.cd_tyco_year_id          = fddi.fiscal_year_id
+           AND    fdd.cd_tyco_month_of_year_id = fddi.fiscal_month_id) fiscal_week
+   INTO   v_fyear, v_fqtr, v_fmonth, v_fweek
+   FROM   (SELECT fiscal_year_id, MAX (fiscal_quarter_id), MAX (fiscal_month_id) fiscal_month_id
+           FROM   GSC.dcpc_metric_details
+           WHERE  fiscal_year_id = (SELECT MAX (fiscal_year_id) FROM GSC.dcpc_metric_details)
+           GROUP BY   fiscal_year_id) fddi;
+
+   GSC.UPDATE_KPI_REPORTING_PERIODS (v_kpi_cde, v_fyear, v_fqtr, v_fmonth, v_fweek);
+   COMMIT;
+
+   io_status  := 'OK';
+   io_sqlcode := NULL;
+   io_sqlerrm := NULL;
+   
+EXCEPTION
+   WHEN OTHERS THEN
+      io_status  := 'ABORT';
+      io_sqlcode := SQLCODE;
+      io_sqlerrm := v_error_section || ':' || SQLERRM;
+
+      ROLLBACK;
+      RAISE_APPLICATION_ERROR (-20101, v_error_section||' '||SQLERRM);
+
+END DCPC_METRICS;
+
+-- ----------------------------------------------------------------------------------------------------------
+
+PROCEDURE TCCC_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 )
+AS
+
+ CURSOR get_kpi_data IS
+  WITH 
+  r12 AS 
+  (
+  -- Get Rollover 12 Months
+  SELECT tyco_month_key
+  FROM   (
+         SELECT TO_NUMBER (fdd.cd_tyco_year_id || LPAD (fdd.cd_tyco_month_of_year_id, 2, 0)) tyco_month_key
+              , CASE 
+                   WHEN ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id  < dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND 
+                          fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id >= dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id - 12 ) 
+                          OR ( fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id AND
+                               fdd.cd_tyco_year_id * 12 + fdd.cd_tyco_month_of_year_id = dm0.cd_tyco_year_id * 12 + dm0.cd_tyco_month_of_year_id ) 
+                   THEN 'R12_to_EFF' 
+                   ELSE 'Non_R12_to_EFF' 
+                END rltv_r12_to_eff_key 
+         FROM   ( SELECT DISTINCT fdd.cd_tyco_year_id, fdd.cd_tyco_quarter_id, fdd.cd_tyco_month_of_year_id FROM MBB.fiscal_date_dmn fdd ) fdd
+              , ( SELECT * FROM MBB.fiscal_date_dmn WHERE  calendar_dt = TRUNC (SYSDATE) ) dm0
+         ) 
+  WHERE  rltv_r12_to_eff_key = 'R12_to_EFF'   
+  ),
+  id AS
+  (
+  SELECT CASE 
+            WHEN od.layer2_organization_id IN ('0002', '0933') THEN 'A002'
+            WHEN od.layer2_organization_id IN ('0442', '0934') THEN '0442'
+            ELSE od.layer2_organization_id
+         END                                AS region_organization_id
+       , fdd.tyco_year_id                   AS fiscal_year_id
+       , fdd.tyco_quarter_id                AS fiscal_quarter_id
+       , fdd.tyco_month_of_year_id          AS fiscal_month_id
+       , supplier_classification_cde
+       , CASE 
+            WHEN supplier_classification_cde <> 'TX' THEN id.cnst_usd_local_invoice_amt
+            ELSE 0
+         END AS compl_spnd_amt
+       , id.cnst_usd_local_invoice_amt      AS spnd_amt
+  FROM   DM5.dm5203_invoice_documents_v id       
+       , DM5.dm5203_vendors_dmn_v       vd
+       , DM5.dm5203_fiscal_date_dmn_v   fdd
+       , (
+         SELECT /*+ NO_MERGE */ * FROM DM5.dm5203_commodities_dmn_v
+         WHERE  (commodity_cde LIKE '80%' AND commodity_cde NOT LIKE '8072%')
+         ) cd
+       , DM5.dm5203_organizations_dmn_v od
+  WHERE  id.inv_vendor_key_id            = vd.vendor_key_id
+  AND    id.invoice_posting_dt           = fdd.calendar_dt
+  AND    id.inv_rationalized_comm_key_id = cd.commodity_key_id
+  AND    id.inv_rep_org_key_id           = od.organization_key_id
+  )
+  -- Partial Current Month + Rolling 12 Month data, for all Regions
+  SELECT region_organization_id, fiscal_year_id, fiscal_quarter_id, fiscal_month_id, compl_spnd_tot, spnd_tot
+  FROM   (SELECT id.region_organization_id
+  	       , id.fiscal_year_id
+  	       , id.fiscal_quarter_id
+  	       , id.fiscal_month_id
+  	       , SUM(compl_spnd_amt) compl_spnd_tot
+  	       , SUM(id.spnd_amt)    spnd_tot
+  	  FROM   id
+  	       , r12
+  	  WHERE  r12.tyco_month_key = (id.fiscal_year_id||LPAD (id.fiscal_month_id, 2, 0))
+  	  GROUP BY ROLLUP (id.region_organization_id, id.fiscal_year_id, id.fiscal_quarter_id, id.fiscal_month_id))
+  WHERE  fiscal_quarter_id IS NOT NULL
+  GROUP BY region_organization_id, fiscal_year_id, fiscal_quarter_id, fiscal_month_id, compl_spnd_tot, spnd_tot
+  UNION ALL
+  -- Partial Current Month + Rolling 12 Month data, for Global ('0001')
+  SELECT *
+  FROM   (SELECT /*+ NO_MERGE */ '0001' reg
+               , id.fiscal_year_id
+               , id.fiscal_quarter_id
+               , id.fiscal_month_id
+               , SUM(compl_spnd_amt) compl_spnd_tot
+               , SUM(id.spnd_amt)    spnd_tot
+          FROM   id
+               , r12
+          WHERE  r12.tyco_month_key = (id.fiscal_year_id||LPAD (id.fiscal_month_id, 2, 0))
+          GROUP BY ROLLUP (id.fiscal_year_id, id.fiscal_quarter_id, id.fiscal_month_id))
+  WHERE  fiscal_quarter_id IS NOT NULL
+  GROUP BY reg, fiscal_year_id, fiscal_quarter_id, fiscal_month_id, compl_spnd_tot, spnd_tot
+  UNION ALL
+  -- Current Yr, 2 Previous Yrs totals for all regions and Global ('0001') 
+  SELECT * 
+  FROM   (
+         SELECT DECODE(GROUPING(id.region_organization_id), 1, '0001', id.region_organization_id)
+              , id.fiscal_year_id
+              , NULL fiscal_quarter_id
+              , NULL fiscal_month_id
+               , SUM(compl_spnd_amt) compl_spnd_tot
+               , SUM(id.spnd_amt)    spnd_tot
+         FROM   id
+         WHERE  id.fiscal_year_id >= 2011 -- v_fiscal_year_id
+         GROUP BY CUBE (id.region_organization_id, id.fiscal_year_id)
+         )
+  WHERE  fiscal_year_id IS NOT NULL
+  ORDER BY 1, 2, 3 NULLS FIRST, 4 NULLS FIRST;
+
+ v_fyear         NUMBER;
+ v_fqtr          NUMBER;
+ v_fmonth        NUMBER;
+ v_fweek         NUMBER;
+ 
+ v_error_section VARCHAR2(1000);  
+
+BEGIN
+
+   v_kpi_cde        := 'TCCC';
+   v_kpi_metric_cde := 'CCC';
+   v_metric_amt     := NULL;
+ 
+ 
+   -- Delete from Table TCCC_METRIC_DETAILS
+   v_error_section := 'Delete previous KPI data From TCCC_METRIC_DETAILS';
+   DELETE FROM TCCC_METRIC_DETAILS;
+   COMMIT;
+   
+   v_error_section := 'Populate data for TCCC_METRIC_DETAILS';
+   FOR get_kpi_data_rec IN get_kpi_data
+   LOOP
+      
+      IF GET_KPI_DATA_REC.spnd_tot <> 0 THEN
+
+         v_metric_amt := ((GET_KPI_DATA_REC.compl_spnd_tot/GET_KPI_DATA_REC.spnd_tot) * 100);
+
+         v_error_section := 'INSERT INTO TCCC_METRIC_DETAILS for: '                    ||
+         		    ' kpi code '   || v_kpi_cde                                ||
+         		    ' metric cde ' || v_kpi_metric_cde                         ||
+         		    ' reg '        || GET_KPI_DATA_REC.region_organization_id  ||
+         		    ' fy '         || GET_KPI_DATA_REC.fiscal_year_id          ||
+         		    ' fm '         || GET_KPI_DATA_REC.fiscal_month_id         ||
+         		    ' amt '        || v_metric_amt;
+
+
+         INSERT INTO GSC.TCCC_METRIC_DETAILS
+                ( TCCC_METRIC_DETAIL_ID
+                , KPI_CDE
+                , KPI_METRIC_CDE
+                , REGION_ORGANIZATION_ID
+                , FISCAL_YEAR_ID
+                , FISCAL_QUARTER_ID
+                , FISCAL_MONTH_ID
+                , METRIC_AMT )
+         VALUES ( GSC.TCCC_METRIC_DETAILS_SEQ.NEXTVAL
+                , v_kpi_cde
+                , v_kpi_metric_cde
+                , GET_KPI_DATA_REC.region_organization_id
+                , GET_KPI_DATA_REC.fiscal_year_id
+                , GET_KPI_DATA_REC.fiscal_quarter_id
+                , GET_KPI_DATA_REC.fiscal_month_id
+                , ROUND(v_metric_amt, 3) -- Per GLOG KPI data base reqmts.xls round to 3 decimal points
+                );
+         
+         v_metric_amt := NULL;
+
+      END IF;
+
+   END LOOP;
+   COMMIT;
+
+   v_error_section := 'Analyze the Table: TCCC_METRIC_DETAILS';
+   GSC.GSC_ANALYZE_TABLE('TCCC_METRIC_DETAILS');
+
+   v_error_section := 'Update the Reporting Periods for TCCC_METRIC_DETAILS';
+   SELECT fddi.*, 
+          (SELECT MAX (fdd.cd_tyco_week_id)
+           FROM   MBB.fiscal_date_dmn fdd
+           WHERE  fdd.cd_tyco_year_id          = fddi.fiscal_year_id
+           AND    fdd.cd_tyco_month_of_year_id = fddi.fiscal_month_id) fiscal_week
+   INTO   v_fyear, v_fqtr, v_fmonth, v_fweek
+   FROM   (SELECT fiscal_year_id, MAX (fiscal_quarter_id), MAX (fiscal_month_id) fiscal_month_id
+           FROM   GSC.tccc_metric_details
+           WHERE  fiscal_year_id = (SELECT MAX (fiscal_year_id) FROM GSC.tccc_metric_details)
+           GROUP BY   fiscal_year_id) fddi;
+
+   GSC.UPDATE_KPI_REPORTING_PERIODS (v_kpi_cde, v_fyear, v_fqtr, v_fmonth, v_fweek);
+   COMMIT;
+
+   io_status  := 'OK';
+   io_sqlcode := NULL;
+   io_sqlerrm := NULL;
+   
+EXCEPTION
+   WHEN OTHERS THEN
+      io_status  := 'ABORT';
+      io_sqlcode := SQLCODE;
+      io_sqlerrm := v_error_section || ':' || SQLERRM;
+
+      ROLLBACK;
+      RAISE_APPLICATION_ERROR (-20101, v_error_section||' '||SQLERRM);
+
+END TCCC_METRICS;
+
+-- ----------------------------------------------------------------------------------------------------------
+PROCEDURE TFPO_METRICS
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 )
+AS
+
+ CURSOR get_kpi_data IS
+  SELECT kpi_cde
+       , kpi_metric_cde
+       , region_organization_id
+       , fiscal_year_id
+       , CASE
+            WHEN fiscal_month_id IN (1,2,3) THEN 1
+            WHEN fiscal_month_id IN (4,5,6) THEN 2
+            WHEN fiscal_month_id IN (7,8,9) THEN 3
+            WHEN fiscal_month_id IN (10,11,12) THEN 4
+         END AS fiscal_quarter_id
+       , fiscal_month_id
+       , metric_amt 
+  FROM   GSC.glog_metric_details_stg
+  WHERE  (kpi_cde = 'TFPO' AND kpi_metric_cde = 'FPS');
+ 
+ v_fyear         NUMBER;
+ v_fqtr          NUMBER;
+ v_fmonth        NUMBER;
+ v_fweek         NUMBER;
+ 
+ v_error_section VARCHAR2(1000);  
+
+BEGIN
+
+   v_kpi_cde := 'TFPO';
+   
+   -- Delete from Table TFPO_METRIC_DETAILS
+   v_error_section := 'Delete previous KPI data From TFPO_METRIC_DETAILS';
+   DELETE FROM TFPO_METRIC_DETAILS;
+   COMMIT;
+
+   v_error_section := 'Populate data for TFPO_METRIC_DETAILS';
+   FOR get_kpi_data_rec IN get_kpi_data
+   LOOP
+
+      BEGIN
+      
+         INSERT INTO GSC.TFPO_METRIC_DETAILS
+	        ( TFPO_METRIC_DETAIL_ID
+      	        , KPI_CDE
+      	        , KPI_METRIC_CDE
+      	        , REGION_ORGANIZATION_ID
+      	        , FISCAL_YEAR_ID
+      	        , FISCAL_QUARTER_ID
+      	        , FISCAL_MONTH_ID
+      	        , METRIC_AMT )
+      	 VALUES ( GSC.TFPO_METRIC_DETAILS_SEQ.NEXTVAL
+      	        , GET_KPI_DATA_REC.kpi_cde
+      	        , GET_KPI_DATA_REC.kpi_metric_cde
+      	        , GET_KPI_DATA_REC.region_organization_id
+      	        , GET_KPI_DATA_REC.fiscal_year_id
+      	        , GET_KPI_DATA_REC.fiscal_quarter_id
+      	        , GET_KPI_DATA_REC.fiscal_month_id
+      	        , GET_KPI_DATA_REC.metric_amt );
+
+      EXCEPTION
+         WHEN OTHERS THEN  -- Ignore any error record while reading from Stage Table
+            NULL;
+      END;
+
+   END LOOP;
+   COMMIT;
+
+   v_error_section := 'Analyze the Table: TFPO_METRIC_DETAILS';
+   GSC.GSC_ANALYZE_TABLE('TFPO_METRIC_DETAILS');
+
+   v_error_section := 'Update the Reporting Periods for TFPO_METRIC_DETAILS';
+   SELECT fddi.*, 
+          (SELECT MAX (fdd.cd_tyco_week_id)
+           FROM   MBB.fiscal_date_dmn fdd
+           WHERE  fdd.cd_tyco_year_id          = fddi.fiscal_year_id
+           AND    fdd.cd_tyco_month_of_year_id = fddi.fiscal_month_id) fiscal_week
+   INTO   v_fyear, v_fqtr, v_fmonth, v_fweek
+   FROM   (SELECT fiscal_year_id, MAX (fiscal_quarter_id), MAX (fiscal_month_id) fiscal_month_id
+           FROM   GSC.tfpo_metric_details
+           WHERE  fiscal_year_id = (SELECT MAX (fiscal_year_id) FROM GSC.tfpo_metric_details)
+           GROUP BY   fiscal_year_id) fddi;
+
+   GSC.UPDATE_KPI_REPORTING_PERIODS (v_kpi_cde, v_fyear, v_fqtr, v_fmonth, v_fweek);
+   COMMIT;
+   
+   v_error_section := 'Delete data from Stage for TFPO Metrics';
+   DELETE FROM   GSC.glog_metric_details_stg
+   WHERE  (kpi_cde = 'TFPO' AND kpi_metric_cde = 'FPS');
+   COMMIT;
+
+   io_status  := 'OK';
+   io_sqlcode := NULL;
+   io_sqlerrm := NULL;
+   
+EXCEPTION
+   WHEN OTHERS THEN
+      io_status  := 'ABORT';
+      io_sqlcode := SQLCODE;
+      io_sqlerrm := v_error_section || ':' || SQLERRM;
+
+      ROLLBACK;
+      RAISE_APPLICATION_ERROR (-20101, v_error_section||' '||SQLERRM);
+
+END TFPO_METRICS;
+
+-- ----------------------------------------------------------------------------------------------------------
+PROCEDURE TOTD_METRICS  -- TGTD Merged into this Metrics
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 )
+AS
+
+ CURSOR get_kpi_data IS
+  SELECT kpi_cde
+       , kpi_metric_cde
+       , region_organization_id
+       , fiscal_year_id
+       , CASE
+            WHEN fiscal_month_id IN (1,2,3) THEN 1
+            WHEN fiscal_month_id IN (4,5,6) THEN 2
+            WHEN fiscal_month_id IN (7,8,9) THEN 3
+            WHEN fiscal_month_id IN (10,11,12) THEN 4
+         END AS fiscal_quarter_id
+       , fiscal_month_id
+       , metric_amt 
+  FROM   GSC.glog_metric_details_stg
+  WHERE  ( (kpi_cde = 'TOTD' AND kpi_metric_cde = 'OTP') OR
+           (kpi_cde = 'TGTD' AND kpi_metric_cde = 'GTP'))
+  ORDER BY 1, 2, 3, 4, 5, 6 NULLS FIRST;
+ 
+ v_fyear         NUMBER;
+ v_fqtr          NUMBER;
+ v_fmonth        NUMBER;
+ v_fweek         NUMBER;
+ 
+ v_error_section VARCHAR2(1000);  
+
+BEGIN
+
+   v_kpi_cde        := 'TOTD';
+   -- Delete from Table TOTD_METRIC_DETAILS
+   v_error_section := 'Delete previous KPI data From TOTD_METRIC_DETAILS';
+   DELETE FROM TOTD_METRIC_DETAILS
+   COMMIT;
+   
+   v_error_section := 'Populate data for TOTD_METRIC_DETAILS';
+   FOR get_kpi_data_rec IN get_kpi_data
+   LOOP
+   
+      BEGIN
+      
+          INSERT INTO GSC.TOTD_METRIC_DETAILS
+	         ( TOTD_METRIC_DETAIL_ID
+      	         , KPI_CDE
+      	         , KPI_METRIC_CDE
+      	         , REGION_ORGANIZATION_ID
+      	         , FISCAL_YEAR_ID
+      	         , FISCAL_QUARTER_ID
+      	         , FISCAL_MONTH_ID
+      	         , METRIC_AMT )
+      	  VALUES ( GSC.TOTD_METRIC_DETAILS_SEQ.NEXTVAL
+      	         , GET_KPI_DATA_REC.kpi_cde
+      	         , GET_KPI_DATA_REC.kpi_metric_cde
+      	         , GET_KPI_DATA_REC.region_organization_id
+      	         , GET_KPI_DATA_REC.fiscal_year_id
+      	         , GET_KPI_DATA_REC.fiscal_quarter_id
+      	         , GET_KPI_DATA_REC.fiscal_month_id
+      	         , GET_KPI_DATA_REC.metric_amt );
+
+      EXCEPTION
+         WHEN OTHERS THEN  -- Ignore any error record while reading from Stage Table
+            NULL;
+      END;
+
+   END LOOP;
+   COMMIT;
+
+   v_error_section := 'Analyze the Table: TOTD_METRIC_DETAILS ';
+   GSC.GSC_ANALYZE_TABLE('TOTD_METRIC_DETAILS');
+
+   v_error_section := 'Update the Reporting Periods for TOTD_METRIC_DETAILS';
+   SELECT fddi.*, 
+          (SELECT MAX (fdd.cd_tyco_week_id)
+           FROM   MBB.fiscal_date_dmn fdd
+           WHERE  fdd.cd_tyco_year_id          = fddi.fiscal_year_id
+           AND    fdd.cd_tyco_month_of_year_id = fddi.fiscal_month_id) fiscal_week
+   INTO   v_fyear, v_fqtr, v_fmonth, v_fweek
+   FROM   (SELECT fiscal_year_id, MAX (fiscal_quarter_id), MAX (fiscal_month_id) fiscal_month_id
+           FROM   GSC.totd_metric_details
+           WHERE  fiscal_year_id = (SELECT MAX (fiscal_year_id) FROM GSC.totd_metric_details)
+           GROUP BY   fiscal_year_id) fddi;
+
+   GSC.UPDATE_KPI_REPORTING_PERIODS (v_kpi_cde, v_fyear, v_fqtr, v_fmonth, v_fweek);
+   COMMIT;
+   
+   v_error_section := 'Delete data from Stage for TOTD Metrics';
+   DELETE FROM   GSC.glog_metric_details_stg
+   WHERE  ( (kpi_cde = 'TOTD' AND kpi_metric_cde = 'OTP') OR
+            (kpi_cde = 'TGTD' AND kpi_metric_cde = 'GTP'));
+   COMMIT;
+   
+   io_status  := 'OK';
+   io_sqlcode := NULL;
+   io_sqlerrm := NULL;
+   
+EXCEPTION
+   WHEN OTHERS THEN
+      io_status  := 'ABORT';
+      io_sqlcode := SQLCODE;
+      io_sqlerrm := v_error_section || ':' || SQLERRM;
+
+      ROLLBACK;
+      RAISE_APPLICATION_ERROR (-20101, v_error_section||' '||SQLERRM);
+
+END TOTD_METRICS;
+
+-- ----------------------------------------------------------------------------------------------------------
+PROCEDURE TVH_METRICS 
+( io_status   IN OUT VARCHAR2
+, io_sqlcode  IN OUT NUMBER
+, io_sqlerrm  IN OUT VARCHAR2 )
+AS
+
+ CURSOR get_kpi_data IS
+  SELECT kpi_cde
+       , kpi_metric_cde
+       , region_organization_id
+       , fiscal_year_id
+       , CASE
+            WHEN fiscal_month_id IN (1,2,3) THEN 1
+            WHEN fiscal_month_id IN (4,5,6) THEN 2
+            WHEN fiscal_month_id IN (7,8,9) THEN 3
+            WHEN fiscal_month_id IN (10,11,12) THEN 4
+         END AS fiscal_quarter_id
+       , fiscal_month_id
+       , metric_amt 
+  FROM   GSC.glog_metric_details_stg
+  WHERE  ( kpi_cde = 'TVH' AND kpi_metric_cde = 'VH')
+  ORDER BY 1, 2, 3, 4, 5, 6 NULLS FIRST;  
+ 
+ v_fyear         NUMBER;
+ v_fqtr          NUMBER;
+ v_fmonth        NUMBER;
+ v_fweek         NUMBER;
+ 
+ v_error_section VARCHAR2(1000);  
+
+BEGIN
+
+   v_kpi_cde        := 'TVH';
+   -- Delete from Table TVH_METRIC_DETAILS
+   v_error_section := 'Delete previous KPI data From TVH_METRIC_DETAILS';
+   DELETE FROM TVH_METRIC_DETAILS;
+   COMMIT;
+   
+   v_error_section := 'Populate data for TVH_METRIC_DETAILS';
+   FOR get_kpi_data_rec IN get_kpi_data
+   LOOP
+
+      BEGIN
+      
+         INSERT INTO GSC.TVH_METRIC_DETAILS
+	        ( TVH_METRIC_DETAIL_ID
+      	        , KPI_CDE
+      	        , KPI_METRIC_CDE
+      	        , REGION_ORGANIZATION_ID
+      	        , FISCAL_YEAR_ID
+      	        , FISCAL_QUARTER_ID
+      	        , FISCAL_MONTH_ID
+      	        , METRIC_AMT )
+      	 VALUES ( GSC.TVH_METRIC_DETAILS_SEQ.NEXTVAL
+      	        , GET_KPI_DATA_REC.kpi_cde
+      	        , GET_KPI_DATA_REC.kpi_metric_cde
+      	        , GET_KPI_DATA_REC.region_organization_id
+      	        , GET_KPI_DATA_REC.fiscal_year_id
+      	        , GET_KPI_DATA_REC.fiscal_quarter_id
+      	        , GET_KPI_DATA_REC.fiscal_month_id
+      	        , GET_KPI_DATA_REC.metric_amt );
+      
+      EXCEPTION
+         WHEN OTHERS THEN  -- Ignore any error record while reading from Stage Table
+            NULL;
+      END;
+
+   END LOOP;
+   COMMIT;
+
+   v_error_section := 'Analyze the Table: TVH_METRIC_DETAILS';
+   GSC.GSC_ANALYZE_TABLE('TVH_METRIC_DETAILS');
+
+   v_error_section := 'Update the Reporting Periods for TVH_METRIC_DETAILS';
+   SELECT fddi.*, 
+          (SELECT MAX (fdd.cd_tyco_week_id)
+           FROM   MBB.fiscal_date_dmn fdd
+           WHERE  fdd.cd_tyco_year_id          = fddi.fiscal_year_id
+           AND    fdd.cd_tyco_month_of_year_id = fddi.fiscal_month_id) fiscal_week
+   INTO   v_fyear, v_fqtr, v_fmonth, v_fweek
+   FROM   (SELECT fiscal_year_id, MAX (fiscal_quarter_id), MAX (fiscal_month_id) fiscal_month_id
+           FROM   GSC.tvh_metric_details
+           WHERE  fiscal_year_id = (SELECT MAX (fiscal_year_id) FROM GSC.tvh_metric_details)
+           GROUP BY   fiscal_year_id) fddi;
+
+   GSC.UPDATE_KPI_REPORTING_PERIODS (v_kpi_cde, v_fyear, v_fqtr, v_fmonth, v_fweek);
+   COMMIT;
+   
+   v_error_section := 'Delete data from Stage for TVH Metrics';
+   DELETE FROM   GSC.glog_metric_details_stg
+   WHERE  ( kpi_cde = 'TVH' AND kpi_metric_cde = 'VH');
+   COMMIT;
+
+   io_status  := 'OK';
+   io_sqlcode := NULL;
+   io_sqlerrm := NULL;
+   
+EXCEPTION
+   WHEN OTHERS THEN
+      io_status  := 'ABORT';
+      io_sqlcode := SQLCODE;
+      io_sqlerrm := v_error_section || ':' || SQLERRM;
+
+      ROLLBACK;
+      RAISE_APPLICATION_ERROR (-20101, v_error_section||' '||SQLERRM);
+
+END TVH_METRICS; 
+
+-- ----------------------------------------------------------------------------------------------------------
+
+BEGIN
+
+   -- Get Fiscal Year ID, Fetch data for current year + 2 years in the past   
+   SELECT tyco_year_id - 2
+   INTO   v_fiscal_year_id
+   FROM   date_dmn
+   WHERE  date_level_id = 1
+   AND    TRUNC(calendar_dt) = TRUNC(SYSDATE);
+   
+END GSC_GLOG_KPI;
+/
+
+-- ----------------------------------------------------------------------------------------------------------
+/*
+
+-- CREATE PUBLIC SYNONYM GSC_GLOG_KPI
+--    FOR GSC_GLOG_KPI;
+
+-- ----------------------------------------------------------------------------------------------------------
+
+-- GRANT EXECUTE 
+--    ON GSC_GLOG_KPI    
+--    TO GSC_WEB;
+
+-- ----------------------------------------------------------------------------------------------------------
+*/

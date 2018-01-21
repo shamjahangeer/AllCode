@@ -1,0 +1,2 @@
+LSNRCTL> stop
+LSNRCTL> start

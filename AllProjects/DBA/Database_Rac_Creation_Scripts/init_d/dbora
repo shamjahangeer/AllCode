@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# Set ORA_HOME to be equivalent to the $ORACLE_HOME
+# from which you wish to execute dbstart and dbshut;
+#
+# Set ORA_OWNER to the user id of the owner of the
+# Oracle database in ORA_HOME.
+
+ORA_HOME=/opt/db01/app/oracle/product/9.2.0
+ORA_OWNER=oracle
+
+if [ ! -f $ORA_HOME/bin/dbstart ]
+then
+echo "Oracle startup: cannot start"
+exit
+fi
+
+case "$1" in
+'start')
+# Start the Oracle databases:
+# The following command assumes that the oracle login
+# will not prompt the user for any values
+echo Oracle sleeping for 5 more mins....
+sleep 60
+echo Oracle sleeping for 4 more mins....
+sleep 60
+echo Oracle sleeping for 3 more mins....
+sleep 60
+echo Oracle sleeping for 2 more mins....
+sleep 60
+echo Oracle sleeping for 1 more mins....
+sleep 60
+echo starting Oracle DB....
+su - $ORA_OWNER -c "$ORA_HOME/bin/dbstart 1 start"
+kill -9 `ps -ef | grep peer | grep -v grep | awk '{print $2}'`
+/usr/bin/pkill -9 -x -u 0 '(snmpdx)'
+ORACLE_HOME=/opt/db01/app/oracle/product/9.2.0; export ORACLE_HOME
+$ORACLE_HOME/network/snmp/peer/start_peer -a
+sleep 30
+su - $ORA_OWNER -c "agentctl start" &
+
+# Reduce the switch over time
+/usr/sbin/ndd -set /dev/tcp tcp_ip_abort_interval 30000
+/usr/sbin/ndd -set /dev/tcp tcp_ip_abort_cinterval 30000
+/usr/sbin/ndd -set /dev/tcp tcp_ip_abort_linterval 30000
+/usr/sbin/ndd -set /dev/tcp tcp_rexmit_interval_max 7500
+
+;;
+
+'stop')
+# Stop the Oracle databases:
+# The following command assumes that the oracle login
+# will not prompt the user for any values
+su - $ORA_OWNER -c "agentctl stop" &
+kill -9 `ps -ef | grep peer | grep -v grep | awk '{print $2}'`
+/usr/bin/pkill -9 -x -u 0 '(snmpdx)'
+su - $ORA_OWNER -c "$ORA_HOME/bin/dbstart 1 stop" &
+;;
+
+esac
+
+#### ln -s /etc/init.d/dbora /etc/rc0.d/K10dbora
+# ln -s /etc/init.d/dbora /etc/rc3.d/S99dbora
+

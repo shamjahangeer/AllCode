@@ -1,0 +1,2 @@
+When one of the Oracle background processes (such as dbwr, lgwr, pmon, smon and so on )
+ encounter an exception, they will write a trace file.

@@ -1,0 +1,3 @@
+<%
+ServerStats vbNullString, vbNullString
+%>

@@ -1,0 +1,53 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Data Views</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <B><A NAME="6400bdaf"></A>Data Views</B></P>
+  <P>
+   Major Delivery Scorecard data views provide you with specific, 
+   accurate data to track delivery performance. Major data views are as follows:</P>
+  <P>
+   <TABLE CELLPADDING="1" CELLSPACING="2" BORDER="0">
+    <TR>
+     <TD VALIGN=TOP>
+      <UL>
+       <LI CLASS="mvd-P">
+       <P>
+        Plant/Building/Location<BR>
+        <LI CLASS="mvd-P">Organization<BR>
+        <LI CLASS="mvd-P">Customer/Worldwide<BR>
+        <LI CLASS="mvd-P">Shipping Facility<BR>
+        <LI CLASS="mvd-P">Team</TD>
+     <TD VALIGN=TOP>
+      <UL>
+       <LI CLASS="mvd-P">
+       <P>
+        MRP Controller<BR>
+        <LI CLASS="mvd-P">Make Stock<BR>
+        <LI CLASS="mvd-P">Product Code/Product Line<BR>
+        <LI CLASS="mvd-P">Industry Code<BR>
+        <LI CLASS="mvd-P">Manufacturing Building<BR>
+        <LI CLASS="mvd-P">Profit Center<BR>
+        <LI CLASS="mvd-P">SAP Sales Office/Group</P>
+       <P>
+        <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+   </TABLE></P>
+  <P>
+   <B>To select a data view:</B></P>
+  <P>
+   Click the desired selection from the dropdown list.
+ </BODY>
+</HTML>

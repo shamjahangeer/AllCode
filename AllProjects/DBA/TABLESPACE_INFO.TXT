@@ -1,0 +1,212 @@
+---
+TO FIND THE TABLESPACE INFO
+---
+select	a.TABLESPACE_NAME,
+	a.BYTES bytes_used,
+	b.BYTES bytes_free,
+	b.largest,
+	round(((a.BYTES-b.BYTES)/a.BYTES)*100,2) percent_used
+from 	
+	(
+		select 	TABLESPACE_NAME,
+			sum(BYTES) BYTES 
+		from 	dba_data_files 
+		group 	by TABLESPACE_NAME
+	)
+	a,
+	
+		select 	TABLESPACE_NAME,
+			sum(BYTES) BYTES ,
+			max(BYTES) largest 
+		from 	dba_free_space 
+		group 	by TABLESPACE_NAME
+	)
+	b
+where 	a.TABLESPACE_NAME=b.TABLESPACE_NAME
+order 	by ((a.BYTES-b.BYTES)/a.BYTES) desc
+-----------------------
+
+Users Default (SYSTEM)
+
+-----------------------
+select 	USERNAME,
+	CREATED,
+	PROFILE,
+	DEFAULT_TABLESPACE,
+	TEMPORARY_TABLESPACE
+from 	dba_users
+order 	by USERNAME
+----------------------
+
+Objects in SYSTEM TABLESPACE
+--------------------
+select	OWNER,
+	SEGMENT_NAME,
+	SEGMENT_TYPE,
+	TABLESPACE_NAME,
+	BYTES
+from 	dba_segments
+where	TABLESPACE_NAME = 'SYSTEM'
+and	OWNER not in ('SYS','SYSTEM')
+order 	by OWNER, SEGMENT_NAME
+
+-----------------------------
+Freespace/Largest Ext
+-------------------------
+
+select 	TABLESPACE_NAME,
+	sum(BYTES) Total_free_space,
+   	max(BYTES) largest_free_extent
+from 	dba_free_space
+group 	by TABLESPACE_NAME
+
+-----------------------
+
+TABLESPACE AND DATA fILES DETAILS 
+
+select file_name, bytes, autoextensible,
+ maxbytes from dba_data_files where
+  tablespace_name='USERS'
+
+---------------------------
+
+INCREASING THE SIZE OF THE TABLESPACE
+
+select file_name, bytes, autoextensible, maxbytesfrom dba_data_fileswhere tablespace_name='TABLESPACE_NAME'
+Either add more datafiles to the tablespace, set the autoextensible flag or enlarge the datafile(s).
+
+To add more space to a file issue following command: 
+alter database datafile 'C:\ORACLE\ORADATA\IDX01.DBF' resize 1000m;
+
+To turn on the autoextend feature on a datafile use following command: 
+alter database datafile 'C:\ORACLE\ORADATA\IDX01.DBF' autoextend on next 100m maxsize 2000m;
+
+To add a new datafile to the tablespace use following command: 
+alter tablespace IDX add datafile 'C:\ORACLE\ORADATA\IDX02.DBF' size 100m autoextend on next 100m maxsize 2000m;
+
+------------------------------------------------------
+
+--For Setting the Quota
+
+ALTER USER bpcdb quota unlimited on USERS;
+
+To find the users quota on a tablespace
+dba_ts_quotas
+-------------------------------------------------------
+
+andre scripts to create the tablespace?
+
+-------------------------------------------------------
+
+1.     Create the large tablespaces before runs the DB migration. The large tablespaces to be created are 
+
+ 
+
+CREATE TABLESPACE EAMS_MOT_128M_DAT DATAFILE '/???/.../eams_mot_128m_dat.01.dbf' 
+
+SIZE 256M AUTOEXTEND ON NEXT 16M MAXSIZE UNLIMITED EXTENT MANAGEMENT LOCAL UNIFORM SIZE 4M SEGMENT SPACE MANAGEMENT AUTO;
+
+ 
+
+CREATE TABLESPACE EAMS_MOT_8M_IDX DATAFILE '/???/.../eams_mot_8m_idx.01.dbf' 
+
+SIZE 64M AUTOEXTEND ON NEXT 8M MAXSIZE UNLIMITED EXTENT MANAGEMENT LOCAL UNIFORM SIZE 1M SEGMENT SPACE MANAGEMENT AUTO;
+
+ 
+
+2.     After the DB migration, please login to CIADMIN and make sure the large tables have migrated over to the large tablespaces. The following SQL should return one record only and the tablespace_name should be EAMS_MOT_128M_DAT.
+
+ 
+
+SELECT tablespace_name,
+
+       COUNT(*)
+
+FROM   user_tables
+
+WHERE  table_name IN ('EAMS_PUBLISH_PACKAGE',
+
+                      'EAMS_WI_ERROR_LOG',                                              
+
+                      'EAMS_ADAPT_ASSET',
+
+                      'EAMS_PUBLISH_ASSET',
+
+                      'EAMS_INGEST_PACKAGE',
+
+                      'EAMS_INGEST_ASSET',
+
+                      'EAMS_WORKFLOW_TRANS',
+
+                      'EAMS_INGEST_PKG_APP_DATA',
+
+                      'EAMS_PUBLISH_PKG_APP_DATA',
+
+                      'EAMS_ENCR_AGENT_TRANS',
+
+                      'EAMS_ENCODE_AGENT_TRANS')
+
+GROUP  BY tablespace_name;                     
+
+ 
+
+3.     Make sure the indexes of the large tables are rebuilt in the large index tablespace. The following SQL should return only one record. The tablespace_name should be EAMS_MOT_8M_IDX and the status should “VALID”.
+
+ 
+
+SELECT tablespace_name,
+
+       status,
+
+       COUNT(*)
+
+FROM   user_indexes
+
+WHERE  table_name IN ('EAMS_PUBLISH_PACKAGE',
+
+                      'EAMS_WI_ERROR_LOG',                                              
+
+                      'EAMS_ADAPT_ASSET',
+
+                      'EAMS_PUBLISH_ASSET',
+
+                      'EAMS_INGEST_PACKAGE',
+
+                      'EAMS_INGEST_ASSET',
+
+                      'EAMS_WORKFLOW_TRANS',
+
+                      'EAMS_INGEST_PKG_APP_DATA',
+
+                      'EAMS_PUBLISH_PKG_APP_DATA',
+
+                      'EAMS_ENCR_AGENT_TRANS',
+
+                      'EAMS_ENCODE_AGENT_TRANS')
+
+GROUP  BY tablespace_name, status;
+
+-------------------------------------------------------------------------
+
+For finding the tablespace for a table
+---------------------------------------
+
+
+SELECT tablespace_name 
+FROM all_tables 
+WHERE table_name = 'YOURTABLENAME';
+
+----------------------------------------
+
+TO compress the tablespace
+
+ALTER TABLESPACE WMDRM_128K_DAT DEFAULT COMPRESS;
+
+
+
+
+
+
+
+
+

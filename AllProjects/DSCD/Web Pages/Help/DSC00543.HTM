@@ -1,0 +1,55 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>If a Shipment Was on Temporary Hold</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <A NAME="44ac090a"></A><B>If a Shipment Was on Temporary Hold</B></P>
+  <P>
+   If a shipment was on Temporary Hold and the <A HREF="Dsc00309.htm">Commit
+    Date</A> is within the Temporary Hold period, performance is tracked 
+   from the <A HREF="Dsc00301.htm">Temporary Hold Off Date</A> . One 
+   'grace day' is added to the Commit Date for calculation purposes only 
+   if the shipment is already late.</P>
+  <P>
+   If a Temporary Hold period is between the Commit Date and the <A HREF="Dsc00289.htm">Shipped
+    Date</A>, the Temporary Hold period will be subtracted from the 
+   delinquency period. One day is added to the Temporary Hold period if 
+   the Temporary Hold Off Date is less than the Shipped Date.</P>
+  <P>
+   If both the Shipped Date and the Commit Date fall within the 
+   Temporary Hold period, the shipment is considered on-time, with no variance.</P>
+  <P>
+   <B>Note</B>: The following are examples of the TH (Temporary Hold) 
+   calculation Logic:</P>
+  <P>
+   If Commit Date and Shipped Date are<B> on or within</B> the TH 
+   period, the shipment is on-time.</P>
+  <P>
+   If Commit and Shipped Dates are <B>both before or both after</B> the 
+   TH period, the calculation is the standard Commit Date to Shipped 
+   Date comparison.</P>
+  <P>
+   If the Commit Date is <B>before</B> the TH On Date and the Shipped 
+   Date is <B>greater than</B> the TH Off Date, the calculation is 
+   Commit to Ship, minus the TH period plus 1 day.</P>
+  <P>
+   If the Commit Date is <B>before</B> the TH On Date and the Shipped 
+   Date <B>equals</B> the TH Off Date, the calculation is Commit to 
+   Ship, minus the TH period.</P>
+  <P>
+   If the Commit Date is <B>within</B> the TH period and the Shipped 
+   Date is <B>greater than</B> the TH Off Date, the calculation is TH 
+   Off Date (plus 1 day) to Shipped Date.
+ </BODY>
+</HTML>

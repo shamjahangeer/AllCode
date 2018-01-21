@@ -1,0 +1,7 @@
+SELECT a.table_name, a.next_extent, a.tablespace_name
+FROM all_tables a,
+    ( SELECT tablespace_name, max(bytes) as big_chunk
+      FROM dba_free_space
+      GROUP BY tablespace_name ) f
+WHERE f.tablespace_name = a.tablespace_name
+                AND a.next_extent > f.big_chunk;

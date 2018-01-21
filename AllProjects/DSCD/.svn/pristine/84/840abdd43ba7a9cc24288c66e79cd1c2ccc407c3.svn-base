@@ -1,0 +1,49 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Industry Business</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <STRONG>Industry Business</STRONG></P>
+  <P>
+   Defines a management structure within Tyco Electronics that interacts 
+   with and serves customers within specific industries or fields of business.</P>
+  <P>
+   <!-- $MVD$:spaceretainer() -->&nbsp;</P>
+  <P>
+   <A HREF="http://us194wb06.us.tycoelectronics.com/DMF/CustomCodeLists/list.asp?Lvl=0&amp;Pos=0&amp;FileName=IBC&amp;PageName=Browse_IBC_to_WWIC&amp;Ver=Current&amp;Sum=1">Worldwide
+    Industry Code Summary List</A></P>
+  <P>
+   <A HREF="http://us194wb06.us.tycoelectronics.com/DMF/CustomCodeLists/list.asp?Lvl=0&amp;Pos=0&amp;FileName=IBC&amp;PageName=Browse_IBC_to_WWIC&amp;Ver=Current&amp;Sum=0">Browse
+    All Industry &amp; Worldwide Industry Codes</A></P>
+  <P>
+   <!-- $MVD$:spaceretainer() -->&nbsp;</P>
+  <P>
+   <A HREF="http://us194wb06.us.tycoelectronics.com/DMF/CustomCodeLists/WIC/Levels.aspx?lvl=L1">Worldwide
+    Industry Codes - Level 1</A></P>
+  <P>
+   <A HREF="http://us194wb06.us.tycoelectronics.com/DMF/CustomCodeLists/WIC/Levels.aspx?lvl=L2">Worldwide
+    Industry Codes - Level 2</A></P>
+  <P>
+   <A HREF="http://us194wb06.us.tycoelectronics.com/DMF/CustomCodeLists/WIC/Levels.aspx?lvl=L3">Worldwide
+    Industry Codes - Level 3</A></P>
+  <P>
+   <A HREF="http://us194wb06.us.tycoelectronics.com/DMF/CustomCodeLists/WIC/Levels.aspx?lvl=L4">Worldwide
+    Industry Codes - Level 4</A></P>
+  <P>
+   <!-- $MVD$:spaceretainer() -->&nbsp;</P>
+  <P>
+   <A HREF="http://us194wb06.us.tycoelectronics.com/DMF/UserMaintainedContent/IndustryNewIDHierarchy.HTM"><SPAN STYLE="font-weight : bold;font-size : 12.0pt;">New
+    Industry Hierarchy</SPAN></A>
+ </BODY>
+</HTML>

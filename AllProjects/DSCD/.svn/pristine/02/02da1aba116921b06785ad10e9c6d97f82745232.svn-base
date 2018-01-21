@@ -1,0 +1,75 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Lead Time Window Rules</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <IMG SRC="DSCDWRLD.gif" WIDTH="38" HEIGHT="32" VSPACE="0" HSPACE="0" ALT="DSCDWRLD.gif" BORDER="0"><A NAME="71058858"></A><B>Lead
+    Time Window Rules</B></P>
+  <P>
+   In addition to the rules applied to all Delivery Scorecard windows 
+   and schedule detail windows, Lead Time windows have the following 
+   additional rules:</P>
+  <P>
+   <B>General Data Display</B></P>
+  <OL>
+   <LI CLASS="mvd-P">
+   <P>
+    Lead Time allows the option to show leadtime for opens or leadtime 
+    for shipments.</P>
+   <LI CLASS="mvd-P">
+   <P>
+    Customer Lead Time is the number of work days between the date the 
+    order was received and the <A HREF="Dsc00295.htm">Customer Requested Date</A>;
+     Tyco Electronics Lead Time is the number of work days between the 
+    date the order was received and the <A HREF="Dsc00288.htm">Schedule Date</A>.</P>
+   <LI CLASS="mvd-P">
+   <P>
+    Lead Time measurements are straight measurement variances and 
+    percentages (measured against zero (0) Days Early and zero (0) Days 
+    Late) for both a Received to Schedule comparison (Tyco Electronics 
+    Lead Time) and a Received to Customer Request comparison (Customer 
+    Lead Time).</P>
+   <LI CLASS="mvd-P">
+   <P>
+    Data within Lead Time columns is cumulative as you read from left to 
+    right across the window. For example, data in column 2 is the sum of 
+    the data in columns 0, 1, and 2.</P>
+   <LI CLASS="mvd-P">
+   <P>
+    The Total Number of Schedules = the total number of shipments or 
+    opens. Percentages are Leadtime schedule for x day(s)/ total number 
+    of schedules.</P>
+   </OL>
+  <P>
+   <B>Field Displays</B></P>
+  <OL START="6">
+   <LI CLASS="mvd-P">
+   <P>
+    The Days Early and (Days) Late fields do not apply to open schedules 
+    and will not be included as window parameters.</P>
+   </OL>
+  <P>
+   <B>Date Range</B></P>
+  <OL START="7">
+   <LI CLASS="mvd-P">
+   <P>
+    A Monthly Date Range of 2 months or a Daily Date Range of 62 days (2 
+    months of days) out of the available data (current month plus prior 
+    15 months) can be viewed at one time.</P>
+   <LI CLASS="mvd-P">
+   <P>
+    When using a date range, all records where <A HREF="Dsc00296.htm">Receive
+     Date</A> falls within the date range entered will be shown.
+ </BODY>
+</HTML>

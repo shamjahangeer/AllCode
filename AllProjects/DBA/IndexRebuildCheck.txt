@@ -1,0 +1,36 @@
+To obtain information about an index:
+
+analyze index <index_name> validate structure;
+
+This populates the table ‘index_stats’. It should be noted that this table contains only one row and therefore only one index can be analysed at a time.
+
+An index should be considered for rebuilding under any of the following conditions:
+
+* The percentage of deleted rows exceeds 30% of the total, i.e. if
+del_lf_rows / lf_rows > 0.3.
+* If the ‘HEIGHT’ is greater than 4.
+* If the number of rows in the index (‘LF_ROWS’) is significantly smaller than ‘LF_BLKS’ this can indicate a large number of deletes, indicating that the index should be rebuilt.
+
+--------------------
+Index related link
+
+http://docs.oracle.com/cd/B10501_01/server.920/a96521/indexes.htm#5721
+
+
+Specify Index Block Space Use
+
+When an index is created for a table, data blocks of the index are
+ filled with the existing values in the table up to PCTFREE. 
+ The space reserved by PCTFREE for an index block is only used when 
+ a new row is inserted into the table and the corresponding index entry 
+ must be placed in the correct index block (that is, between preceding 
+ and following index entries).
+
+If no more space is available in the appropriate index block, 
+the indexed value is placed where it belongs (based on the lexical set ordering). 
+Therefore, if you plan on inserting many rows into an indexed table, PCTFREE should be 
+high to accommodate the new index values. If the table is relatively static without many 
+inserts, PCTFREE for an associated index can be low so that fewer blocks are required
+ to hold the index data.
+ 
+ 

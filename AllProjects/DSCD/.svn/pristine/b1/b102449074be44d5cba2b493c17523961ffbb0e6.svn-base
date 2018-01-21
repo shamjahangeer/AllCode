@@ -1,0 +1,39 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Ship-to Customer Account Number</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <B>Ship-to Customer Account Number</B></P>
+  <P>
+   A Tyco Electronics-assigned identification number representing the 
+   customer ship-to locations.</P>
+  <P>
+   <B>Note</B>: A Base <STRONG>and</STRONG> Suffix must be&nbsp;provided 
+   when entering a Ship-to Customer Account Number.&nbsp; Leading zeros 
+   and hyphens(-) are not required.</P>
+  <P>
+   <STRONG>Examples</STRONG>:</P>
+  <P>
+   <STRONG>SAP</STRONG> Ship-to Customer Account Number 0002004546 will 
+   be entered as 200454600 or 2004546-00.</P>
+  <P>
+   Ship-to Customer Account Number 0012425501 will be entered as 
+   12425501 or 124255-01.</P>
+  <P>
+   <!-- $MVD$:spaceretainer() -->&nbsp;</P>
+  <P>
+   <A HREF="http://us194wb06.us.tycoelectronics.com/Name_Search/Name_Search.aspx">Query
+    For Customer Account Numbers</A>
+ </BODY>
+</HTML>

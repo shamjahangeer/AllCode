@@ -1,0 +1,13 @@
+To launch the database upgrade assistant
+
+From UNIX
+--------------
+go to $ORACLE_HOME/bin directory
+
+./dbua
+
+From windows
+--------------
+
+I:\app\Guru\product\11.1.0\db_1\BIN\.dbua.bat
+

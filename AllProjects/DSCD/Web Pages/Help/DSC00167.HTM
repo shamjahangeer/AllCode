@@ -1,0 +1,190 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Scheduling Method Code</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <B>Scheduling Method Code</B></P>
+  <P>
+   A code indicating the method of scheduling at the time of booking.</P>
+  <P>
+   <TABLE WIDTH="750" CELLPADDING="1" CELLSPACING="2" BORDER="0">
+    <TR>
+     <TD WIDTH="65" VALIGN=TOP>
+      <P>
+       <B>Code</B><BR>
+       01<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       <B>Description</B><BR>
+       Scheduled via VAM within the release horizon; schedule quantity 
+       cannot exceed VAM quantity</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+    <TR>
+     <TD WIDTH="65" VALIGN=TOP>
+      <P>
+       02<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       Scheduled via ATP within the release horizon; schedule quantity 
+       cannot exceed ATP quantity</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;<BR>
+      </TD>
+    </TR>
+    <TR>
+     <TD WIDTH="65" VALIGN=TOP>
+      <P>
+       03<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       Scheduled via LL within the release horizon; schedule quantity cannot 
+       exceed the N-factor quantity.</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+    <TR>
+     <TD WIDTH="65" VALIGN=TOP>
+      <P>
+       04<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       Scheduled via W within the release horizon; schedule quantity cannot 
+       exceed the warehouse quantity</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+    <TR>
+     <TD WIDTH="65" VALIGN=TOP>
+      <P>
+       11<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       Scheduled via VAM beyond the release horizon; schedule quantity 
+       cannot exceed VAM quantity.</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;<BR>
+      </TD>
+    </TR>
+    <TR>
+     <TD WIDTH="65" VALIGN=TOP>
+      <P>
+       12<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       Scheduled via ATP beyond the release horizon; schedule quantity 
+       cannot exceed the ATP quantity</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+    <TR>
+     <TD WIDTH="65" VALIGN=TOP>
+      <P>
+       13<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       Scheduled via LL beyond the release horizon; schedule quantity cannot 
+       exceed the N-factor quantity</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+    <TR>
+     <TD WIDTH="65" VALIGN=TOP>
+      <P>
+       14<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       Scheduled via W beyond the release horizon; schedule quantity cannot 
+       exceed the warehouse quantity</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+    <TR>
+     <TD WIDTH="65" VALIGN=TOP>
+      <P>
+       21<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       Scheduled via VAM; schedule quantity exceeds VAM quantity</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+    <TR>
+     <TD WIDTH="65" VALIGN=TOP>
+      <P>
+       22<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       Scheduled via ATP; schedule quantity exceeds ATP quantity</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+    <TR>
+     <TD WIDTH="65" VALIGN=TOP>
+      <P>
+       23<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       Scheduled via LL; schedule quantity exceeds N-factor quantity</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+    <TR>
+     <TD WIDTH="65" VALIGN=TOP>
+      <P>
+       24<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       Scheduled via W; schedule quantity exceeds warehouse quantity</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+    <TR>
+     <TD WIDTH="65" VALIGN=TOP>
+      <P>
+       30<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       Not scheduled VAM, ATP, LL, or W and schedule date is not 999999</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+    <TR>
+     <TD WIDTH="65" VALIGN=TOP>
+      <P>
+       99<BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       Schedule Date is 999999</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+   </TABLE>
+ </BODY>
+</HTML>

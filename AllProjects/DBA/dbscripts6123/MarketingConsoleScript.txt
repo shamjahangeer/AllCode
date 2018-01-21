@@ -1,0 +1,2 @@
+find the mk db scripts on 
+/opt/cce/mc/db/scripts in 65 machine

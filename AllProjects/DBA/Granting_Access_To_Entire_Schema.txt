@@ -1,0 +1,6 @@
+begin
+for x in (select object_name from user_objects)
+loop
+execute immediate 'grant select on '|| x.object_name || ' to &schema';
+end loop; 
+end;

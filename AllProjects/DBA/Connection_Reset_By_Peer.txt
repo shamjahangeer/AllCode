@@ -1,0 +1,16 @@
+$ lsnrctl start
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=IPC)(KEY=EXTPROC)))
+TNS-12547: TNS:lost contact
+TNS-12560: TNS:protocol adapter error
+TNS-00517: Lost contact
+Linux Error: 104: Connection reset by peer
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=centauri)(PORT=1521)))
+TNS-12547: TNS:lost contact
+TNS-12560: TNS:protocol adapter error
+TNS-00517: Lost contact
+Linux Error: 104: Connection reset by peer
+
+Make sure the loopback entry in /etc/hosts is not missing when you start the listener:
+127.0.0.1 localhost.localdomain localhost
+Now try to run lsnrctl start as oracle again.

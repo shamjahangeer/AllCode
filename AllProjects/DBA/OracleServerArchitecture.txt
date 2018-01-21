@@ -1,0 +1,143 @@
+=>Library Cache(shared_pool_size `parameter)
+
+Stores information about sql parse(validation of the objects and its syntax) and execution path.Memory is allocated
+to process sql and plsql statments
+Stores compiled programme units,functions,packages,procedures 
+
+
+=>Data dictionary Cache((shared_pool_size `parameter)
+
+Keep information of database files,tables,indexes,columns,users,privileges and other database objects
+During parse phase oracle database looks data dictionary cache to check for the validation of the database objects
+Caching the data dictonary information into memory increases the response time on queries.
+
+if the data dictionary cache is very small then the oracle database looks for data dictionary tables.These queries are called recrusive calls 
+and it is slower than the query used to check data dictinary cache for the information
+
+
+=>Database buffer cache (DB_BLOCK_SIZE,db_cache_size PARAMETER)
+
+it stores copies of the data blocks that have been retrieved from the data files
+
+db_cache_advice can be set to gather statistics and statistics can be seen in V$DB_CACHE_ADVICE.
+oracle database can be created with a standard block size and up to four non standard block size and non standard block size 
+can have any power of 2 value between 2kb to 32kb in buffer cache. 
+and if db_cache_advice is turned on will create overhead on memory and cpu
+
+
+=>Redolog buffer cache(log_buffer parameter)
+
+It contains information on changes done for data file blocks.These informations are called redo entries.These entries keep information
+on insert update delete create,alter ,drop
+
+=>Large Pool(Large_pool_size parameter)
+
+(Optional area of memory in the SGA and configured only in the Shared Server enviornment) and mainly used to release the burden
+placed on the shared pool.This memory is used for backup and restore operation,io slaves,session memory(UGA).
+
+=>Java Pool(Java Pool size)
+
+It services the parsing information required for java commands.Required if you are using java and its default size is 24m.
+
+=>program global area
+PGA is used for dedicated oracle server.it is allocated when server process started and deallocates when it ends.
+The memory is used for 
+Sort area,
+session information(user information,privileges and performance statistics for that session)
+stack space
+Cursor State
+
+
+=>DBWR Process
+The server process records changes to rollback and data blocks in the buffer cache. Database
+Writer (DBWn) writes the dirty buffers from the database buffer cache to the data files. It
+ensures that a sufficient number of free buffers—buffers that can be overwritten when server
+processes need to read in blocks from the data files—are available in the database buffer
+cache. Database performance is improved because server processes make changes only in the
+buffer cache.
+
+DBWn writes when:
+• Checkpoint
+• Dirty buffers threshold
+reached
+• No free buffers
+• Timeout
+• RAC ping request
+• Tablespace offline
+• Tablespace read only
+• Table DROP or
+TRUNCATE
+• Tablespace BEGIN
+BACKUP
+
+=>Log Writer(LGWR)
+
+LGWR performs sequential writes from the redo log buffer cache to the redo log file under
+the following situations:
+• When a transaction commits
+• When the redo log buffer cache is one-third full
+• When there is more than a megabyte of changes records in the redo log buffer cache
+• Before DBWn writes modified blocks in the database buffer cache to the data files
+• Every 3 seconds.
+Because the redo is needed for recovery, LGWR confirms the commit only after the redo is
+written to disk.
+LGWR can also call on DBWn to write to the data files.
+
+=>SYSTEM MONITOR(SMON)
+
+• Instance recovery:
+– Rolls forward
+changes in the
+redo logs
+– Opens the
+database for
+user access
+– Rolls back
+uncommitted
+transactions
+• Coalesces free
+space ever 3 sec
+• Deallocates
+temporary segments
+Control
+
+=>PROCESS MONITOR(PMON)
+
+The background process PMON cleans up after failed processes by:
+• Rolling back the user’s current transaction
+• Releasing all currently held table or row locks
+• Freeing other resources currently reserved by the user
+• Restarts dead dispatchers
+
+=>CHECK POINT(CKPT)
+
+Signalling DBWn
+at checkpoints
+• Updating datafile
+headers with
+checkpoint
+information
+• Updating control
+files with
+checkpoint
+
+=>Archiver (ARCN)
+
+Optional background process
+• Automatically archives online redo logs when
+ARCHIVELOG mode is set
+• Preserves the record of all changes made to the
+database
+
+
+=>PROGRAM GLOBAL AREA(PGA)
+
+Sort area: Used for any sorts that may be required to process the SQL statement
+• Session information: Includes user privileges and performance statistics for the session
+• Cursor state: Indicates the stage in the processing of the SQL statements that are
+currently used by the session
+• Stack space: Contains other session variables
+
+
+
+

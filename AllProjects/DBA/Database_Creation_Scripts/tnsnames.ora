@@ -1,0 +1,10 @@
+
+DBSID.leapstone.com =
+  (DESCRIPTION =
+    (ADDRESS_LIST =
+      (ADDRESS = (PROTOCOL = TCP)(HOST = LISTENER_IP)(PORT = 1521))
+    )
+    (CONNECT_DATA =
+      (SERVICE_NAME = DBSID.leapstone.com)
+    )
+  )

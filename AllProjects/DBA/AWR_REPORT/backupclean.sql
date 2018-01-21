@@ -1,0 +1,19 @@
+
+
+create table EAMS_WF_RESOURCE_MAP_ABAK as select * from EAMS_WF_RESOURCE_MAP_ASSOC;
+create table EAMS_RESOURCE_BAK as select * from EAMS_RESOURCE;
+create table EAMS_RESOURCE_INFO_BAK as select * from EAMS_RESOURCE_INFO;
+create table EAMS_RESOURCE_ROLE_MAP_BAK as select * from EAMS_RESOURCE_ROLE_MAP;
+create table EAMS_RESOURCE_RESOURCE_ABAK as select * from EAMS_RESOURCE_RESOURCE_ASSOC;
+create table EAMS_WORKSTEP_TRANS_BAK as select * from EAMS_WORKSTEP_TRANS;
+
+delete from EAMS_WF_RESOURCE_MAP_ASSOC;
+delete from EAMS_RESOURCE_RESOURCE_ASSOC;
+delete from EAMS_RESOURCE_INFO;
+delete from EAMS_WORKSTEP_TRANS;  
+delete from EAMS_RESOURCE_ROLE_MAP;
+delete from EAMS_RESOURCE;
+
+
+
+

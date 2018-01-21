@@ -1,0 +1,213 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Delivery Scorecard Window Groupings</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <IMG SRC="DSCDWRLD.gif" WIDTH="38" HEIGHT="32" VSPACE="0" HSPACE="0" ALT="DSCDWRLD.gif" BORDER="0"><A NAME="5e4fcd9f"></A><B>Delivery
+    Scorecard Window Groupings</B></P>
+  <P>
+   Although all Delivery Scorecard windows are listed below, only the 
+   window grouping title will take you to documentation describing 
+   window data and functionality. Click on the desired window title to 
+   access generalized information on that window type.</P>
+  <P>
+   All the Delivery Scorecard windows listed below are accessed from the <A HREF="Dsc00076.htm">Search
+    Criteria</A> screen.</P>
+  <P>
+   <TABLE CELLPADDING="1" CELLSPACING="2" BORDER="0">
+    <TR>
+     <TD COLSPAN="2" VALIGN=TOP>
+      <P>
+       <A HREF="Dsc00046.htm#061322d1"><B>List Summaries</B></A><BR>
+       <BR>
+       Plant/Building<BR>
+       Location<BR>
+       Customer Organization<BR>
+       Shipping Facility<BR>
+       Team<BR>
+       Controller<BR>
+       Controller Organization<BR>
+       Make Stock Code<BR>
+       Global Product Line<BR>
+       Product Code<BR>
+       Industry Code<BR>
+       Industry Business Code<BR>
+       Campus<BR>
+       Campus/Building<BR>
+       Profit Center<BR>
+       Competency Business<BR>
+       SAP Sales Office<BR>
+       SAP Sales Group<BR>
+       <BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       <A HREF="Dsc00045.htm"><B>Graphical Summaries</B></A><BR>
+       <BR>
+       Plant/Building/Location<BR>
+       Organization<BR>
+       Customer/Worldwide<BR>
+       Team<BR>
+       Controller<BR>
+       Make Stock Code<BR>
+       Product Code/Global Product Line<BR>
+       Industry Code<BR>
+       Manufacturing Building<BR>
+       Profit Center<BR>
+       SAP Sales Office/Group<BR>
+       <BR>
+      </TD>
+    </TR>
+    <TR>
+     <TD COLSPAN="2" VALIGN=TOP>
+      <P>
+       <A HREF="Dsc00061.htm#5fd15234"><B>Nonconforming Schedules</B></A><BR>
+       <BR>
+       Plant/Building/Location<BR>
+       Organization<BR>
+       Customer/Worldwide<BR>
+       Shipping Facility<BR>
+       Team<BR>
+       Controller<BR>
+       Make Stock Code<BR>
+       Product Code/Global Product Line<BR>
+       Industry Code<BR>
+       Manufacturing Building<BR>
+       Profit Center<BR>
+       SAP Sales Office/Group<BR>
+       <BR>
+      </TD>
+     <TD VALIGN=TOP>
+      <P>
+       <A HREF="Dsc00062.htm"><B>Conforming Schedules</B></A><BR>
+       <BR>
+       Plant/Building/Location<BR>
+       Organization<BR>
+       Customer/Worldwide<BR>
+       Shipping Facility<BR>
+       Team<BR>
+       Controller<BR>
+       Make Stock Code<BR>
+       Product Code/Global Product Line<BR>
+       Industry Code<BR>
+       Manufacturing Building<BR>
+       Profit Center<BR>
+       SAP Sales Office/Group<BR>
+       <BR>
+      </TD>
+    </TR>
+    <TR>
+     <TD COLSPAN="2" VALIGN=TOP>
+      <P>
+       <A HREF="Dsc00063.htm#bc542350"><B>Past Due Schedules</B></A><BR>
+       <BR>
+       Plant/Building/Location<BR>
+       Organization<BR>
+       Customer/Worldwide<BR>
+       Team<BR>
+       Controller<BR>
+       Make Stock Code<BR>
+       Product Code/Global Product Line<BR>
+       Industry Code<BR>
+       Manufacturing Building<BR>
+       Profit Center<BR>
+       SAP Sales Office/Group</TD>
+     <TD VALIGN=TOP>
+      <P>
+       <A HREF="Dsc00064.htm#014e2c95"><B>Open Schedules</B></A><BR>
+       <BR>
+       Plant/Building/Location<BR>
+       Organization<BR>
+       Customer/Worldwide<BR>
+       Team<BR>
+       Controller<BR>
+       Make Stock Code<BR>
+       Product Code/Global Product Line<BR>
+       Industry Code<BR>
+       Manufacturing Building<BR>
+       Profit Center<BR>
+       SAP Sales Office/Group</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+    <TR>
+     <TD COLSPAN="2" VALIGN=TOP>
+      <P>
+       <A HREF="Dsc00065.htm#71058858"><B>Lead Time Windows</B></A><BR>
+       <BR>
+       Organization<BR>
+       Customer/Worldwide<BR>
+       Team<BR>
+       Controller<BR>
+       Make Stock Code<BR>
+       Product Code/Global Product Line<BR>
+       Industry Code<BR>
+       Profit Center</TD>
+     <TD VALIGN=TOP>
+      <P>
+       <A HREF="Dsc00047.htm#592f43b7"><B>Schedule Detail Windows</B></A><BR>
+       <BR>
+       Plant/Building/Location<BR>
+       Organization<BR>
+       Customer/Worldwide<BR>
+       Shipping Facility<BR>
+       Team<BR>
+       Controller<BR>
+       Make Stock Code<BR>
+       Product Code/Global Product Line<BR>
+       Industry Code<BR>
+       Manufacturing Building<BR>
+       Profit Center</TD>
+    </TR>
+    <TR>
+     <TD COLSPAN="2" VALIGN=TOP>
+      <P>
+       <A HREF="DSC01030.htm"><SPAN STYLE="font-weight : bold;">Open 
+       Nonconforming Schedules</SPAN></A></P>
+      <P>
+       Organization<BR>
+       Profit Center</TD>
+     <TD VALIGN=TOP>
+      <P>
+       <SPAN STYLE="font-weight : bold;"><A HREF="DSC01029.htm">Open Summaries</A></SPAN></P>
+      <P>
+       Organization<BR>
+       Profit Center<BR>
+       <BR>
+      </TD>
+    </TR>
+    <TR>
+     <TD WIDTH="225" VALIGN=TOP>
+      <P STYLE="text-align : center;" ALIGN=CENTER>
+       <A HREF="Dsc00066.htm#5e0073fa"><B>Worldwide Account</B></A><BR>
+       <A HREF="Dsc00066.htm#5e0073fa"><B>Number List</B></A></P>
+      <P STYLE="text-align : center;" ALIGN=CENTER>
+       <!-- $MVD$:spaceretainer() -->&nbsp;<BR>
+      </TD>
+     <TD WIDTH="225" VALIGN=TOP>
+      <P STYLE="text-align : center;" ALIGN=CENTER>
+       <A HREF="Dsc00067.htm#b176e5eb"><B>Customer Account</B></A><BR>
+       <A HREF="Dsc00067.htm#b176e5eb"><B>Number List</B></A></P>
+      <P STYLE="text-align : center;" ALIGN=CENTER>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+     <TD WIDTH="200" VALIGN=TOP>
+      <P STYLE="text-align : center;" ALIGN=CENTER>
+       <A HREF="Dsc00068.htm"><B>Organization</B></A><BR>
+       <A HREF="Dsc00068.htm"><B>Year-to-Date List</B></A></P>
+      <P STYLE="text-align : center;" ALIGN=CENTER>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+   </TABLE>
+ </BODY>
+</HTML>

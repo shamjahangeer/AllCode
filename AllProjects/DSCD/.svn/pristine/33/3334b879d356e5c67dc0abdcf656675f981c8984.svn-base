@@ -1,0 +1,26 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Days Late Delivery Window</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <B>Days Late Delivery Window</B></P>
+  <P>
+   The number of Tyco Electronics work days a schedule can be shipped 
+   after the <A HREF="Dsc00288.htm">Schedule Date</A> and be considered 
+   in the pre-determined delivery window.</P>
+  <P>
+   <B>Note</B>: The Standard Default window has a prefilled value of 0. 
+   A Customer Variable window has a number value that is customer-driven.
+ </BODY>
+</HTML>

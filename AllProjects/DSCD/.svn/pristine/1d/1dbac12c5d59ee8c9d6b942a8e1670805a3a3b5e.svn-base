@@ -1,0 +1,29 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","990000","Custom #1","0") -->
+  <!-- $MVD$:color("19","996699","Custom #2","0") -->
+  <!-- $MVD$:color("20","999999","Custom #3","0") -->
+  <!-- $MVD$:fontset("Untitled Font Set 1","Verdana","Arial","Helvetica","MS","Sans","Serif","sans-serif") -->
+  <TITLE>Current Expedite Date</TITLE>
+ <LINK REL="StyleSheet" HREF="styles.css"></HEAD>
+ <BODY>
+  <FORM>
+   <P>
+    <INPUT TYPE=BUTTON VALUE="Contents" ONCLICK="location.href='contents.htm'"> <INPUT TYPE=BUTTON VALUE="   Index   " ONCLICK="location.href='index.htm'"></P>
+   </FORM>
+  <P>
+   <B>Current Expedite Date</B></P>
+  <P>
+   The Tyco Electronics expedite date that currently exists on the 
+   schedule in the order system. This date can be less than, greater 
+   than, or equal to the <A HREF="Dsc00294.htm">Original Expedite Date</A> 
+   and the <A HREF="Dsc00288.htm">Schedule Date</A>.</P>
+  <P>
+   If this date is less than the Original Expedite Date and the Schedule 
+   date, Delivery Scorecard logic will ignore the Original Expedite and 
+   the Schedule Dates and measure to the <A HREF="Dsc00290.htm">Current 
+   Expedite Date.</A>
+ </BODY>
+</HTML>

@@ -1,0 +1,27 @@
+Starting database in exclusive mode
+
+
+SQL> CONNECT sys AS SYSDBA
+SQL> STARTUP MOUNT EXCLUSIVE;
+SQL> ALTER DATABASE ARCHIVELOG;
+SQL> ARCHIVE LOG START;
+SQL> ALTER DATABASE OPEN;
+
+--------------------------------------------------
+Alternatively, add the above commands into your database's parameter files script, and bounce the database.
+The following parameters needs to be set for databases in ARCHIVELOG mode:
+log_archive_start         = TRUE
+log_archive_dest_1        = 'LOCATION=/arch_dir_name'
+log_archive_dest_state_1  = ENABLE
+log_archive_format        = %d_%t_%s.arc
+
+EXCLUSIVE 
+Signifies that the database can only be mounted and opened by the current instance
+ (it cannot be opened simultaneously by multiple instances). Cannot be used with SHARED, PARALLEL,
+ or NOMOUNT. If no mounting option is specified, EXCLUSIVE is assigned by default.
+
+----------------------------------------------------------------
+
+Link to refer::
+
+http://psoug.org/reference/archivelog.html
