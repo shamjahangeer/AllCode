@@ -1,2 +1,0 @@
-alter system set processes =200 scope=spfile
-

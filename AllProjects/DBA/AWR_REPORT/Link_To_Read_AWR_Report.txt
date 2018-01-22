@@ -1,7 +1,0 @@
-http://halimdba.blogspot.com/2011/07/how-to-understand-awr-report-statspack.html
-
-Link to read top 5 foreground event
-
-http://www.theiostorm.com/measuring-io-wait-%E2%80%93-part-1-oracle/
-
-http://www.dba-oracle.com/t_sample_statspack_analysis.htm

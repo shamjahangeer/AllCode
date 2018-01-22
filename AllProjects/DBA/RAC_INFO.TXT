@@ -1,1 +1,0 @@
-FIRE WIRE BASED SHARED STORAGE DRIVE--concurrent access

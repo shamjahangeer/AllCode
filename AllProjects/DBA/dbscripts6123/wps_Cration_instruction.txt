@@ -1,7 +1,0 @@
-For wps creation
--------------------
-
-config_wps_db_6123.sh
-configure_xa.sh
-
-

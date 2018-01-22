@@ -1,1 +1,0 @@
-This is used to make the trace file to readable format

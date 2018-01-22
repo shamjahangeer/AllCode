@@ -1,2 +1,0 @@
-select value from v$parameter where name='user_dump_dest';
-

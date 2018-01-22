@@ -1,7 +1,0 @@
-vxassist -g racdg -U gen make db_DBNAME_billing_data        2g
-
-vxassist -g racdg -U gen make db_DBNAME_billing_index       512m
-
-vxedit -g racdg set user=oracle group=dba db_DBNAME_billing_data
-vxedit -g racdg set user=oracle group=dba db_DBNAME_billing_index
-

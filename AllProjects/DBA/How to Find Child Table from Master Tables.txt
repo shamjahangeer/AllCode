@@ -1,5 +1,0 @@
-SELECT DISTINCT c.table_name FROM all_constraints c, all_constraints p
-WHERE c.constraint_type = 'R'
-AND c.r_constraint_name = p.constraint_name
-AND p.constraint_type = 'P'
-AND p.table_name = '&YOUR_MASTER_TABLE'

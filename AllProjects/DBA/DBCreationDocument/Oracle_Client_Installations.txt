@@ -1,8 +1,0 @@
-a. # groupadd dba
-b. # mkdir /export/home
-c. # useradd –g dba –G dba –m –d /export/home/oracle –s /usr/bin/bash oracle
-d. # passwd oracle (change oracle password)
-
----------------------------
-a. # mkdir –p /opt/app/oracle/product/11.2.0/db_1
-chown –R oracle:dba /opt/app

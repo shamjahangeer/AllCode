@@ -1,4 +1,0 @@
-Allowed idle time before user is disconnected (minutes)
-
-idle_time <value | UNLIMITED | DEFAULT> 
-ALTER PROFILE developer LIMIT idle_time 20; 

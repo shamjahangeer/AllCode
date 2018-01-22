@@ -1,9 +1,0 @@
-SCC = This is a Source Code Control file
-
-[DSCDService.csproj]
-SCC_Aux_Path = "M:\SourceSafe\OTARepository"
-SCC_Project_Name = "$/SCD - Delivery Scorecard/Web Application/DSCDService", WIPAAAAA
-
-[DSCDService.sln]
-SCC_Aux_Path = "M:\SourceSafe\OTARepository"
-SCC_Project_Name = "$/SCD - Delivery Scorecard/Web Application/DSCDService", WIPAAAAA

@@ -1,7 +1,0 @@
-it is a user account created by oracle
-This account is used by intelligent agent to logon remote servers
-and get data for presentation.
-
-This has select any dictionary privilege and can access
-the user$ view to gather information.
-

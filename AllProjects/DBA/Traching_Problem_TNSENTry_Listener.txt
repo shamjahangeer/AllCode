@@ -1,2 +1,0 @@
-$ su - oracle
-$ strace -o /tmp/debug.sqlplus sqlplus user/password

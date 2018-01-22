@@ -1,7 +1,0 @@
-SET feed off markup html on spool on
-SPOOL c:\Debug_On_Missing_grid.xls;
-
-select sysdate||'gururaj' from dual;
-
-SPOOL off;
-SET markup html off spool off;

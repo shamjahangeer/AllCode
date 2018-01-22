@@ -1,6 +1,0 @@
-UPDATE CCE_SCHEMA_VERSIONING
-SET VERSION = '^CCE_DB_SCHEMA_VERSION^',
-version_date = TO_DATE('^CCE_DB_SCHEMA_DATE^', 'MM/DD/YYYY HH24:MI')
-WHERE object_type = 'DDL';
-
-@@siwls_migddl.sql

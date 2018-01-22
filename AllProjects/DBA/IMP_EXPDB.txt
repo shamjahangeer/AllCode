@@ -1,8 +1,0 @@
-impdp sgia_newradar/sgia_newradar tables=ms_rad_ae_rep,ms_rad_ae_rep_mapping,si_100345_t,SI_100699_T,si_100726_t directory=DATA_PUMP_DIR  dumpfile=sg_stg_18mar.dmp logfile=sg_stg_17april.log
-
-impdp sgradar/Oracle11g tables=si_metric_parameter_inputs directory=DATA_PUMP_DIR  dumpfile=QA_Patch_4.4.dmp
-
-
-
-
-expdp cls_dev/cls_dev@CLSDEVDB schema=cls_dev directory=DEV_DUMP dumpfile=CLS_DEV30_07_2013.dmp logfile=CLS_DEV30_07_2013.log;

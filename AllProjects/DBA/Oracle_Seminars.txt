@@ -1,9 +1,0 @@
-DBMS(DATABASE mANAGEMENT SYSTEM)
-mysql(rdbms)
-postgresql,
-msaccess(dbms)
-sqlserver
-oracle
-filemaker pro
-fox pro
-dbase
